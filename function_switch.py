@@ -1123,4 +1123,4 @@ if __name__ == '__main__':
     main()
 
 else:
-    test_collision = make_collision_tester(test_method='cvdw', test_scale=0.5)
+    test_collision = make_collision_tester(test_method='vdw', test_scale=0.5)

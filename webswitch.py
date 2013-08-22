@@ -249,7 +249,7 @@ def load_structure(name, data_directory):
         input_structure.gen_factional_positions()
 
         print("Generating topology with Open Babel")
-        input_structure.gen_babel_uff_properties()
+        #input_structure.gen_babel_uff_properties()
 
         # A couple of structure checks
         #input_structure.check_close_contacts()
