@@ -192,8 +192,8 @@ class RandomHandler(tornado.web.RequestHandler):
         base_structure = random.choice(initialised_structures)
         random_combination_replace(structure=base_structure, groups=f_groups, backends=backends)
 
-        cif_written = backends[0].cifs.popitem()
-        page = templates.load('random.html').generate(cif_name=cif_written[1])
+        cif_written = backends[0].cifs[0]
+        page = templates.load('random.html').generate(cif_name=cif_written['cif_filename'])
         self.write(page)
 
 
