@@ -16,121 +16,12 @@ from backend.web_store import WebStoreBackend
 
 
 tornadoPort = 8888
-cwd = os.getcwd() # used by static file server
+web_dir = path.join(os.getcwd(), 'web') # used by static file server
 
 DOT_FAPSWITCH_VERSION = (6, 0, 'w')
 
 
-random_page = """
-<!DOCTYPE html>
-<html style="height:100%">
-<title>HTML5-only and WebGL Jmol Demo</title>
-<head>
-<script type="text/javascript" src="js/JSmoljQuery.js"></script>
-<script type="text/javascript" src="js/JSmolCore.js"></script>
-<script type="text/javascript" src="js/JSmolApplet.js"></script>
-<script type="text/javascript" src="js/JSmolApi.js"></script>
-<script type="text/javascript" src="js/j2sjmol.js"></script>
-<script type="text/javascript" src="js/JSmol.js"></script>
-<!-- // following two only necessary for WebGL version: -->
-<script type="text/javascript" src="js/JSmolThree.js"></script>
-<script type="text/javascript" src="js/JSmolGLmol.js"></script>
-
-  <script type="text/javascript">
-
-
-
-// note that the variable name MUST match the first parameter in quotes
-
-
-;(function() {{
-
-// logic is set by indicating order of USE -- default is HTML5 for this test page, though
-var use = "HTML5"//"JAVA HTML5 IMAGE" // WEBGL only by request by link below.
-var s = document.location.search;
-
-
-// Developers: The debugCode flag is checked in j2s/java/core.z.js,
-// and, if TRUE, skips loading the core methods, forcing those
-// to be read from their individual directories. Set this
-// true if you want to do some code debugging by inserting
-// System.out.println, document.title, or alert commands
-// anywhere in the Java or Jmol code.
-
-Jmol.debugCode = (s.indexOf("debugcode") >= 0);
-
-//if (s.indexOf("?") < 0) s = "USE=HTML5"
-
-if (s.indexOf("USE=") >= 0)
-  use = s.split("USE=")[1].split("&")[0]
-else if (s.indexOf("JAVA") >= 0)
-  use = "JAVA"
-else if (s.indexOf("IMAGE") >= 0)
-  use = "IMAGE"
-else if (s.indexOf("NOWEBGL") >= 0)
-  use = "JAVA IMAGE"
-else if (s.indexOf("WEBGL") >= 0)
-  use = "WEBGL HTML5"
-if (s.indexOf("NOWEBGL") >= 0)
-  use = use.replace(/WEBGL/,"")
-var useSignedApplet = (s.indexOf("SIGNED") >= 0);
-if(useSignedApplet && use == "HTML5") use = "JAVA";
-
-jmol_isReady = function(applet) {{
-	document.title = (applet._id + " is ready")
-	Jmol._getElement(applet, "appletdiv").style.border="1px solid blue"
-
-}}
-
-InfoA = {{
-	width: "100%",
-	height: "100%",
-	debug: false,
-	color: "white",
-	addSelectionOptions: false,
-	serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/jsmol.php",
-	use: use,
-  coverImage: "",//"data/1hxw.png",        // initial image instead of applet
-  coverScript: "",	// special script for click of cover image (otherwise equal to script)
-  deferApplet: false,                  // wait to load applet until click
-  deferUncover: false,                 // wait to uncover applet until script completed
-  jarPath: "java",
-	j2sPath: "j2s",
-	jarFile: (useSignedApplet ? "JmolAppletSigned.jar" : "JmolApplet.jar"),
-	isSigned: useSignedApplet,
-	//disableJ2SLoadMonitor: true,
-	//disableInitialConsole: true,
-	readyFunction: jmol_isReady,
-	//defaultModel: "$dopamine",
-	script: "load \\"{}\\" {{2 2 2}};"
-}}
-
-
-}})();
-
-
-
-Jmol.setDocument(document);
-
-// notice that we are using no document.write() function here. All DOM-based.
-// Jmol.getAppletHtml is working.
-
-$(document).ready(function(){{
-  Jmol.setDocument(0);
-  jmol1 = Jmol.getApplet("jmol1", InfoA)
-  $("#appletplace1").html(Jmol.getAppletHtml(jmol1));
-}});
-
-</script>
-</head>
-<body style="height:100%">
-<div id="appletplace1" style="width:80%;height:80%;background-color:red"></div>
-</body>
-</html>
-
-"""
-
-templates = tornado.template.Loader("web_templates")
+templates = tornado.template.Loader(path.join(web_dir, 'templates'))
 
 # send the index file
 class IndexHandler(tornado.web.RequestHandler):
@@ -205,12 +96,12 @@ application = tornado.web.Application([
     (r"/(com.*)", CommandHandler ),
     (r"/(random.*)", RandomHandler ),
     (r"/", IndexHandler),
-    (r"/(index\.html)", tornado.web.StaticFileHandler,{"path": cwd}),
-    (r"/(.*\.cif)", tornado.web.StaticFileHandler,{"path": cwd }),
-    (r"/(.*\.png)", tornado.web.StaticFileHandler,{"path": cwd }),
-    (r"/(.*\.jpg)", tornado.web.StaticFileHandler,{"path": cwd }),
-    (r"/(.*\.js)", tornado.web.StaticFileHandler,{"path": cwd }),
-    (r"/(.*\.css)", tornado.web.StaticFileHandler,{"path": cwd }),
+    (r"/(index\.html)", tornado.web.StaticFileHandler,{"path": web_dir}),
+    (r"/(.*\.cif)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'generated')}),
+    (r"/(.*\.png)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'static')}),
+    (r"/(.*\.jpg)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'static')}),
+    (r"/(.*\.js)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'js')}),
+    (r"/(.*\.css)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'css') }),
 ])
 
 
@@ -284,7 +175,7 @@ if __name__ == "__main__":
 
     initial_directory = os.getcwd()
 
-    datastore = os.path.join(os.getcwd(), 'datastore')
+    datastore = os.path.join(web_dir, 'datastore')
 
     os.chdir(datastore)
 

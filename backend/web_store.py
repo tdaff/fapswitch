@@ -9,10 +9,12 @@ import hashlib
 import os
 import os.path
 
+_generated_path = os.path.join('web', 'generated')
 
 class WebStoreBackend(object):
     """Abstraction for keeping cif file in memory to be retrieved."""
-    def __init__(self, directory='web_store'):
+
+    def __init__(self, directory=_generated_path):
         """
         Make a storage containing backend and setup a directory.
         """
@@ -33,10 +35,9 @@ class WebStoreBackend(object):
 
         """
         new_mof_name = ".".join(["@".join(x) for x in functions])
-        cif_filename = os.path.join(
-            self.directory,
-            '%s_func_%s.cif' % (base_structure, new_mof_name))
-        with open(cif_filename, 'w') as output_file:
+        cif_filename = '%s_func_%s.cif' % (base_structure, new_mof_name)
+        cif_save_path = os.path.join(self.directory, cif_filename)
+        with open(cif_save_path, 'w') as output_file:
             output_file.writelines(cif_file)
         self.cifs.append(
             {'mof_name': new_mof_name,
