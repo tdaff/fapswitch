@@ -252,7 +252,6 @@ VASP_PSEUDO_PREF = {
     "Rb": "Rb_sv",
     "Cs": "Cs_sv",
     "Ba": "Ba_sv",
-    "Cu": "Cu_new",
     "Ti": "Ti_pv",
     "V": "V_pv",
     "Cr": "Cr_pv",
@@ -526,6 +525,10 @@ COVALENT_RADII = {
     "Be": 0.96,
     "B": 0.84,
     "C": 0.76,  # for sp3; sp2 = 0.73; sp = 0.69
+    "C_1": 0.69,
+    "C_2": 0.73,
+    "C_R": 0.73,
+    "C_3": 0.76,
     "N": 0.71,
     "O": 0.66,
     "F": 0.57,

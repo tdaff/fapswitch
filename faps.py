@@ -16,7 +16,22 @@ doing select parts.
 
 """
 
-__version__ = "$Revision$"
+# Turn on keyword expansion to get revision numbers in version strings
+# in .hg/hgrc put
+# [extensions]
+# keyword =
+#
+# [keyword]
+# faps.py =
+#
+# [keywordmaps]
+# Revision = {rev}
+
+try:
+    __version_info__ = (1, 2, 0, int("$Revision$".strip("$Revision: ")))
+except ValueError:
+    __version_info__ = (1, 2, 0, 0)
+__version__ = "%i.%i.%i.%i" % __version_info__
 
 import code
 try:
@@ -48,7 +63,7 @@ from numpy.linalg import norm
 from config import Options
 from elements import WEIGHT, ATOMIC_NUMBER, UFF, VASP_PSEUDO_PREF
 from elements import CCDC_BOND_ORDERS, GULP_BOND_ORDERS, METALS
-from elements import COVALENT_RADII, UFF_FULL
+from elements import COVALENT_RADII, UFF_FULL, QEQ_PARAMS
 from job_handler import JobHandler
 from logo import LOGO
 
@@ -269,10 +284,16 @@ class PyNiss(object):
             if hasattr(guest, 'probe_radius'):
                 if guest.probe_radius != 1.0 and guest.probe_radius in void_volume:
                     guest_excess = 'xs-molc/uc,xs-mmol/g,xs-v/v,xs-wt%,'
+            if hasattr(guest, 'c_v') and guest.c_v:
+                #TODO(tdaff): Make standard in 2.0
+                # makes sure that c_v is there and not empty
+                cv_header = "C_v,stdev,"
+            else:
+                cv_header = ""
             # Generate headers separately
             csv = ["#T/K,p/bar,molc/uc,mmol/g,stdev,",
                    "v/v,stdev,wt%,stdev,hoa/kcal/mol,stdev,",
-                   guest_excess, he_excess,
+                   guest_excess, he_excess, cv_header,
                    ",".join("p(g%i)" % gidx for gidx in range(nguests)), "\n"]
             info(guest.name)
             info("---------------------------------------")
@@ -334,6 +355,8 @@ class PyNiss(object):
                                 (self.structure.weight + xs_uptake*guest.weight))
                     csv.append("%f,%f,%f,%f," % (
                         xs_uptake, muptake, vuptake, wtpc,))
+                if cv_header:
+                    csv.append("%f,%f," % (guest.c_v[tp_point]))
                 # list all the other guest pressures and start a new line
                 csv.append(",".join("%f" % x for x in tp_point[1]) + "\n")
 
@@ -901,12 +924,14 @@ class PyNiss(object):
         qeq_code = 'egulp'
         qeq_dir = path.join(self.options.get('job_dir'),
                             'faps_%s_%s' % (job_name, qeq_code))
+        typed_atoms = self.options.getbool('egulp_typed_atoms')
+
         mkdirs(qeq_dir)
         os.chdir(qeq_dir)
         debug("Running in %s" % qeq_dir)
 
         filetemp = open('%s.geo' % job_name, 'w')
-        filetemp.writelines(self.structure.to_egulp())
+        filetemp.writelines(self.structure.to_egulp(typed_atoms))
         filetemp.close()
 
         # EGULP defaults to GULP parameters if not specified
@@ -917,16 +942,23 @@ class PyNiss(object):
         except AttributeError:
             egulp_parameters = self.options.gettuple('qeq_parameters')
 
-        if egulp_parameters:
-            info("Custom EGULP parameters selected")
-            filetemp = open('%s.param' % job_name, 'w')
-            filetemp.writelines(mk_egulp_params(egulp_parameters))
-            filetemp.close()
-            # job handler needs to know about both these files
-            egulp_args = ['%s.geo' % job_name, '%s.param' % job_name]
+        if not egulp_parameters:
+            # parameters are mandatory in new egulp
+            egulp_parameters = ('H', QEQ_PARAMS['H'][0], QEQ_PARAMS['H'][1])
         else:
-            # Only geometry file is needed for this run
-            egulp_args = ['%s.geo' % job_name]
+            info("Custom EGULP parameters selected")
+
+        filetemp = open('%s.param' % job_name, 'w')
+        filetemp.writelines(mk_egulp_params(egulp_parameters))
+        filetemp.close()
+
+        filetemp = open('%s.ini' % job_name, 'w')
+        filetemp.writelines(mk_egulp_ini(self.options))
+        filetemp.close()
+
+        egulp_args = ['%s.geo' % job_name,
+                      '%s.param' % job_name,
+                      '%s.ini' % job_name]
 
         if self.options.getbool('no_submit'):
             info("EGULP input files generated; skipping job submission")
@@ -1142,8 +1174,16 @@ class PyNiss(object):
         zeo_command = zeo_exe + ['-res'] + cssr_file
         info("Running zeo++ pore diameters")
         debug("Running command: '" + " ".join(zeo_command) + "'")
-        zeo_process = subprocess.Popen(zeo_command, stdout=subprocess.PIPE)
+        zeo_process = subprocess.Popen(zeo_command, stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
         zeo_process.wait()
+
+        zeo_stderr = " ".join(x.strip() for x in zeo_process.stderr.readlines())
+        print zeo_stderr
+        if "Voronoi volume check failed" in zeo_stderr:
+            warning("Structure is likely bad; zeo++ is unable to complete")
+            warning(zeo_stderr)
+            self.structure.bad_structure = True
 
         res_file = open('%s.res' % job_name).read().split()
         self.structure.pore_diameter = tuple(float(x) for x in res_file[1:])
@@ -1222,8 +1262,9 @@ class PyNiss(object):
         info("Calculating surface area: %.3f probe, %s points, %.3f res" %
              (rprobe, ("random","uniform")[uniform], resolution))
         total_area = 0.0
-        negative_charge = 0.0
-        positive_charge = 0.0
+        hydrophilic_area = 0.0
+        # gromacs default of 0.2 seems very constrained
+        hydrophilic_threshold = 0.3
         cell = self.structure.cell.cell
         inv_cell = np.linalg.inv(cell.T)
         # Pre-calculate and organise the in-cell atoms
@@ -1277,10 +1318,6 @@ class PyNiss(object):
                         # No more atoms within the radius, point valid
                         ncount += 1
                         xyz.append((atom.type, point, atom.charge))
-                        if atom.charge < 0:
-                            negative_charge += atom.charge
-                        else:
-                            positive_charge += atom.charge
                         break
                     elif vecdist3(point, a2_pos) < a2_sigma:
                         # Point collision
@@ -1292,12 +1329,10 @@ class PyNiss(object):
                     # Loop over all atoms finished; point valid
                     ncount += 1
                     xyz.append((atom.type, point, atom.charge))
-                    if atom.charge < 0:
-                        negative_charge += atom.charge
-                    else:
-                        positive_charge += atom.charge
 
             # Fraction of the accessible surface area for sphere to real area
+            if abs(atom.charge) > hydrophilic_threshold:
+                hydrophilic_area += (surface_area*ncount)/nsamples
             total_area += (surface_area*ncount)/nsamples
         if self.options.getbool('surface_area_save'):
             job_name = self.options.get('job_name')
@@ -1308,8 +1343,12 @@ class PyNiss(object):
                 xyz_out.write(('%-6s' % ppt[0]) +
                               ('%10.6f %10.6f %10.6f' % tuple(ppt[1])) +
                               ('%10.6f\n' % ppt[2]))
-        info("Total positive charge: %f" % positive_charge)
-        info("Total negative charge: %f" % negative_charge)
+        try:
+            hydrophilic_fraction = hydrophilic_area/total_area
+        except ZeroDivisionError:
+            hydrophilic_fraction = 0.0
+        info("Hydrophilic area (A^2) and fraction (probe: %f): %f, %f" %
+             (rprobe, hydrophilic_area, hydrophilic_fraction))
         return total_area
 
 class Structure(object):
@@ -1386,6 +1425,8 @@ class Structure(object):
             self.from_siesta(path.join(opt_path, '%s.STRUCT_OUT' % self.name))
         elif opt_code == 'gulp':
             opt_path = "%s_opt" % opt_path
+            self.optimisation_output = validate_gulp_output(
+                path.join(opt_path, 'faps-%s.out' % self.name))
             self.from_gulp_output(path.join(opt_path, '%s.grs' % self.name))
         else:
             error("Unknown positions to import %s" % opt_code)
@@ -1536,7 +1577,6 @@ class Structure(object):
                     body = body[len(heads):]
             if '_ccdc_geom_bond_type' in heads:
                 while body:
-                    #TODO(tdaff)multiple distances for the same bond
                     bond_dict = dict(zip(heads, body))
                     # bond is sorted so there are no duplicates
                     # and tuple so it can be hashed
@@ -1569,14 +1609,11 @@ class Structure(object):
             # Some of pete's symmetrised mofs need a higher tolerence
             duplicate_tolerance = 0.2  # Angstroms
             self.remove_duplicates(duplicate_tolerance)
-#        self.order_by_types()
+        self.order_by_types()
 
         bonds = {}
         # TODO(tdaff): this works for the one tested MOF; 0.1 was not enough
-        # check for bonds that are too long.
-        # Also check for bonds that are less than half the covalent radii which
-        # shouldn't happen (means atoms too close anyway), but some groins
-        # have this
+        # only check for bonds that are too long, not too short.
         bond_tolerence = 0.25
         # Assign bonds by index
         for bond, bond_data in cif_bonds.items():
@@ -1590,19 +1627,12 @@ class Structure(object):
                             distance = min_distance(first_atom, second_atom)
                             bond_dist = bond_data[0]
                             if bond_dist is None:
-                                bond_dist = (first_atom.covalent_radius +
-                                             second_atom.covalent_radius)
-                            if distance < 0.6 * bond_dist:
-                                warning("Short contact ignored: "
-                                        "%s(%i) and %s(%i) = %.2f A" %
-                                        (first_atom.site, first_index,
-                                         second_atom.site, second_index,
-                                         distance))
-                            elif distance < (bond_dist + bond_tolerence):
+                                bond_dist = first_atom.covalent_radius + second_atom.covalent_radius
+                            if distance < (bond_dist + bond_tolerence):
                                 # use the sorted index as bonds between the
                                 # same type are doubly specified
                                 bond_id = tuple(sorted((first_index, second_index)))
-                                bonds[bond_id] = (distance, CCDC_BOND_ORDERS[bond_data[1]])
+                                bonds[bond_id] = CCDC_BOND_ORDERS[bond_data[1]]
                                 if first_atom.is_metal or second_atom.is_metal:
                                     first_atom.is_fixed = True
                                     second_atom.is_fixed = True
@@ -1675,6 +1705,19 @@ class Structure(object):
                 cell = self.cell.cell
                 for atom, atom_line in zip(self.atoms, grs_out):
                     atom.pos = dot([gfloat(x) for x in atom_line.split()[2:5]], cell)
+                    # FIXME(tdaff) fractionals need to change automatically
+                    # when the position gets updated (or the cell!)
+                    del atom.fractional
+
+        # Make sure everything is good from here
+        if self.check_close_contacts(covalent=1.0):
+            warning("Structure might have atom overlap, check gulp output!")
+            self.bad_structure = True
+
+        if self.bond_length_check():
+            warning("Structure might have strained bonds, check gulp output!")
+            self.bad_structure = True
+
 
     def from_xyz(self, filename, update=False, cell=None):
         """Read a structure from an file."""
@@ -1757,7 +1800,7 @@ class Structure(object):
             error("Final charges not found in gulp output")
             terminate(184)
         elif failures > 1:
-            warn("Gulp charges may not be converged")
+            warning("Gulp charges may not be converged")
         for atom, chg_line in zip(self.atoms, gout[start_line:]):
             atom.charge = float(chg_line.split()[2])
 
@@ -1778,8 +1821,8 @@ class Structure(object):
                 error("Egulp gave infinite charges, check structure")
                 terminate(108)
             elif abs(atom.charge) > 10:
-                warn("Very high charge from egulp: %s %f"
-                     (atom.site, atom.charge))
+                warning("Very high charge from egulp: %s %f"
+                        (atom.site, atom.charge))
 
 
     def to_vasp(self, options):
@@ -1936,7 +1979,6 @@ class Structure(object):
     def to_gulp(self, qeq_fit=False, optimise=False, terse=False, qeq_dict={}):
         """Return a GULP file to use for the QEq charges."""
         if qeq_fit:
-            from elements import QEQ_PARAMS
             keywords = "fitting bulk_noopt qeq\n"
         elif optimise:
             return self.to_gulp_optimise(terse=terse)
@@ -1963,7 +2005,7 @@ class Structure(object):
             for at_type in unique(self.types):
                 gin_file.extend(
                     ["%-5s" % at_type,
-                     "%9.5f %9.5f %9.5f 1 1 1\n" % QEQ_PARAMS[at_type]])
+                     "%9.5f %9.5f %9.5f 1 1 0\n" % QEQ_PARAMS[at_type]])
         else:
             for atom in self.atoms:
                 gin_file.extend(["%-5s core " % atom.type,
@@ -1988,9 +2030,9 @@ class Structure(object):
         # updated positions
         if terse:
             # Don't output the bonds
-            keywords = "opti noautobond decimal_only\n"
+            keywords = "opti noautobond decimal_only conj\n"
         else:
-            keywords = "opti noautobond bond decimal_only\n"
+            keywords = "opti noautobond bond decimal_only conj\n"
         gin_file = [
             "# \n# Keywords:\n# \n",
             keywords,
@@ -1999,16 +2041,20 @@ class Structure(object):
             "name %s\n" % self.name,
             # using an rfo minimiser with a preconditioned hessian from the
             # BFGS minimiser seems to be the most efficient
-            "switch rfo gnorm 0.1\n",
+            "switch rfo gnorm 0.3\n",
             "vectors\n"] + self.cell.to_vector_strings() + [
             " 1 1 1\n 1 1 1\n 1 1 1\n",  # constant pressure relaxation
             "cartesian\n"]
+
         all_ff_types = {}
-        #TODO(tdaff): warn for no ff types
+
         for at_idx, atom in enumerate(self.atoms):
             ff_type = atom.uff_type
             if not ff_type in all_ff_types:
                 all_ff_types[ff_type] = atom.site
+                # Sanity check in case types are not given in the input
+                if ff_type not in UFF_FULL:
+                    error("Atom %s has unknown type %s" % (atom, ff_type))
             if atom.is_fixed:
                 fixed_flags = "0 0 0"
             else:
@@ -2019,6 +2065,7 @@ class Structure(object):
                              "%f " % 1.0,  # occupancy
                              fixed_flags, "\n"])
 
+
         #identify all the individual uff species for the library
         gin_file.append("\nspecies\n")
         for ff_type, species in all_ff_types.items():
@@ -2026,10 +2073,12 @@ class Structure(object):
 
         gin_file.append("\n")
         for bond in sorted(self.bonds):
-            bond_type = GULP_BOND_ORDERS[self.bonds[bond][1]]
+            bond_type = GULP_BOND_ORDERS[self.bonds[bond]]
             gin_file.append("connect %6i %6i %s\n" % (bond[0] + 1, bond[1] + 1, bond_type))
 
         gin_file.append("\nlibrary uff\n")
+
+        gin_file.append("\nstepmx opt 0.05\n")
 
         # Restart file is for final structure
         gin_file.append("\ndump every %s.grs\n" % self.name)
@@ -2047,7 +2096,7 @@ class Structure(object):
         return gin_file
 
 
-    def to_egulp(self):
+    def to_egulp(self, typed_atoms=False):
         """Generate input files for Eugene's QEq code."""
         # bind cell locally for speed and convenience
         cell = self.cell.cell
@@ -2056,11 +2105,45 @@ class Structure(object):
         geometry_file = ['%s\n' % self.name]
         geometry_file.extend(self.cell.to_vector_strings(fmt=' %15.12f'))
         geometry_file.append('%i\n' % self.natoms)
+
+        atomic_numbers = self.atomic_numbers
+
+        if typed_atoms:
+            # Include custom typing, new types must be found by hand.
+            # 800 N=O -- removed
+            # 801 S=O
+            # 802 S-O-H
+            for atom_idx, atom in enumerate(self.atoms):
+                if atom.uff_type == 'S_3+6':
+                    for bond in self.bonds:
+                        if atom_idx in bond:
+                            other_idx = other_bond_index(bond, atom_idx)
+                            if self.atoms[other_idx].uff_type == 'O_2':
+                                atomic_numbers[other_idx] = 801
+                            elif self.atoms[other_idx].uff_type == 'O_3':
+                                atomic_numbers[other_idx] = 802
+                                for another_bond in self.bonds:
+                                    if other_idx in another_bond:
+                                        another_idx = other_bond_index(another_bond, other_idx)
+                                        if self.atoms[another_idx].uff_type == 'H_':
+                                            atomic_numbers[another_idx] = 1001
+# TODO(tdaff): delete code in future version; removed NO2 typing
+#                elif atom.uff_type == 'N_R':
+#                    this_bonds = []
+#                    for bond in self.bonds:
+#                        if atom_idx in bond:
+#                            other_idx = other_bond_index(bond, atom_idx)
+#                            if self.atoms[other_idx].uff_type == 'O_R':
+#                                atomic_numbers[other_idx] = 800
+
+        # atomic numbers should have been modified with exotic types by now
         geometry_file.extend([
-            ('%6d ' % atom.atomic_number) +
-            ('%12.7f %12.7f  %12.7f\n' % tuple(atom.ipos(cell, inv_cell)))
-            for atom in self.atoms
+            ('%6d ' % atomic_number) +
+            ('%12.7f %12.7f  %12.7f' % tuple(atom.ipos(cell, inv_cell))) +
+            ('%12.7f\n' % atom.charge)
+            for atom, atomic_number in zip(self.atoms, atomic_numbers)
         ])
+
         return geometry_file
 
 
@@ -2099,9 +2182,14 @@ class Structure(object):
         field.extend(["Framework\n",
                       "NUMMOLS %i\n" % prod(supercell),
                       "ATOMS %i\n" % len(self.atoms)])
-        for atom in self.atoms:
-            field.append("%-6s %12.6f %20.14f %6i %6i\n" %
-                         (atom.type, atom.mass, atom.charge, 1, 1))
+        if options.getbool('mc_zero_charges'):
+            for atom in self.atoms:
+                field.append("%-6s %12.6f %20.14f %6i %6i\n" %
+                             (atom.type, atom.mass, 0.0, 1, 1))
+        else:
+            for atom in self.atoms:
+                field.append("%-6s %12.6f %20.14f %6i %6i\n" %
+                             (atom.type, atom.mass, atom.charge, 1, 1))
         field.append("finish\n")
         # VDW potentials
         atom_set = [atom.type for atom in self.atoms]
@@ -2299,12 +2387,12 @@ class Structure(object):
                     kappa = ka * (16.0*c2*c2 - c1*c1) / (4.0* c2)
                     itp_file.append("%-5i %-5i %-5i %3i %f %f ; %-5s %-5s %-5s" % (l_idx + 1, idx_a + 1, r_idx + 1, 1, thetamin, kappa, l_atom.uff_type, central_atom.uff_type, r_atom.uff_type))
 
-        with open("moffive.top", 'w') as tempfile:
-            tempfile.writelines(top_file)
-        with open("moffive.gro", 'w') as tempfile:
-            tempfile.writelines(gro_file)
-        with open("moffive.itp", 'w') as tempfile:
-            tempfile.writelines(itp_file)
+        #with open("moffive.top", 'w') as tempfile:
+        #    tempfile.writelines(top_file)
+        #with open("moffive.gro", 'w') as tempfile:
+        #    tempfile.writelines(gro_file)
+        #with open("moffive.itp", 'w') as tempfile:
+        #    tempfile.writelines(itp_file)
 
 
     def to_cssr(self, cartesian=False, no_atom_id=False):
@@ -2368,11 +2456,30 @@ class Structure(object):
         # Keep track of supercell so we can get unit cell values
         supercell_mult = prod(self.gcmc_supercell)
         # Still positional as we need multiple values simultaneously
-        # and very old versions cahnged wording of heat of adsorption
+        # and very old versions changed wording of heat of adsorption
         # and enthalpy of guest
+        # TODO(tdaff, r2.0): deprecate reading older fastmc files
+        # and put Cv in the guest definition
+        for line in output[::-1]:
+            if "+/-" in line:
+                # This is version 1.3 of fastmc
+                debug("NEW OUTPUT")
+                line_offset = 5
+                read_cv = True
+                # In future this should be assumed to exist
+                for guest in self.guests:
+                    if not hasattr(guest, 'c_v'):
+                        guest.c_v = {}
+                break
+        else:
+            # +/- not found, assume old style output
+            debug("OLD OUTPUT")
+            line_offset = 0
+            read_cv = False
         for idx, line in enumerate(output):
             # Assume that block will always start like this
             if 'final stats' in line:
+                idx += line_offset
                 guest_id = int(line.split()[4]) - 1
                 self.guests[guest_id].uptake[tp_point] = (
                     float(output[idx + 1].split()[-1]),
@@ -2382,6 +2489,10 @@ class Structure(object):
                 self.guests[guest_id].hoa[tp_point] = (
                     float(output[idx + 3].split()[-1]),
                     float(output[idx + 4].split()[-1]))
+                if read_cv:
+                    self.guests[guest_id].c_v[tp_point] = (
+                    float(output[idx + 5].split()[-1]),
+                    float(output[idx + 6].split()[-1]))
             elif 'total accepted steps' in line:
                 counted_steps = int(line.split()[-1])
                 if counted_steps < 10000:
@@ -2469,22 +2580,42 @@ class Structure(object):
         debug("Found %i unique atoms in %i" % (len(uniq_atoms), self.natoms))
         self.atoms = uniq_atoms
 
-    def check_close_contacts(self, tolerance=1.0):
-        """Check for atoms that are closer than a specified distance."""
+    def check_close_contacts(self, absolute=1.0, covalent=None):
+        """
+        Check for atoms that are too close. Specify either an absolute distance
+        in Angstrom or a scale factor for the sum of covalent radii. If a
+        covalent factor is specified it will take priority over an absolute
+        distance. Return True if close contacts found, else return False.
+        """
+        close_contact_found = False
         for atom_idx, atom in enumerate(self.atoms):
             for other_idx, other in enumerate(self.atoms):
                 if other_idx >= atom_idx:
                     # short circuit half the calculations
                     # Can we do combinations with idx in 2.7
                     break
-                elif min_distance(atom, other) < tolerance:
+                if covalent is not None:
+                    tolerance = covalent * (atom.covalent_radius +
+                                            other.covalent_radius)
+                else:
+                    tolerance = absolute
+                if min_distance(atom, other) < tolerance:
                     bond_ids = tuple(sorted([atom_idx, other_idx]))
                     if bond_ids not in self.bonds:
                         warning("Close atoms: %s(%i) and %s(%i)" %
                                 (atom.site, atom_idx, other.site, other_idx))
+                        close_contact_found = True
+
+        return close_contact_found
 
     def bond_length_check(self, too_long=1.25, too_short=0.7):
-        """Warn if bonds are not within a sensible range of covalent radii."""
+        """
+        Check if all bonds fall within a sensible range of scale factors
+        of the sum of the covalent radii. Return True if bad bonds are found,
+        otherwise False.
+
+        """
+        bad_bonds = False
         for bond in self.bonds:
             atom = self.atoms[bond[0]]
             other = self.atoms[bond[1]]
@@ -2493,10 +2624,13 @@ class Structure(object):
             if distance > bond_dist * too_long:
                 warning("Long bond found: %s(%i) and %s(%i) = %.2f A" %
                         (atom.site, bond[0], other.site, bond[1], distance))
+                bad_bonds = True
             elif distance < bond_dist * too_short:
                 warning("Short bond found: %s(%i) and %s(%i) = %.2f A" %
                         (atom.site, bond[0], other.site, bond[1], distance))
+                bad_bonds = True
 
+        return bad_bonds
 
     def gen_supercell(self, options):
         """Cacluate the smallest satisfactory supercell and set attribute."""
@@ -2979,6 +3113,7 @@ class Atom(object):
         if '_atom_type_partial_charge' in at_dict:
             self.charge = float(at_dict['_atom_type_partial_charge'])
         elif '_atom_type_parital_charge' in at_dict:
+            #TODO(tdaff): remove for 2.0
             self.charge = float(at_dict['_atom_type_parital_charge'])
 
     def from_pdb(self, line, charges=False):
@@ -3066,7 +3201,11 @@ class Atom(object):
 
     def del_fractional_coordinate(self):
         """Remove the fractional coordinate; run after updating cell."""
-        del self._fractional
+        try:
+            del self._fractional
+        except AttributeError:
+            # Attribute does not exist, so can't delete it
+            pass
 
     fractional = property(get_fractional_coordinate, set_fractional_coordinate, del_fractional_coordinate)
 
@@ -3089,6 +3228,8 @@ class Atom(object):
     @property
     def covalent_radius(self):
         """Get the covalent radius from the library parameters."""
+        if self.type == 'C' and self.uff_type:
+            COVALENT_RADII[self.uff_type]
         return COVALENT_RADII[self.type]
 
     @property
@@ -3109,6 +3250,7 @@ class Guest(object):
         self.source = "Unknown source"
         self.uptake = {}
         self.hoa = {}
+        self.c_v = {}
         # only load if asked, set the ident in the loader
         if ident:
             self.load_guest(ident, guest_path=None)
@@ -3417,10 +3559,13 @@ def parse_qeq_params(param_tuple):
         except ValueError:
             # assume it is an element symbol instead
             atom_type = param_set[0]
+        except IndexError:
+            # Typed atom, ignore for now
+            continue
         try:
             param_dict[atom_type] = (float(param_set[1]), float(param_set[2]))
         except IndexError:
-            warn("Cannot read parameters for %s" % atom_type)
+            warning("Cannot read parameters for %s" % atom_type)
 
     return param_dict
 
@@ -3428,16 +3573,89 @@ def parse_qeq_params(param_tuple):
 def mk_egulp_params(param_tuple):
     """Convert an options tuple to an EGULP parameters file filling."""
     # group up into ((atom, electronegativity, 0.5*hardness), ... )
-    param_dict = parse_qeq_params(param_tuple)
+    param_tuple = subgroup(param_tuple, 3)
     # first line is the number of parametr sets
     #TODO(tdaff): try adding some error checking
-    egulp_file = ["%s\n" % len(param_dict)]
-    for atom_type, params in param_dict.items():
-        egulp_file.append("%-4i %f %f\n" % (ATOMIC_NUMBER.index(atom_type),
-                                            params[0], params[1]))
+    egulp_file = ["%s\n" % len(param_tuple)]
+    for paramset in param_tuple:
+        try:
+            # catch if it is an atomic number or element symbol
+            atomic_number = int(paramset[0])
+        except ValueError:
+            atomic_number = ATOMIC_NUMBER.index(paramset[0])
+        egulp_file.append("%-4i %f %f\n" % (atomic_number, float(paramset[1]),
+                                            float(paramset[2])))
 
     return egulp_file
 
+
+def mk_egulp_ini(options):
+    """Create a default ini file for egulp to do qeq calculation."""
+    egulp_grid = int(options.getbool('egulp_grid'))
+    egulp_potential = int(options.getbool('egulp_potential'))
+    egulp_potential_difference = int(options.getbool('egulp_potential_difference'))
+
+    egulp_grid_parameters = options.get('egulp_grid_parameters')
+
+    egulp_ini = [
+        "build_grid %i\n" % egulp_grid,
+        "build_grid_from_scratch %s\n" % egulp_grid_parameters,
+        "save_grid %i grid.cube\n" % egulp_grid,
+        "calculate_pot_diff %i\n" % egulp_potential_difference,
+        "calcaulte_pot %i repeat.cube\n" % egulp_potential,
+        "skip_everything 0\n",
+        "point_charges_present 0\n",
+        "include_pceq 0\n",
+        "imethod 0\n"]
+
+    return egulp_ini
+
+
+def validate_gulp_output(filename):
+    """Check to see if gulp calculation has finished and return the energy."""
+
+    final_energy = None
+    final_gnorm = None
+
+    try:
+        gulp_output = open(filename)
+    except IOError:
+        warning("Gulp output not found; continuing anyway")
+        return (False, final_energy, final_gnorm)
+
+    finished_optimisation = False
+
+    for line in gulp_output:
+        if line.startswith("  Cycle:"):
+            line = line.split()
+            try:
+                final_energy = float(line[3])
+                final_gnorm = float(line[5])
+            except ValueError:
+                final_energy = 999999.9
+                final_gnorm = 999999.9
+        elif "Optimisation achieved" in line:
+            # Great
+            finished_optimisation = True
+            break
+        elif "Too many failed attempts to optimise" in line:
+            warning("Gulp reports failed optimisation; check gnorm!")
+            finished_optimisation = True
+            break
+        elif "no lower point can be found" in line:
+            warning("Gulp reports failed optimisation; check gnorm!")
+            finished_optimisation = True
+            break
+
+    if not finished_optimisation:
+        warning("Gulp optimisation did not finish; check output!")
+
+    if final_gnorm > 0.1:
+        warning("Gulp optimisation has gnorm > 0.1; check output!")
+        finished_optimisation = False
+
+    debug("Gulp .out: %s" % [finished_optimisation, final_energy, final_gnorm])
+    return (finished_optimisation, final_energy, final_gnorm)
 
 
 def unique(in_list, key=None):
@@ -3692,15 +3910,26 @@ def name_from_types(sites, guest):
     return site_name
 
 
+def other_bond_index(bond, index):
+    """Return the atom index for the other atom in a bond."""
+    if bond[0] == index:
+        return bond[1]
+    elif bond[1] == index:
+        return bond[0]
+    else:
+        raise ValueError("Index %s not found in bond %s" % (index, bond))
+
+
 def welcome():
     """Print any important messages."""
     print(LOGO)
-    print(("faps 0.999-r%s" % __version__.strip('$Revision: ')).rjust(79))
+    print(("faps %s" % __version__).rjust(79))
+
 
 def main():
     """Do a standalone calculation when run as a script."""
     main_options = Options()
-    info("Starting faps version 0.999-r%s" % __version__.strip('$Revision: '))
+    info("Starting faps version %s" % __version__)
     # try to unpickle the job or
     # fall back to starting a new simulation
     job_name = main_options.get('job_name')
