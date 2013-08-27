@@ -3,6 +3,7 @@ import glob
 import os
 from os import path
 import json
+import logging
 import pickle
 import random
 
@@ -75,17 +76,26 @@ class RandomHandler(tornado.web.RequestHandler):
     # handle both GET and POST requests with the same function
     def handle_request(self):
 
+        max_trials = 10
         # Possible options:
         # replace_only: tuple of sites to replace
         # groups_only: only use specific groups
         # max_different: resrict simultaneous types of groups
-        backends = [WebStoreBackend()]
-        base_structure = random.choice(initialised_structures)
-        random_combination_replace(structure=base_structure, groups=f_groups, backends=backends)
 
-        cif_written = backends[0].cifs[0]
-        page = templates.load('random.html').generate(cif_name=cif_written['cif_filename'])
-        self.write(page)
+        backends = [WebStoreBackend()]
+        for _trial in range(max_trials):
+            base_structure = random.choice(initialised_structures)
+            status = random_combination_replace(structure=base_structure,
+                                                groups=f_groups,
+                                                backends=backends)
+            if status:
+                cif_info = backends[0].cifs[0]
+                page = templates.load('random.html').generate(**cif_info)
+                self.write(page)
+                break
+        else:
+            page = templates.load('failed.html').generate()
+            self.write(page)
 
 
 

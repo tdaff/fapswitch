@@ -90,7 +90,7 @@
     disableJ2SLoadMonitor: true,
     disableInitialConsole: true,
     readyFunction: null,
-    script: "load \"{{ cif_name }}\" {1 1 1};"
+    script: "load \"{{ cif_filename }}\" {1 1 1};"
   }
 
 
@@ -123,15 +123,39 @@
         <h1>Webswitch random MOF generator</h1>
       </div>
 
-      <p class="lead">Pin a fixed-height footer to the bottom of
-      the viewport in desktop browsers with this custom HTML and
-      CSS.</p>
+      <p class="lead">For every visit to this page, a new MOF will
+      be generated randomly from billions of combinations of functional
+      group modifications of known MOFs.</p>
 
-      <p>Use <a href="../sticky-footer-navbar">the sticky footer
-      with a fixed navbar</a> if need be, too.</p>
+      <p>More information can be found in <a href="link-to-info">Some
+      info here</a>.</p>
 
       <div id="appletplace1" style="width:100%;height:600px"></div>
-      <p><a class="btn btn-lg btn-primary" href="{{ cif_name }}">Download CIF</a></p>
+      <div id="info-group">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <span class="badge">{{ base_structure }}</span>
+              Original MOF name:
+          </li>
+          <li class="list-group-item">
+            <span class="badge">{{ mof_name }}</span>
+              Functional group string:
+          </li>
+
+          <li class="list-group-item">
+            <span class="badge">{{ cif_filename }}</span>
+              MOF CIF file name:
+          </li>
+          <li class="list-group-item">
+            <h4 class="list-group-item-heading">Extra details</h4>
+            <p class="list-group-item-text">Some references that you might like to look at and stuff about synthesis and things and information on other stuff too just things go in here.</p>
+          </li>
+        </ul>
+        <p>
+          <a class="btn btn-primary" href="{{ cif_filename }}">Download CIF</a>
+          <a class="btn btn-default" href="random">
+            <i class="glyphicon glyphicon-refresh"></i> Make another </a></p>
+      </div>
     </div>
 
   </div>
