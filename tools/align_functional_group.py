@@ -76,13 +76,17 @@ def main():
 
     parser = argparse.ArgumentParser(
         description='Create a functional group from a smiles pattern',
-        epilog='Example usage: %(prog)s -s OPr -n PropylEther OCCC')
+        epilog='Example usage: %(prog)s -s OPr -n PropylEther -c "Alkyl Ether" -m OCCC')
 
     parser.add_argument('smi_string', help="Smiles string to generate group")
     parser.add_argument('-s', '--short-name',
                         help='Short name (defaults to smiles string)')
     parser.add_argument('-n', '--name', required=True,
                         help='Descriptive name (e.g. PropylEther)')
+    parser.add_argument('-m', '--mepo-compliant', action='store_true',
+                        help='Record group as compliant with MEPO-QEq')
+    parser.add_argument('-c', '--class', default="Unclassified",
+                        help='General classification (e.g. "Alkyl Halide")')
     parser.add_argument('-t', '--terminal', action='store_true',
                         help='Output to terminal as well as files')
 
@@ -150,7 +154,9 @@ def main():
     output_text = [
         "[{}]\n".format(args.short_name),
         "name = {}\n".format(args.name),
-        "smiles = {}\n".format(fgroup)]
+        "smiles = {}\n".format(fgroup),
+        "class = {}\n".format(args.class),
+        "mepo_compliant = {}\n".format(args.mepo_compliant)]
 
     atom_block = []
     for ob_atom, coord in zip(pybel_mol, rotated_coordinates):
