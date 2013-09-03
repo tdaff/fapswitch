@@ -85,7 +85,7 @@ def main():
                         help='Descriptive name (e.g. PropylEther)')
     parser.add_argument('-m', '--mepo-compliant', action='store_true',
                         help='Record group as compliant with MEPO-QEq')
-    parser.add_argument('-c', '--class', default="Unclassified",
+    parser.add_argument('-c', '--classification', default="Unclassified",
                         help='General classification (e.g. "Alkyl Halide")')
     parser.add_argument('-t', '--terminal', action='store_true',
                         help='Output to terminal as well as files')
@@ -155,7 +155,7 @@ def main():
         "[{}]\n".format(args.short_name),
         "name = {}\n".format(args.name),
         "smiles = {}\n".format(fgroup),
-        "class = {}\n".format(args.class),
+        "class = {}\n".format(args.classification),
         "mepo_compliant = {}\n".format(args.mepo_compliant)]
 
     atom_block = []
