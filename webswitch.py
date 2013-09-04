@@ -36,11 +36,11 @@ class IndexHandler(tornado.web.RequestHandler):
 class CommandHandler(tornado.web.RequestHandler):
     #both GET and POST requests have the same responses
     def get(self, url = '/'):
-        print "get"
+        print("get")
         self.handleRequest()
 
     def post(self, url = '/'):
-        print 'post'
+        print('post')
         self.handleRequest()
 
     # handle both GET and POST requests with the same function
@@ -57,8 +57,8 @@ class CommandHandler(tornado.web.RequestHandler):
 
         #operation was not one of the ones that we know how to handle
         else:
-            print op
-            print self.request
+            print(op)
+            print(self.request)
             raise tornado.web.HTTPError(404, "Missing argument 'op' or not recognized")
 
 
@@ -66,11 +66,11 @@ class CommandHandler(tornado.web.RequestHandler):
 class RandomHandler(tornado.web.RequestHandler):
     #both GET and POST requests have the same responses
     def get(self, url = '/'):
-        print "get"
+        print("get")
         self.handle_request()
 
     def post(self, url = '/'):
-        print 'post'
+        print('post')
         self.handle_request()
 
     # handle both GET and POST requests with the same function

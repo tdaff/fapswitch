@@ -9,8 +9,12 @@ Alter a known structure with new functional groups ready for fapping.
 
 
 import copy
-import ConfigParser
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 import hashlib
+import glob
 try:
     import cPickle as pickle
 except ImportError:
@@ -274,20 +278,26 @@ class FunctionalGroupLibrary(dict):
         dict.__init__(self, *args, **kwargs)
 
         # Functional groups can be put in several places
-        # Defaults from code directory always loaded
-        script_path = path.dirname(path.realpath(__file__))
-        self._from_file(path.join(script_path, 'functional_groups.lib'))
-        # Custom user groups stored in .faps
-        faps_dir = path.join(path.expanduser('~'), '.faps')
-        self._from_file(path.join(faps_dir, 'functional_groups.lib'))
+        # Defaults '*.lib' files in library directory always loaded
+        library_glob = path.join(path.dirname(path.realpath(__file__)),
+                                 'library', '*.flib')
+        for library in glob.glob(library_glob):
+            self._from_file(path.join(library))
+
+        # Custom user groups stored in .faps supercede defaults
+        faps_glob = path.join(path.expanduser('~'), '.faps', '*.flib')
+        for library in glob.glob(faps_glob):
+            self._from_file(path.join(library))
+
         # Job specific groups in the working directory
-        self._from_file()
+        for library in glob.glob('*.flib'):
+            self._from_file(path.join(library))
 
     def _from_file(self, library_file_name='functional_groups.lib'):
-        """Parse groups from the ConfigParser .ini style file."""
-        # just a standard ConfigParser conversion to a dict of
+        """Parse groups from the configparser .ini style file."""
+        # just a standard configparser conversion to a dict of
         # FunctionalGroup objects
-        library_file = ConfigParser.SafeConfigParser()
+        library_file = configparser.SafeConfigParser()
         debug("Reading groups from %s" % library_file_name)
         library_file.read(library_file_name)
         for group_name in library_file.sections():
