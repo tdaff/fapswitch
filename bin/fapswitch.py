@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-function_switch.py
+fapswitch.py
 
 Alter a known structure with new functional groups ready for fapping.
 
@@ -34,13 +34,13 @@ from numpy import array, identity, asarray, dot, cross, outer, sin, cos
 from numpy import roll
 from numpy.linalg import norm
 
-from faps import Structure, Atom
-from faps import vecdist3, subgroup
-from config import Options
-from elements import CCDC_BOND_ORDERS
+from fapswitch.core.components import Structure, Atom
+from fapswitch.core.components import vecdist3, subgroup
+from fapswitch.config.config import Options
+from fapswitch.core.elements import CCDC_BOND_ORDERS
 
 
-DOT_FAPSWITCH_VERSION = (5, 0)
+DOT_FAPSWITCH_VERSION = (6, 0)
 
 class ModifiableStructure(Structure):
     """
