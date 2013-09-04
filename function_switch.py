@@ -236,7 +236,7 @@ def to_cif(atoms, cell, bonds, name):
     cif_file = [
         "data_%s\n" % name.replace(' ', '_'),
         "%-33s %s\n" % ("_audit_creation_date", time.strftime('%Y-%m-%dT%H:%M:%S%z')),
-        "%-33s %s\n" % ("_audit_creation_method", "fapswitch %i.%i" % DOT_FAPSWITCH_VERSION),
+        "%-33s %s\n" % ("_audit_creation_method", "fapswitch_%i.%i" % DOT_FAPSWITCH_VERSION),
         "%-33s %s\n" % ("_symmetry_space_group_name_H-M", "P1"),
         "%-33s %s\n" % ("_symmetry_Int_Tables_number", "1"),
         "%-33s %s\n" % ("_space_group_crystal_system", cell.crystal_system),
