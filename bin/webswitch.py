@@ -144,7 +144,7 @@ def load_structure(name, data_directory):
     if not loaded:
         print("Initialising a new structure. This may take some time.")
         input_structure = ModifiableStructure(name)
-        input_structure.from_file(name, 'cif', None)
+        input_structure.from_file('{}.cif'.format(name))
 
         # Ensure that atoms in the structure are properly typed
         input_structure.gen_factional_positions()

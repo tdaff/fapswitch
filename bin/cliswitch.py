@@ -34,6 +34,7 @@ from numpy import array, identity, asarray, dot, cross, outer, sin, cos
 from numpy import roll
 from numpy.linalg import norm
 
+from fapswitch.functional_groups import functiaonl_groups
 from fapswitch.core.components import Structure, Atom
 from fapswitch.core.components import vecdist3, subgroup
 from fapswitch.config.config import Options
@@ -992,9 +993,7 @@ def main():
     if not loaded:
         info("Initialising a new structure. This may take some time.")
         input_structure = ModifiableStructure(job_name)
-        input_structure.from_file(job_name,
-                                  job_options.get('initial_structure_format'),
-                                  job_options)
+        input_structure.from_cif('{}.cif'.format(job_name))
 
         # Ensure that atoms in the structure are properly typed
         input_structure.gen_factional_positions()
@@ -1056,7 +1055,7 @@ def main():
         # Initialise and add the database writer
         debug("Initialising the sqlite backend")
         try:
-            from backend.sql import AlchemyBackend
+            from fapswitch.backend.sql import AlchemyBackend
             backend = AlchemyBackend(job_name)
             backend.populate_groups(f_groups)
             backends.append(backend)
@@ -1067,7 +1066,7 @@ def main():
     if 'file' in backend_options:
         # Just dumps to a named file
         debug("Initialising cif file writer backend")
-        from backend.cif_file import CifFileBackend
+        from fapswitch.backend.cif_file import CifFileBackend
         backends.append(CifFileBackend())
 
 
