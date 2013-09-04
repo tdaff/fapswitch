@@ -1,6 +1,7 @@
-# functional_groups.lib
+# basic.flib
 #
 # Library for functional groups.
+# Initial basic set of common groups.
 #
 # Blocks of text need to be indented.
 
@@ -10,68 +11,95 @@
 # are implemented
 #[H]
 #name = Hydrogen
+##
+##     H         _______________________   
+##
+#smiles = [H]
+#class = Alkyl
+#mepo_compliant = True
 #atoms =
 #    H  H_  0.0  0.0  0.0
 #orientation = 1.0 0.0 0.0
 #normal = 0.0 0.0 1.0
 #carbon_bond = 1.07
 #bonds =
-#mepo_compliant = True
-#class = Alkyl
-
 
 [F]
 name = Fluoro
+#
+#     F         _______________________   
+#
 smiles = F
+class = Halide
+mepo_compliant = True
 atoms =
     F  F_   0.0  0.0  0.0
 orientation = 1.0 0.0 0.0
 normal = 0.0 0.0 1.0
 carbon_bond = 1.41
 bonds =
-mepo_compliant = True
-class = Halide
-
 
 [Cl]
 name = Chloro
+#
+#     Cl        _______________________   
+#
 smiles = Cl
+class = Halide
+mepo_compliant = True
 atoms =
     Cl  Cl  0.0  0.0  0.0
 orientation = 1.0 0.0 0.0
 normal = 0.0 0.0 1.0
 carbon_bond = 1.77
 bonds =
-mepo_compliant = True
-class = Halide
-
 
 [Br]
 name = Bromo
+#
+#     Br        _______________________   
+#
+smiles = Br
+class = Halide
+mepo_compliant = True
 atoms =
     Br  Br  0.0  0.0  0.0
 orientation = 1.0 0.0 0.0
 normal = 0.0 0.0 1.0
 carbon_bond = 2.04
 bonds =
-mepo_compliant = True
-class = Halide
-
 
 [I]
 name = Iodo
+#
+#     I         _______________________   
+#
+smiles = I
+class = Halide
+mepo_compliant = True
 atoms =
     I  I_  0.0  0.0  0.0
 orientation = 1.0 0.0 0.0
 normal = 0.0 0.0 1.0
 carbon_bond = 2.12
 bonds =
-mepo_compliant = True
-class = Halide
-
 
 [NH2]
 name = Amine
+#
+#                    H                    
+#                     |                   
+#                     |                   
+#                     |                   
+#                    N                    
+#               _           __            
+#            __/              \___        
+#         __/                     \___    
+#   H                                 \_  
+#
+smiles = N
+class = N Containing
+mepo_compliant = True
 atoms =
     N  N_3   0.000  0.000  0.000
     H  H_    0.829  0.559  0.000
@@ -82,12 +110,29 @@ carbon_bond = 1.37
 bonds =
     0   1   1.0
     0   2   1.0
-mepo_compliant = True
-class = N Containing
-
 
 [Me]
 name = Methyl
+#
+#                      H                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#   H      ____________|__                
+#                      /  \___            
+#                     /       \___        
+#                   _/            \___    
+#                  /                  \__ 
+#                 /                       
+#                /                        
+#            H                            
+#
+smiles = C
+class = Alkyl
+mepo_compliant = True
 atoms =
     C C_3   0.000000  0.000000  0.000000
     H H_    1.026719  0.000000 -0.363000
@@ -100,12 +145,25 @@ bonds =
    0   1   1.0
    0   2   1.0
    0   3   1.0
-mepo_compliant = True
-class = Alkyl
-
 
 [Et]
 name = Ethyl
+#
+#              H            H             
+#  H           |             |          H 
+#      __      |             |      __    
+#        \__   |             |   __/      
+#           \_ |             | _/         
+#             \______________|/           
+#             /              \            
+#           _/                \_          
+#          /                    \         
+#         /                      \        
+#        /                         H      
+#
+smiles = CC
+class = Alkyl
+mepo_compliant = True
 atoms =
     C  C_3         0.000000     0.000000     0.000000
     C  C_3         1.413643     0.590829    -0.000000
@@ -124,12 +182,27 @@ bonds =
    1   2   1.0
    1   3   1.0
    1   4   1.0
-mepo_compliant = True
-class = Alkyl
-
 
 [Pr]
 name = Propyl
+#
+#               H          H              
+#                  \     /                
+#       H           \   /          H      
+#                    \ /                  
+#         \         __\_          /       
+#          \_   ___/    \___    _/        
+#  H   ________/            \__/______  H 
+#            |                 |          
+#            |                 |          
+#            |                 |          
+#            |                 |          
+#            |                            
+#            |                H           
+#
+smiles = CCC
+class = Alkyl
+mepo_compliant = True
 atoms =
     C   C_3           0.000000     0.000000     0.000000
     C   C_3           1.390816     0.646790    -0.000000
@@ -154,12 +227,23 @@ bonds =
    2   3   1.0
    2   4   1.0
    2   5   1.0
-mepo_compliant = True
-class = Alkyl
-
 
 [NO2]
 name = Nitro
+#
+#                    O                    
+#                   |   |                 
+#                   |   |                 
+#                   |   |                 
+#                    N+                   
+#               _           __            
+#            __/              \___        
+#         __/                     \___    
+#   O_                                \_  
+#
+smiles = [N+](=O)[O-]
+class = N Containing
+mepo_compliant = True
 atoms =
     N  N_R   0.000  0.000  0.000
     O  O_R   1.111  0.573  0.000
@@ -170,12 +254,26 @@ carbon_bond = 1.51
 bonds =
    0   1   1.5
    0   2   1.5
-mepo_compliant = True
-class = N Containing
-
 
 [HCO]
 name = Aldehyde
+#
+#                    O                    
+#                   |   |                 
+#                   |   |                 
+#                   |   |                 
+#                   |   |                 
+#                   |   |                 
+#                   | __|                 
+#                  __/  \___              
+#               __/         \__           
+#            __/               \__        
+#         __/                     \___    
+#   H                                 \_  
+#
+smiles = C=O
+class = O Containing
+mepo_compliant = True
 atoms =
     C  C_2   0.000  0.000  0.000
     H  H_    0.950  0.400  0.000
@@ -186,12 +284,25 @@ carbon_bond = 1.64
 bonds =
    0   1   1.0
    0   2   2.0
-mepo_compliant = True
-class = O Containing
-
 
 [COOH]
 name = Carboxylate
+#
+#              O                        O 
+#           _       ___           ____    
+#       ___/           \___   _____/      
+#  H                       \_/ _/         
+#                           |_/           
+#                           |             
+#                           |             
+#                           |             
+#                           |             
+#                           |             
+#                           |             
+#
+smiles = C(=O)O
+class = O Containing
+mepo_compliant = True
 atoms =
     C  C_2   0.000  0.000  0.000
     O  O_2   1.032  0.651  0.000
@@ -204,12 +315,19 @@ bonds =
    0   1   2.0
    0   2   1.0
    2   3   1.0
-mepo_compliant = True
-class = O Containing
-
 
 [OH]
 name = Alcohol
+#
+#                     O                   
+#               _           __            
+#            __/              \___        
+#         __/                     \___    
+#   H                                 \_  
+#
+smiles = O
+class = O Containing
+mepo_compliant = True
 atoms =
     O   O_3  0.000  0.000  0.000
     H   H_   0.916  0.253  0.000
@@ -218,12 +336,17 @@ normal = 0.0 0.0 1.0
 carbon_bond = 1.38
 bonds =
    0   1   1.0
-mepo_compliant = True
-class = O Containing
-
 
 [CN]
 name = Nitrile
+#
+#         _____________                   
+#   N     _______________________________ 
+#         _____________                   
+#
+smiles = C#N
+class = N Containing
+mepo_compliant = True
 atoms =
     C  C_1  0.000  0.000  0.000
     N  N_1  0.000  1.290  0.000
@@ -232,12 +355,32 @@ normal = 0.0 0.0 1.0
 carbon_bond = 1.69
 bonds =
    0   1   3.0
-mepo_compliant = True
-class = N Containing
-
 
 [Ph]
 name = Phenyl
+#
+#                  H                      
+#                  |                      
+#                  |                      
+#  H              __               H      
+#     __       __/__\__         __        
+#       \_   _/__/     \__    _/          
+#         \_/_/           \__/            
+#          |              | |             
+#          |              | |             
+#          |              | |             
+#          |___           | _             
+#        _/  \_\__       __/ \_           
+#     __/       \_\_  __/      \__        
+#  H              \__/             H      
+#                  |                      
+#                  |                      
+#                  |                      
+#                  |                      
+#
+smiles = c1ccccc1
+class = Aromatic
+mepo_compliant = True
 atoms =
     C  C_R    0.000  0.000  0.000
     C  C_R    1.212  0.700  0.000
@@ -265,12 +408,25 @@ bonds =
    4   5   1.5
    4   9   1.0
    5  10   1.0
-mepo_compliant = True
-class = Alkyl
-
 
 [OMe]
 name = Methoxy
+#
+#                        O    ___________ 
+#                      /                  
+#                    _/                   
+#                   /                     
+#  H     __________/                      
+#                 |\__                    
+#                 |   \__                 
+#                 |      \__              
+#                 |           H           
+#                 |                       
+#                 H                       
+#
+smiles = OC
+class = Ether
+mepo_compliant = True
 atoms =
     O   O_3        0.000000     0.000000     0.000000
     C   C_3        1.247339     0.648100    -0.000091
@@ -285,12 +441,24 @@ bonds =
    1   2   1.0
    1   3   1.0
    1   4   1.0
-mepo_compliant = True
-class = Ether
-
 
 [OEt]
 name = Ethoxy
+#
+#                  H           H          
+#         H         |          |        H 
+#             __    |          |     __   
+#               \__ |          | ___/     
+#                  \___________|/         
+#                 _/           \          
+#                /              \_        
+#               /                 \       
+#                                  \      
+#  _________  O                     H     
+#
+smiles = OCC
+class = Ether
+mepo_compliant = True
 atoms =
     O   O_3        0.000000     0.000000     0.000000
     C   C_3        1.266487     0.649916    -0.000000
@@ -311,12 +479,27 @@ bonds =
    4   5   1.0
    4   6   1.0
    4   7   1.0
-mepo_compliant = True
-class = Ether
-
 
 [OPr]
 name = PropylEther
+#
+#               H                         
+#  H           /                          
+#     __      /                           
+#       \__  /                            
+#          _/                  O  ________
+#     ____/  \                            
+#  H          \              /            
+#              \            /             
+#               ___________/              
+#             _/|         |\__            
+#       H  __/  |         |   \__ H       
+#               |         |               
+#               H         H               
+#
+smiles = OCCC
+class = Ether
+mepo_compliant = True
 atoms =
     O   O_3        0.000000     0.000000     0.000000
     C   C_3        1.263162     0.642346     0.000000
@@ -343,12 +526,28 @@ bonds =
    7   8   1.0
    7   9   1.0
    7  10   1.0
-mepo_compliant = True
-class = Ether
-
 
 [NHMe]
 name = MethylAmine
+#
+#                H                        
+#                |                        
+#                |                        
+#                |                        
+#                |                        
+#  H    _________|__                    _ 
+#                /  \___            ___/  
+#              _/       \_      ___/      
+#             /             N             
+#            /                            
+#         H                               
+#                            |            
+#                            |            
+#                           H             
+#
+smiles = NC
+class = N Containing
+mepo_compliant = True
 atoms =
     N   N_2        0.000000     0.000000     0.000000
     H   H_        -0.926647     0.535000    -0.000000
@@ -365,13 +564,25 @@ bonds =
    2   3   1.0
    2   4   1.0
    2   5   1.0
-mepo_compliant = True
-class = N Containing
-
-
 
 [SO3H]
 name = SulphonicAcid
+#
+#                        O                
+#  H                                      
+#     \                  | |              
+#      \_                | |              
+#        \               | |              
+#          O    ______   S    ______    O 
+#                             ______      
+#                         |               
+#                         |               
+#                         |               
+#                         |               
+#
+smiles = S(=O)(=O)O
+class = S Containing
+mepo_compliant = True
 atoms =
     S   S_3+6      0.000000     0.000000     0.000000
     O   O_2       -0.501425     0.524647    -1.236301
@@ -386,13 +597,29 @@ bonds =
    0   2   2.0
    0   3   1.0
    3   4   1.0
-mepo_compliant = True
-class = S Containing
-
-
 
 [CHCH2]
 name = Ethene
+#
+#              H                          
+#               |                         
+#               |                         
+#               |                         
+#               |_                        
+#              __ \__                   _ 
+#           ___/ \__ \___           ___/  
+#       ___/        \___ \__    ___/      
+#  H                    \__ \__/          
+#                          \|             
+#                           |             
+#                           |             
+#                           |             
+#                           |             
+#                           H             
+#
+smiles = C=C
+class = Hydrocarbyl
+mepo_compliant = True
 atoms =
     C   C_2     0.000000     0.000000     0.000000
     C   C_2     1.103921     0.760343     0.000000
@@ -407,12 +634,16 @@ bonds =
    0   2   1.0
    1   3   1.0
    1   4   1.0
-mepo_compliant = True
-class = Hydrocarbyl
-
 
 [CCH]
 name = Ethyne
+#
+#               _____________             
+#  H    _________________________________ 
+#
+smiles = C#C
+class = Hydrocarbyl
+mepo_compliant = True
 atoms =
     C   C_1     0.000000     0.000000     0.000000
     C   C_1     0.024723     1.211014     0.000000
@@ -423,12 +654,29 @@ carbon_bond = 1.452
 bonds =
    0   1   3.0
    1   2   1.0
-mepo_compliant = True
-class = Hydrocarbyl
-
 
 [MeNH2]
 name = PendantMethylAmine
+#
+#                           H             
+#                            |            
+#         H                  |            
+#            \                            
+#             \             N             
+#              \       ___      __        
+#               \  ___/           \___    
+#  H    __________/                     H 
+#                |                        
+#                |                        
+#                |                        
+#                |                        
+#                |                        
+#                |                        
+#                |                        
+#
+smiles = CN
+class = N Containing
+mepo_compliant = True
 atoms =
     C   C_3     0.000000     0.000000     0.000000
     N   N_3     1.343975     0.572918    -0.000000
@@ -445,12 +693,26 @@ bonds =
    0   3   1.0
    1   4   1.0
    1   5   1.0
-mepo_compliant = True
-class = N Containing
-
 
 [OEte]
 name = Oxyethene
+#
+#           H                             
+#            |                            
+#            |                            
+#            |                            
+#           ____               O          
+#        ___/ \_\___        _     __      
+#     __/         \_\__  __/        \___  
+#  H                 \__/               \_
+#                     |                   
+#                     |                   
+#                     |                   
+#                    H                    
+#
+smiles = OC=C
+class = O Containing
+mepo_compliant = True
 atoms =
     O   O_3     0.000000     0.000000     0.000000
     C   C_2     1.080514     0.822429     0.000000
@@ -467,12 +729,28 @@ bonds =
    1   3   1.0
    2   4   1.0
    2   5   1.0
-mepo_compliant = True
-class = Ether
-
 
 [OPre]
 name = Oxypropene
+#
+#                     H                   
+#                      |                  
+#       H              |                  
+#         \            |                  
+#          \_        __|_               H 
+#            \   ___/  \_____      ____   
+#  H   _________/         \__\____/       
+#             |              \__|         
+#             |                 |         
+#             |                 |         
+#             |                 |         
+#         __ O                 H          
+#      __/                                
+#    _/                                   
+#
+smiles = OCC=C
+class = O Containing
+mepo_compliant = True
 atoms =
     O   O_3     0.000000     0.000000     0.000000
     C   C_3     1.128442     0.796683     0.000000
@@ -495,12 +773,29 @@ bonds =
    2   8   1.0
    5   6   1.0
    5   7   1.0
-mepo_compliant = True
-class = Ether
-
 
 [CF3]
-name = TriFlouroMethyl
+name = TriFluoroMethyl
+#
+#                      F                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#                      |                  
+#   F      ____________|__                
+#                      /  \___            
+#                     /       \___        
+#                   _/            \___    
+#                  /                  \__ 
+#                 /                       
+#                /                        
+#            F                            
+#
+smiles = C(F)(F)F
+class = Alkyl Halide
+mepo_compliant = True
 atoms =
     C   C_3     0.000000     0.000000     0.000000
     F   F_      1.284724     0.515707     0.000000
@@ -513,12 +808,26 @@ bonds =
     0   1   1.0
     0   2   1.0
     0   3   1.0
-mepo_compliant = True
-class = Alkyl Halide
-
 
 [CONH2]
 name = Amide
+#
+#                           O             
+#                          | |            
+#                          | |            
+#                          | |            
+#                          | |            
+#  H                       |_|_           
+#       ___             ___/   \___       
+#          \_       ___/           \___   
+#              N                       \_ 
+#               |                         
+#               |                         
+#              H                          
+#
+smiles = C(=O)N
+class = N Containing
+mepo_compliant = True
 atoms =
     C   C_2     0.000000     0.000000     0.000000
     O   O_2     1.069585     0.592988     0.000000
@@ -533,12 +842,24 @@ bonds =
     0   2   1.0
     2   3   1.0
     2   4   1.0
-mepo_compliant = True
-class = N Aromatic
-
 
 [CHNH]
 name = Ethanimine
+#
+#              N                        _ 
+#           _      ____             ___/  
+#       ___/         \_\___     ___/      
+#  H                    \__\___/          
+#                          \|             
+#                           |             
+#                           |             
+#                           |             
+#                           |             
+#                           H             
+#
+smiles = C=N
+class = N Containing
+mepo_compliant = True
 atoms =
     C   C_2     0.000000     0.000000     0.000000
     H   H_      0.955342     0.515926    -0.000000
@@ -551,8 +872,6 @@ bonds =
     0   1   1.0
     0   2   2.0
     2   3   1.0
-mepo_compliant = True
-class = N Aromatic
 
 
 

@@ -402,7 +402,7 @@ class FunctionalGroup(object):
             atom.pos = (atom.pos + point + bond_length*np.array(direction))
             atom.idx = start_index + index
         new_bonds = {}
-        for bond_pair, bond_info in self.bonds.iteritems():
+        for bond_pair, bond_info in self.bonds.items():
             new_bond = (bond_pair[0] + start_index, bond_pair[1] + start_index)
             new_bonds[new_bond] = bond_info
         # bond to structure is single...

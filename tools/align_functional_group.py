@@ -195,7 +195,7 @@ def main():
     pybel_mol.write(format='mol', filename='{}.mol'.format(args.name))
 
     # Always output to a library
-    with open('{}.lib'.format(args.name), 'w') as out_lib:
+    with open('{}.flib'.format(args.name), 'w') as out_lib:
         out_lib.writelines(output_text)
 
     if args.terminal:
