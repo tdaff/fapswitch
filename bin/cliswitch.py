@@ -34,13 +34,11 @@ from numpy import roll
 from numpy.linalg import norm
 
 from fapswitch.functional_groups import functional_groups
-from fapswitch.core.components import Structure, Atom
-from fapswitch.core.components import vecdist3, subgroup
+from fapswitch.core.components import Structure
 from fapswitch.core.util import min_vect
 from fapswitch.core.io import atoms_to_cif
 from fapswitch.config import options
 from fapswitch.config import debug, info, warning, error, critical
-from fapswitch.core.elements import CCDC_BOND_ORDERS
 
 
 DOT_FAPSWITCH_VERSION = (6, 0)
