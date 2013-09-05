@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """
-configuration for faps
+configuration for fapswitch
 
 Provides the Options class that will transparently handle the different option
-sources through the .get() method. Pulls in defaults, site and job options plus
+sources through the .get() method. Pulls in defaults, and job options plus
 command line customisation. Instantiating Options will set up the logging for
 the particular job.
 
@@ -40,13 +40,11 @@ class Options(object):
 
     A single unified way of dealing with input files and command line options
     delivering sensible defaults for unspecified values. Access options with
-    the .get() method, or the method that specifies the expected type. It is
-    recommended to replace with a new instance each time the script is run,
-    otherwise commandline options or changed input files will not be picked up.
+    the .get() method, or the method that specifies the expected type.
 
     """
     def __init__(self, job_name=None):
-        """Initialize options from all .ini files and the commandline."""
+        """Initialize options from all .fap files and the commandline."""
         # use .get{type}() to read attributes, only access args directly
         self.job_dir = ''
         self.script_dir = ''
@@ -55,14 +53,12 @@ class Options(object):
         self.options = {}
         self.cmdopts = {}
         self.defaults = configparser.SafeConfigParser()
-        self.site_ini = configparser.SafeConfigParser()
         self.job_ini = configparser.SafeConfigParser()
         # populate options
         self._init_paths()
         self.commandline()
         self._init_logging()
         self.load_defaults()
-        self.load_site_defaults()
         self.load_job_defaults()
         if self.options.job_type:
             self.job_type_ini = configparser.SafeConfigParser()
@@ -91,9 +87,6 @@ class Options(object):
         elif self.job_type_ini.has_option('job_type', item):
             debug("a job_type option: %s" % item)
             return self.job_type_ini.get('job_type', item)
-        elif self.site_ini.has_option('site_config', item):
-            debug("a site option: %s" % item)
-            return self.site_ini.get('site_config', item)
         elif self.defaults.has_option('defaults', item):
             debug("a default: %s" % item)
             return self.defaults.get('defaults', item)
@@ -219,13 +212,6 @@ class Options(object):
                           dest="plain", help="do not colourise or wrap output")
         parser.add_option("-o", "--option", action="append", dest="cmdopts",
                           help="set custom options as key=value pairs")
-        parser.add_option("-i", "--interactive", action="store_true",
-                          dest="interactive", help="enter interactive mode")
-        parser.add_option("-m", "--import", action="store_true",
-                          dest="import", help="try and import old data")
-        parser.add_option("-n", "--no-submit", action="store_true",
-                          dest="no_submit",
-                          help="create input files only, do not run any jobs")
         parser.add_option("-j", "--job-type", dest="job_type",
                           help="user preconfigured job settings")
         parser.add_option("-d", "--daemon", action="store_true", dest="daemon",
@@ -273,22 +259,6 @@ class Options(object):
             debug('Default options not found! Something is very wrong.')
             default_ini = StringIO('[defaults]\n')
         self.defaults.readfp(default_ini)
-
-    def load_site_defaults(self):
-        """Find where the script is and load defaults"""
-        site_ini_path = os.path.join(self.script_dir, 'site.ini')
-        try:
-            filetemp = open(site_ini_path, 'r')
-            site_ini = filetemp.read()
-            filetemp.close()
-            if not '[site_config]' in site_ini.lower():
-                site_ini = '[site_config]\n' + site_ini
-            site_ini = StringIO(site_ini)
-        except IOError:
-            # file does not exist so we just use a blank string
-            debug("No site options found; using defaults")
-            site_ini = StringIO('[site_config]\n')
-        self.site_ini.readfp(site_ini)
 
     def load_job_defaults(self):
         """Find where the job is running and load defaults"""

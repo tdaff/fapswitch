@@ -159,7 +159,7 @@ class FreeFunctionalisedStructure(Base):
     def unique_name(self):
         """Return the unique composite name"""
         func_repr = self.name.split(".")
-        unique_name = hashlib.md5(str(func_repr)).hexdigest()
+        unique_name = hashlib.md5(str(func_repr).encode('utf-8')).hexdigest()
         return "%s_free_%s" % (self.base_structure, unique_name)
 
 

@@ -1,0 +1,27 @@
+syntax: glob
+*~
+*.pyc
+*.pyo
+__pycache__/*
+.DS_Store
+.nose
+*.egg-info
+*.bak
+*.rej
+*$py.class
+*.orig
+example.cfg
+.coverage
+nosetests.xml
+xunit.xml
+_env
+doc/.build
+dist
+build
+.noseids
+.tox
+.*.sw[nop]
+*_func_*.cif
+*_free_*.cif
+__*.fapswitch
+*.flog

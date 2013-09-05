@@ -1,9 +1,7 @@
-#!/usr/bin/env python
-
 """
-fapswitch.py
+group_reader.py
 
-Alter a known structure with new functional groups ready for fapping.
+Containers to parse and hold for the functional group information.
 
 """
 
@@ -34,7 +32,6 @@ from numpy import array, identity, asarray, dot, cross, outer, sin, cos
 from numpy import roll
 from numpy.linalg import norm
 
-from fapswitch.functional_groups import functiaonl_groups
 from fapswitch.core.components import Structure, Atom
 from fapswitch.core.components import vecdist3, subgroup
 from fapswitch.config.config import Options
@@ -129,7 +126,7 @@ class FunctionalGroup(object):
                 continue
             new_atom = Atom(atom[0], [float(x) for x in atom[2:5]])
             new_atom.uff_type = atom[1]
-            new_atom.site = label_atom(new_atom.element)
+#            new_atom.site = label_atom(new_atom.element)
             self.atoms.append(new_atom)
 
     def _parse_bonds(self, bond_block):
@@ -215,3 +212,11 @@ def matrix_rotate(source, target):
 def normalise(vector):
     """Return an array with magnitude 1."""
     return asarray(vector)/norm(vector)
+
+def string_to_tuple(value, dtype=None):
+    """Parse a list of items, ignoring whitespace, brackets and commas."""
+    value = [x for x in re.split('[\s,\(\)\[\]]*', value) if x]
+    if dtype is not None:
+        return tuple([dtype(x) for x in value])
+    else:
+        return tuple(value)

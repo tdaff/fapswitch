@@ -51,7 +51,7 @@ class WebStoreBackend(object):
         functionalisation.
 
         """
-        unique_name = hashlib.md5(str(functions)).hexdigest()
+        unique_name = hashlib.md5(str(functions).encode('utf-8')).hexdigest()
         cif_filename = os.path.join(
             self.directory,
             '%s_free_%s.cif' % (base_structure, unique_name))
