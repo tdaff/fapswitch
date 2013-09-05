@@ -707,7 +707,7 @@ def label_atom(element=None, site=None):
 def count(reset=False):
     """Return the next itneger from a global state."""
     if not hasattr(count, 'idx') or reset is True:
-        count.idx = 0
+        count.idx = 1
     elif reset:
         count.idx = reset
     else:
@@ -727,7 +727,7 @@ def fapswitch_deamon(options, structure, f_groups, backends):
     # no host as this is running locally
     listener.bind(('', port))
     port = listener.getsockname()[1]
-    if options.getbool('silent') or options.getbool('quiet'):
+    if options.getint('verbosity') < 0:
         critical("Listening on port %i ..." % port)
     else:
         info("Listening on port %i ..." % port)
