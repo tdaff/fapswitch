@@ -36,6 +36,8 @@ from numpy.linalg import norm
 from fapswitch.functional_groups import functional_groups
 from fapswitch.core.components import Structure, Atom
 from fapswitch.core.components import vecdist3, subgroup
+from fapswitch.core.util import min_vect
+from fapswitch.core.io import atoms_to_cif
 from fapswitch.config import options
 from fapswitch.config import debug, info, warning, error, critical
 from fapswitch.core.elements import CCDC_BOND_ORDERS
@@ -43,228 +45,7 @@ from fapswitch.core.elements import CCDC_BOND_ORDERS
 
 DOT_FAPSWITCH_VERSION = (6, 0)
 
-class ModifiableStructure(Structure):
-    """
-    Derivative of Structure with methods to facilitate function group
-    switching. Use as a staging area for new methods to refactor
-    into the parent Structure class.
 
-    """
-
-    def gen_factional_positions(self):
-        """
-        Precalculate the fractional positions for all the atoms in the
-        current cell. These will be incorrect if the cell chagnes!
-
-        """
-
-        cell = self.cell.cell
-        inv_cell = self.cell.inverse
-        for atom in self.atoms:
-            atom.cellpos = atom.ipos(cell, inv_cell)
-            atom.cellfpos = atom.ifpos(inv_cell)
-
-    def gen_normals(self):
-        """
-        Calculate the normal to the vectors between the first two neighbours.
-
-        """
-        self.gen_neighbour_list()
-
-        cell = self.cell.cell
-        inv_cell = self.cell.inverse
-        cpositions = [atom.ipos(cell, inv_cell) for atom in self.atoms]
-        fpositions = [atom.ifpos(inv_cell) for atom in self.atoms]
-
-        # Speed is not so important here but these are derived from the
-        # surface ares distance calcualtions so they are explicitly given
-        # the fractional positions too
-        for at_idx, atom in enumerate(self.atoms):
-            conex = [x[1] for x in atom.neighbours[:2]]
-            left = min_vect(cpositions[at_idx], fpositions[at_idx],
-                            cpositions[conex[0]], fpositions[conex[0]],
-                            cell)
-            right = min_vect(cpositions[at_idx], fpositions[at_idx],
-                             cpositions[conex[1]], fpositions[conex[1]],
-                             cell)
-            normal = cross(left, right)
-            if norm(normal) == 0.0:
-                normal = arbitrary_normal(left)
-                # already normalised
-                atom.normal = normal
-            else:
-                atom.normal = normalise(normal)
-
-    def gen_attachment_sites(self):
-        """
-        Find connected atoms (bonds) and organise by sites. Symmetry
-        equivalent atoms have the same site.
-
-        """
-
-        atoms = self.atoms
-        cell = self.cell.cell
-        inv_cell = self.cell.inverse
-        self.gen_neighbour_list()
-        self.attachments = {}
-
-        for at_idx, atom in enumerate(self.atoms):
-            if atom.type == 'H':
-                h_index = self.atoms.index(atom)
-                for bond in self.bonds:
-                    if h_index in bond:
-                        o_index = bond[0] if bond[1] == h_index else bond[1]
-                        break
-                else:
-                    error("Unbonded hydrogen")
-
-                # Generate the direction here as we were getting buggy
-                # attachment over periodic boundaries
-                direction = min_vect(atoms[o_index].ipos(cell, inv_cell),
-                                     atoms[o_index].ifpos(inv_cell),
-                                     atom.ipos(cell, inv_cell),
-                                     atom.ifpos(inv_cell), cell)
-                direction = normalise(direction)
-
-                if atom.site in self.attachments:
-                    self.attachments[atom.site].append((h_index, o_index, direction))
-                else:
-                    self.attachments[atom.site] = [(h_index, o_index, direction)]
-
-
-    def gen_babel_uff_properties(self):
-        """
-        Process a supercell with babel to calculate UFF atom types and
-        bond orders.
-        """
-        # import these locally so we can run fapswitch without them
-        import openbabel as ob
-        import pybel
-        # Pass as free form fractional
-        # GG's periodic should take care of bonds
-        warning("Assuming periodic openbabel; not generating supercell")
-        cell = self.cell
-        as_fffract = ['generated fractionals\n', '%f %f %f %f %f %f\n' % cell.params]
-        for atom in self.atoms:
-            atom_line = ("%s " % atom.type + "%f %f %f\n" % tuple(atom.cellfpos))
-            as_fffract.append(atom_line)
-        pybel_string = ''.join(as_fffract)
-        pybel_mol = pybel.readstring('fract', pybel_string)
-        # need to tell the typing system to ignore all atoms in the setup
-        # or it will silently crash with memory issues
-        constraint = ob.OBFFConstraints()
-        for at_idx in range(pybel_mol.OBMol.NumAtoms()):
-            constraint.AddIgnore(at_idx)
-        uff = ob.OBForceField_FindForceField('uff')
-        uff.Setup(pybel_mol.OBMol, constraint)
-        uff.GetAtomTypes(pybel_mol.OBMol)
-        for atom, ob_atom in zip(self.atoms, pybel_mol):
-            atom.uff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
-
-        bonds = {}
-        max_idx = self.natoms
-        # look at all the bonds separately from the atoms
-        for bond in ob.OBMolBondIter(pybel_mol.OBMol):
-            # These rules are translated from ob/forcefielduff.cpp...
-            start_idx = bond.GetBeginAtomIdx()
-            end_idx = bond.GetEndAtomIdx()
-            if start_idx > max_idx and end_idx > max_idx:
-                continue
-            if end_idx > max_idx:
-                end_idx = end_idx % max_idx
-            if start_idx > max_idx:
-                start_idx = start_idx % max_idx
-
-            start_atom = bond.GetBeginAtom()
-            end_atom = bond.GetEndAtom()
-
-            bond_order = bond.GetBondOrder()
-            if bond.IsAromatic():
-                bond_order = 1.5
-            # e.g., in Cp rings, may not be "aromatic" by OB
-            # but check for explicit hydrogen counts
-            #(e.g., biphenyl inter-ring is not aromatic)
-            #FIXME(tdaff): aromatic C from GetType is "Car" is this correct?
-            if start_atom.GetType()[-1] == 'R' and end_atom.GetType()[-1] == 'R' and start_atom.ExplicitHydrogenCount() == 1 and end_atom.ExplicitHydrogenCount() == 1:
-                bond_order = 1.5
-            if bond.IsAmide():
-                bond_order = 1.41
-            # save the indicies as zero based
-            bond_length = bond.GetLength()
-            bond_id = tuple(sorted((start_idx-1, end_idx-1)))
-            bonds[bond_id] = (bond_length, bond_order)
-
-        self.bonds = bonds
-
-
-def to_cif(atoms, cell, bonds, name):
-    """Return a CIF file with bonding and atom types."""
-
-    inv_cell = cell.inverse
-
-    type_count = {}
-
-    atom_part = []
-    for idx, atom in enumerate(atoms):
-        if atom is None:
-            # blanks are left in here
-            continue
-        if hasattr(atom, 'uff_type') and atom.uff_type is not None:
-            uff_type = atom.uff_type
-        else:
-            uff_type = '?'
-        if atom.element in type_count:
-            type_count[atom.element] += 1
-        else:
-            type_count[atom.element] = 1
-        atom.site = "%s%i" % (atom.element, type_count[atom.element])
-        atom_part.append("%-5s %-5s %-5s " % (atom.site, atom.element, uff_type))
-        atom_part.append("%f %f %f " % tuple(atom.ifpos(inv_cell)))
-        atom_part.append("%f\n" % atom.charge)
-
-    bond_part = []
-    for bond, bond_info in bonds.items():
-        try:
-            bond_length = bond_info[0]
-            bond_order = CCDC_BOND_ORDERS[bond_info[1]]
-            bond_part.append("%-5s %-5s %f %-5s\n" %
-                             (atoms[bond[0]].site, atoms[bond[1]].site,
-                              bond_length, bond_order))
-        except AttributeError:
-            # one of the atoms is None so skip
-            debug("cif NoneType atom")
-
-    cif_file = [
-        "data_%s\n" % name.replace(' ', '_'),
-        "%-33s %s\n" % ("_audit_creation_date", time.strftime('%Y-%m-%dT%H:%M:%S%z')),
-        "%-33s %s\n" % ("_audit_creation_method", "fapswitch_%i.%i" % DOT_FAPSWITCH_VERSION),
-        "%-33s %s\n" % ("_symmetry_space_group_name_H-M", "P1"),
-        "%-33s %s\n" % ("_symmetry_Int_Tables_number", "1"),
-        "%-33s %s\n" % ("_space_group_crystal_system", cell.crystal_system),
-        "%-33s %-.10s\n" % ("_cell_length_a", cell.a),
-        "%-33s %-.10s\n" % ("_cell_length_b", cell.b),
-        "%-33s %-.10s\n" % ("_cell_length_c", cell.c),
-        "%-33s %-.10s\n" % ("_cell_angle_alpha", cell.alpha),
-        "%-33s %-.10s\n" % ("_cell_angle_beta", cell.beta),
-        "%-33s %-.10s\n" % ("_cell_angle_gamma", cell.gamma),
-        "%-33s %s\n" % ("_cell_volume", cell.volume),
-        # start of atom loops
-        "\nloop_\n",
-        "_atom_site_label\n",
-        "_atom_site_type_symbol\n",
-        "_atom_site_description\n",
-        "_atom_site_fract_x\n",
-        "_atom_site_fract_y\n",
-        "_atom_site_fract_z\n",
-        "_atom_type_partial_charge\n"] + atom_part + [
-        # bonding loop
-        "\nloop_\n",
-        "_geom_bond_atom_site_label_1\n",
-        "_geom_bond_atom_site_label_2\n",
-        "_geom_bond_distance\n",
-        "_ccdc_geom_bond_type\n"] + bond_part
-
-    return cif_file
 
 
 
@@ -284,15 +65,6 @@ def rotation_about_angle(axis_in, angle):
     return aprod+cos(angle)*(identity(3)-aprod)+sin(angle)*skew
 
 
-def direction3d(source, target):
-    """Return the vector connecting two 3d points."""
-    return [target[0] - source[0],
-            target[1] - source[1],
-            target[2] - source[2]]
-
-def normalise(vector):
-    """Return an array with magnitude 1."""
-    return asarray(vector)/norm(vector)
 
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
@@ -300,33 +72,6 @@ def powerset(iterable):
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 
-
-def min_vect(c_coa, f_coa, c_cob, f_cob_in, box):
-    """Calculate the closest distance assuming fractional, in-cell coords."""
-    f_cob = f_cob_in[:]
-    fdx = f_coa[0] - f_cob[0]
-    if fdx < -0.5:
-        f_cob[0] -= 1
-    elif fdx > 0.5:
-        f_cob[0] += 1
-    fdy = f_coa[1] - f_cob[1]
-    if fdy < -0.5:
-        f_cob[1] -= 1
-    elif fdy > 0.5:
-        f_cob[1] += 1
-    fdz = f_coa[2] - f_cob[2]
-    if fdz < -0.5:
-        f_cob[2] -= 1
-    elif fdz > 0.5:
-        f_cob[2] += 1
-    if f_cob == f_cob_in:
-        # if nothing has changed, use initial values
-        return direction3d(c_coa, c_cob)
-    else:
-        new_b = [f_cob[0]*box[0][0] + f_cob[1]*box[1][0] + f_cob[2]*box[2][0],
-                 f_cob[0]*box[0][1] + f_cob[1]*box[1][1] + f_cob[2]*box[2][1],
-                 f_cob[0]*box[0][2] + f_cob[1]*box[1][2] + f_cob[2]*box[2][2]]
-        return direction3d(c_coa, new_b)
 
 
 def make_collision_tester(options=None, test_method=None, test_scale=None):
@@ -555,7 +300,7 @@ def site_replace(structure, groups, replace_list, rotations=12, backends=()):
     info("Generated (%i): [%s]" % (count(), new_mof_friendly_name))
 
     full_mof_name = "%s_func_%s" % (structure.name, new_mof_name)
-    cif_file = to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
+    cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
 
     for backend in backends:
         backend.add_symmetry_structure(structure.name, replace_list, cif_file)
@@ -678,7 +423,7 @@ def freeform_replace(structure, groups, replace_only=None, groups_only=None, num
     info("With unique name: %s" % unique_name)
 
     full_mof_name = "%s_free_%s" % (structure.name, new_mof_name)
-    cif_file = to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
+    cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
 
     for backend in backends:
         backend.add_freeform_structure(structure.name, func_repr, cif_file)
@@ -818,7 +563,7 @@ def main():
 
     if not loaded:
         info("Initialising a new structure. This may take some time.")
-        input_structure = ModifiableStructure(job_name)
+        input_structure = Structure(job_name)
         input_structure.from_cif('{}.cif'.format(job_name))
 
         # Ensure that atoms in the structure are properly typed

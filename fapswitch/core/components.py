@@ -21,6 +21,7 @@ from numpy import pi, cos, sin, sqrt, arccos
 from numpy import array, identity, dot, cross
 from numpy.linalg import norm
 
+from fapswitch.core.util import min_vect, normalise
 from fapswitch.core.elements import WEIGHT, ATOMIC_NUMBER, UFF
 from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS
 from fapswitch.core.elements import COVALENT_RADII
@@ -31,7 +32,7 @@ DEG2RAD = pi / 180.0
 class Structure(object):
     """
     Hold information on atom positions and cell parameters.
-    
+
     Slim version for use with cif and fapswitch only.
 
     """
@@ -298,6 +299,152 @@ class Structure(object):
             # First one is self == 0
             # save in incresaing distance order
             atom.neighbours = sorted(neighbours)[1:]
+
+
+    def gen_factional_positions(self):
+        """
+        Precalculate the fractional positions for all the atoms in the
+        current cell. These will be incorrect if the cell chagnes!
+
+        """
+
+        cell = self.cell.cell
+        inv_cell = self.cell.inverse
+        for atom in self.atoms:
+            atom.cellpos = atom.ipos(cell, inv_cell)
+            atom.cellfpos = atom.ifpos(inv_cell)
+
+    def gen_normals(self):
+        """
+        Calculate the normal to the vectors between the first two neighbours.
+
+        """
+        self.gen_neighbour_list()
+
+        cell = self.cell.cell
+        inv_cell = self.cell.inverse
+        cpositions = [atom.ipos(cell, inv_cell) for atom in self.atoms]
+        fpositions = [atom.ifpos(inv_cell) for atom in self.atoms]
+
+        # Speed is not so important here but these are derived from the
+        # surface ares distance calcualtions so they are explicitly given
+        # the fractional positions too
+        for at_idx, atom in enumerate(self.atoms):
+            conex = [x[1] for x in atom.neighbours[:2]]
+            left = min_vect(cpositions[at_idx], fpositions[at_idx],
+                            cpositions[conex[0]], fpositions[conex[0]],
+                            cell)
+            right = min_vect(cpositions[at_idx], fpositions[at_idx],
+                             cpositions[conex[1]], fpositions[conex[1]],
+                             cell)
+            normal = cross(left, right)
+            if norm(normal) == 0.0:
+                normal = arbitrary_normal(left)
+                # already normalised
+                atom.normal = normal
+            else:
+                atom.normal = normalise(normal)
+
+    def gen_attachment_sites(self):
+        """
+        Find connected atoms (bonds) and organise by sites. Symmetry
+        equivalent atoms have the same site.
+
+        """
+
+        atoms = self.atoms
+        cell = self.cell.cell
+        inv_cell = self.cell.inverse
+        self.gen_neighbour_list()
+        self.attachments = {}
+
+        for at_idx, atom in enumerate(self.atoms):
+            if atom.type == 'H':
+                h_index = self.atoms.index(atom)
+                for bond in self.bonds:
+                    if h_index in bond:
+                        o_index = bond[0] if bond[1] == h_index else bond[1]
+                        break
+                else:
+                    error("Unbonded hydrogen")
+
+                # Generate the direction here as we were getting buggy
+                # attachment over periodic boundaries
+                direction = min_vect(atoms[o_index].ipos(cell, inv_cell),
+                                     atoms[o_index].ifpos(inv_cell),
+                                     atom.ipos(cell, inv_cell),
+                                     atom.ifpos(inv_cell), cell)
+                direction = normalise(direction)
+
+                if atom.site in self.attachments:
+                    self.attachments[atom.site].append((h_index, o_index, direction))
+                else:
+                    self.attachments[atom.site] = [(h_index, o_index, direction)]
+
+
+    def gen_babel_uff_properties(self):
+        """
+        Process a supercell with babel to calculate UFF atom types and
+        bond orders.
+        """
+        # import these locally so we can run fapswitch without them
+        import openbabel as ob
+        import pybel
+        # Pass as free form fractional
+        # GG's periodic should take care of bonds
+        warning("Assuming periodic openbabel; not generating supercell")
+        cell = self.cell
+        as_fffract = ['generated fractionals\n', '%f %f %f %f %f %f\n' % cell.params]
+        for atom in self.atoms:
+            atom_line = ("%s " % atom.type + "%f %f %f\n" % tuple(atom.cellfpos))
+            as_fffract.append(atom_line)
+        pybel_string = ''.join(as_fffract)
+        pybel_mol = pybel.readstring('fract', pybel_string)
+        # need to tell the typing system to ignore all atoms in the setup
+        # or it will silently crash with memory issues
+        constraint = ob.OBFFConstraints()
+        for at_idx in range(pybel_mol.OBMol.NumAtoms()):
+            constraint.AddIgnore(at_idx)
+        uff = ob.OBForceField_FindForceField('uff')
+        uff.Setup(pybel_mol.OBMol, constraint)
+        uff.GetAtomTypes(pybel_mol.OBMol)
+        for atom, ob_atom in zip(self.atoms, pybel_mol):
+            atom.uff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
+
+        bonds = {}
+        max_idx = self.natoms
+        # look at all the bonds separately from the atoms
+        for bond in ob.OBMolBondIter(pybel_mol.OBMol):
+            # These rules are translated from ob/forcefielduff.cpp...
+            start_idx = bond.GetBeginAtomIdx()
+            end_idx = bond.GetEndAtomIdx()
+            if start_idx > max_idx and end_idx > max_idx:
+                continue
+            if end_idx > max_idx:
+                end_idx = end_idx % max_idx
+            if start_idx > max_idx:
+                start_idx = start_idx % max_idx
+
+            start_atom = bond.GetBeginAtom()
+            end_atom = bond.GetEndAtom()
+
+            bond_order = bond.GetBondOrder()
+            if bond.IsAromatic():
+                bond_order = 1.5
+            # e.g., in Cp rings, may not be "aromatic" by OB
+            # but check for explicit hydrogen counts
+            #(e.g., biphenyl inter-ring is not aromatic)
+            #FIXME(tdaff): aromatic C from GetType is "Car" is this correct?
+            if start_atom.GetType()[-1] == 'R' and end_atom.GetType()[-1] == 'R' and start_atom.ExplicitHydrogenCount() == 1 and end_atom.ExplicitHydrogenCount() == 1:
+                bond_order = 1.5
+            if bond.IsAmide():
+                bond_order = 1.41
+            # save the indicies as zero based
+            bond_length = bond.GetLength()
+            bond_id = tuple(sorted((start_idx-1, end_idx-1)))
+            bonds[bond_id] = (bond_length, bond_order)
+
+        self.bonds = bonds
 
 
     @property
@@ -860,8 +1007,3 @@ def other_bond_index(bond, index):
         return bond[0]
     else:
         raise ValueError("Index %s not found in bond %s" % (index, bond))
-
-
-
-
-
