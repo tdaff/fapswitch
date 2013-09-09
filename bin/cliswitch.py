@@ -8,35 +8,17 @@ Alter a known structure with new functional groups ready for fapping.
 """
 
 
-import copy
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
-import hashlib
-import glob
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
-import random
 import re
 import socket
-import sys
-import textwrap
-import time
-from itertools import chain, combinations, product
 from os import path
 
-import numpy as np
-from numpy import array, identity, asarray, dot, cross, outer, sin, cos
-from numpy import roll
-from numpy.linalg import norm
 
 from fapswitch.functional_groups import functional_groups
 from fapswitch.core.components import Structure
-from fapswitch.core.io import atoms_to_cif
-from fapswitch.core.collision import make_collision_tester
 from fapswitch.config import options
 from fapswitch.config import debug, info, warning, error, critical
 from fapswitch.core.methods import site_replace, all_combinations_replace
@@ -63,7 +45,7 @@ def label_atom(element=None, site=None):
         label_atom.seen.add(site)
 
 
-def fapswitch_deamon(options, structure, f_groups, backends):
+def fapswitch_deamon(structure, f_groups, backends):
     """
     Use sockets to listen and receive structures.
 
@@ -107,20 +89,22 @@ def fapswitch_deamon(options, structure, f_groups, backends):
         processed = []
 
         # freeform strings are in braces {}, no spaces
-        free_strings = re.findall('\{(.*?)\}', line)
+        free_strings = re.findall('{(.*?)}', line)
         debug("Freeform strings: %s" % str(free_strings))
         for free_string in free_strings:
-            complete = freeform_replace(structure, f_groups, custom=free_string, backends=backends)
+            complete = freeform_replace(structure, f_groups,
+                                        custom=free_string, backends=backends)
             processed.append('{%s}' % free_string)
             processed.append('%s' % complete)
 
         # site replacements in square brackets [], no spaces
-        site_strings = re.findall('\[(.*?)\]', line)
+        site_strings = re.findall(r'\[(.*?)\]', line)
         debug("Site replacement strings: %s" % str(site_strings))
         for site_string in site_strings:
             site_list = [x.split('@') for x in site_string.split('.') if x]
             debug(str(site_list))
-            complete = site_replace(structure, f_groups, site_list, backends=backends)
+            complete = site_replace(structure, f_groups,
+                                    site_list, backends=backends)
             processed.append('[%s]' % site_string)
             processed.append('%s' % complete)
 
@@ -211,15 +195,12 @@ def main():
         replace_only = None
 
     # label_atom has a global state that
-    for atom in input_structure.atoms:
-        label_atom(site=atom.site)
+#    for atom in input_structure.atoms:
+#        label_atom(site=atom.site)
 
     # Functional group library is self initialising
     f_groups = functional_groups
     info("Groups in library: %s" % str(f_groups.group_list))
-
-    global test_collision
-    test_collision = make_collision_tester(job_options)
 
     #Define some backends for where to send the structures
     backends = []
@@ -247,7 +228,8 @@ def main():
     # Decide if we should run the server mode
     if job_options.getbool('daemon'):
         # Make the program die if the daemon is called unsuccessfully
-        success = fapswitch_deamon(job_options, input_structure, f_groups, backends=backends)
+        success = fapswitch_deamon(input_structure, f_groups,
+                                   backends=backends)
         if success is False:
             raise SystemExit
 
@@ -255,12 +237,13 @@ def main():
     custom_strings = job_options.get('fapswitch_custom_strings')
     # Pattern matching same as in the daemon
     # freeform strings are in braces {}, no spaces
-    freeform_strings = re.findall('\{(.*?)\}', custom_strings)
+    freeform_strings = re.findall('{(.*?)}', custom_strings)
     debug("Freeform option strings: %s" % str(freeform_strings))
     for freeform_string in freeform_strings:
-        freeform_replace(input_structure, f_groups, custom=freeform_string, backends=backends)
+        freeform_replace(input_structure, f_groups, custom=freeform_string,
+                         backends=backends)
     # site replacements in square brackets [], no spaces
-    site_strings = re.findall('\[(.*?)\]', custom_strings)
+    site_strings = re.findall(r'\[(.*?)\]', custom_strings)
     debug("Site replacement options strings: %s" % str(site_strings))
     for site_string in site_strings:
         # These should be functional_group1@site1.functional_group2@site2
@@ -280,30 +263,43 @@ def main():
     prob_unfunc = job_options.getfloat('fapswitch_unfunctionalised_probability')
 
     if job_options.getbool('fapswitch_replace_all_sites'):
-        all_combinations_replace(input_structure, f_groups, replace_only=replace_only, groups_only=replace_groups, max_different=max_different, backends=backends)
+        all_combinations_replace(input_structure, f_groups,
+                                 replace_only=replace_only,
+                                 groups_only=replace_groups,
+                                 max_different=max_different,
+                                 backends=backends)
 
     # group@site randomisations
     random_count = job_options.getint('fapswitch_site_random_count')
     successful_randoms = 0
     while successful_randoms < random_count:
         #function returns true if structure is generated
-        if random_combination_replace(input_structure, f_groups, replace_only=replace_only, groups_only=replace_groups, max_different=max_different, prob_unfunc=prob_unfunc, backends=backends):
+        if random_combination_replace(input_structure, f_groups,
+                                      replace_only=replace_only,
+                                      groups_only=replace_groups,
+                                      max_different=max_different,
+                                      prob_unfunc=prob_unfunc,
+                                      backends=backends):
             successful_randoms += 1
-            info("Generated %i of %i site random structures" % (successful_randoms, random_count))
+            info("Generated %i of %i site random structures" %
+                 (successful_randoms, random_count))
 
     # fully freeform randomisations
     random_count = job_options.getint('fapswitch_full_random_count')
     successful_randoms = 0
     while successful_randoms < random_count:
         #function returns true if structure is generated
-        if freeform_replace(input_structure, f_groups, replace_only=replace_only, groups_only=replace_groups, max_different=max_different, prob_unfunc=prob_unfunc, backends=backends):
+        if freeform_replace(input_structure, f_groups,
+                            replace_only=replace_only,
+                            groups_only=replace_groups,
+                            max_different=max_different,
+                            prob_unfunc=prob_unfunc,
+                            backends=backends):
             successful_randoms += 1
-            info("Generated %i of %i fully random structures" % (successful_randoms, random_count))
+            info("Generated %i of %i fully random structures" %
+                 (successful_randoms, random_count))
 
 
 if __name__ == '__main__':
 
     main()
-
-else:
-    test_collision = make_collision_tester(test_method='vdw', test_scale=0.5)
