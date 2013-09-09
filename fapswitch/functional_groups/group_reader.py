@@ -126,7 +126,6 @@ class FunctionalGroup(object):
                 continue
             new_atom = Atom(atom[0], [float(x) for x in atom[2:5]])
             new_atom.uff_type = atom[1]
-#            new_atom.site = label_atom(new_atom.element)
             self.atoms.append(new_atom)
 
     def _parse_bonds(self, bond_block):

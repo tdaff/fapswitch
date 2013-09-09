@@ -28,23 +28,6 @@ from fapswitch.core.methods import freeform_replace, random_combination_replace
 DOT_FAPSWITCH_VERSION = (6, 0)
 
 
-def label_atom(element=None, site=None):
-    """Produce unique atom labels."""
-    if not hasattr(label_atom, 'seen'):
-        label_atom.seen = set()
-    if not hasattr(label_atom, 'index'):
-        label_atom.index = 1
-    if element is not None:
-        label = "%s%i" % (element, label_atom.index)
-        while label in label_atom.seen:
-            label_atom.index += 1
-            label = "%s%i" % (element, label_atom.index)
-        label_atom.seen.add(label)
-        return label
-    elif site is not None:
-        label_atom.seen.add(site)
-
-
 def fapswitch_deamon(structure, f_groups, backends):
     """
     Use sockets to listen and receive structures.
@@ -193,10 +176,6 @@ def main():
     replace_only = job_options.gettuple('fapswitch_replace_only')
     if replace_only == ():
         replace_only = None
-
-    # label_atom has a global state that
-#    for atom in input_structure.atoms:
-#        label_atom(site=atom.site)
 
     # Functional group library is self initialising
     f_groups = functional_groups
