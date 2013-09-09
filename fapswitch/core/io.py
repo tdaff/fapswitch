@@ -29,21 +29,25 @@ def load_structure(name):
     if path.exists(pickle_file):
         info("Existing structure found: {}; loading...".format(pickle_file))
         #TODO(tdaff): deal with errors
-        with open(pickle_file, 'rb') as p_structure:
-            structure = pickle.load(p_structure)
-        # Negative versions ensure that very old caches will be removed
-        if not hasattr(structure, 'fapswitch_version'):
-            structure.fapswitch_version = (-1, -1)
-        # Need to make sure it is still valid
-        if structure.fapswitch_version[0] < DOT_FAPSWITCH_VERSION[0]:
-            error("Old dot-fapswitch detected, re-initialising")
+        try:
+            with open(pickle_file, 'rb') as p_structure:
+                structure = pickle.load(p_structure)
+            # Negative versions ensure that very old caches will be removed
+            if not hasattr(structure, 'fapswitch_version'):
+                structure.fapswitch_version = (-1, -1)
+            # Need to make sure it is still valid
+            if structure.fapswitch_version[0] < DOT_FAPSWITCH_VERSION[0]:
+                error("Old dot-fapswitch detected, re-initialising")
+                loaded = False
+            elif structure.fapswitch_version[1] < DOT_FAPSWITCH_VERSION[1]:
+                warning("Cached file {} may be out of date".format(pickle_file))
+                loaded = True
+            else:
+                debug("Finished loading")
+                loaded = True
+        except EOFError:
+            warning("Corrupt pickle; re-initialising")
             loaded = False
-        elif structure.fapswitch_version[1] < DOT_FAPSWITCH_VERSION[1]:
-            warning("Cached file {} may be out of date".format(pickle_file))
-            loaded = True
-        else:
-            debug("Finished loading")
-            loaded = True
 
     if not loaded:
         info("Initialising a new structure. This may take some time.")

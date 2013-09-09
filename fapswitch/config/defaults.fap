@@ -54,6 +54,10 @@ replace_only =
 # Number of symmetry based randomised structures to make. [int]
 site_random_count = 0
 
+# Number of seconds of inactivity after which the fapswitchd.py
+# daemon will close[int]
+timeout = 7200
+
 # Probability that a site will have no functionalisation in random switching
 # scheme. [float]
 unfunctionalised_probability = 0.5

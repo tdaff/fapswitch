@@ -16,6 +16,7 @@ from fapswitch.core.util import powerset
 from fapswitch.core.collision import make_collision_tester
 from fapswitch.core.io import atoms_to_cif
 from fapswitch.core.util import rotation_about_angle
+from fapswitch.functional_groups import functional_groups
 
 test_collision = make_collision_tester(test_method='vdw', test_scale=0.44)
 
@@ -32,7 +33,7 @@ def count(reset=False):
     return count.idx
 
 
-def all_combinations_replace(structure, groups, rotations=12, replace_only=None, groups_only=None, max_different=None, backends=()):
+def all_combinations_replace(structure, rotations=12, replace_only=None, groups_only=None, max_different=None, backends=()):
     """
     Replace every functional point with every combination of functional groups.
 
@@ -47,10 +48,10 @@ def all_combinations_replace(structure, groups, rotations=12, replace_only=None,
     sites = powerset(sorted(local_attachments))
 
     if groups_only is not None:
-        local_groups = [x for x in groups if x in groups_only]
+        local_groups = [x for x in functional_groups if x in groups_only]
         debug("Using only: %s" % local_groups)
     else:
-        local_groups = list(groups)
+        local_groups = list(functional_groups)
         debug("Using all groups: %s" % local_groups)
 
     if max_different is None or max_different <= 0:
@@ -62,10 +63,10 @@ def all_combinations_replace(structure, groups, rotations=12, replace_only=None,
             if len(set(group_set)) > max_different:
                 continue
             replace_list = zip(group_set, site_set)
-            site_replace(structure, groups, replace_list, backends=backends)
+            site_replace(structure, replace_list, backends=backends)
 
 
-def random_combination_replace(structure, groups, rotations=12, replace_only=None, groups_only=None, max_different=0, prob_unfunc=-1.0, backends=()):
+def random_combination_replace(structure, rotations=12, replace_only=None, groups_only=None, max_different=0, prob_unfunc=-1.0, backends=()):
     """
     Make a random structure in the site symmetry constrained sample space.
 
@@ -79,10 +80,10 @@ def random_combination_replace(structure, groups, rotations=12, replace_only=Non
         debug("Replacing all sites: %s" % list(local_attachments))
 
     if groups_only is not None:
-        local_groups = [x for x in groups if x in groups_only]
+        local_groups = [x for x in functional_groups if x in groups_only]
         debug("Using only: %s" % local_groups)
     else:
-        local_groups = list(groups)
+        local_groups = list(functional_groups)
         debug("Using all groups: %s" % local_groups)
 
     # Limit mixing chemistry with many groups
@@ -96,7 +97,7 @@ def random_combination_replace(structure, groups, rotations=12, replace_only=Non
         # Negative probability means try a random proportion of
         # functionalisation
         prob_unfunc = random.random()
-        debug("Random proportion of functionalisation (%f)" % prob_unfunc)
+        debug("Random functionalisation proportion ({})".format(prob_unfunc))
 
     for site in sorted(local_attachments):
         if random.random() < prob_unfunc:
@@ -105,10 +106,10 @@ def random_combination_replace(structure, groups, rotations=12, replace_only=Non
         else:
             replace_list.append((random.choice(local_groups), site))
     # Do the replacement
-    return site_replace(structure, groups, replace_list, backends=backends)
+    return site_replace(structure, replace_list, backends=backends)
 
 
-def site_replace(structure, groups, replace_list, rotations=12, backends=()):
+def site_replace(structure, replace_list, rotations=12, backends=()):
     """
     Use replace list to modify the structure with (group, site) pairs.
 
@@ -123,7 +124,7 @@ def site_replace(structure, groups, replace_list, rotations=12, backends=()):
     new_mof = list(structure.atoms)
     new_mof_bonds = dict(structure.bonds)
     for this_group, this_site in replace_list:
-        attachment = groups[this_group]
+        attachment = functional_groups[this_group]
         new_mof_name.append("%s@%s" % (this_group, this_site))
         new_mof_friendly_name.append("%s@%s" % (attachment.name, this_site))
         for this_point in structure.attachments[this_site]:
@@ -167,7 +168,7 @@ def site_replace(structure, groups, replace_list, rotations=12, backends=()):
     return True
 
 
-def freeform_replace(structure, groups, replace_only=None, groups_only=None, num_groups=None, custom=None, rotations=36, max_different=0, prob_unfunc=0.5, backends=()):
+def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=None, custom=None, rotations=36, max_different=0, prob_unfunc=0.5, backends=()):
     """
     Replace sites with no symmetry constraint and with random rotations
     for successive insertion trials (i.e. there will be variation for the
@@ -191,10 +192,10 @@ def freeform_replace(structure, groups, replace_only=None, groups_only=None, num
     nsites = sum(valid_list)
 
     if groups_only is not None:
-        local_groups = [x for x in groups if x in groups_only]
+        local_groups = [x for x in functional_groups if x in groups_only]
         debug("Using only: %s" % local_groups)
     else:
-        local_groups = list(groups)
+        local_groups = list(functional_groups)
         debug("Using all groups: %s" % local_groups)
 
     if len(local_groups) > max_different > 0:
@@ -249,7 +250,7 @@ def freeform_replace(structure, groups, replace_only=None, groups_only=None, num
             continue
         else:
             new_mof_name.append(this_group)
-        attachment = groups[this_group]
+        attachment = functional_groups[this_group]
         attach_id = this_point[0]
         attach_to = this_point[1]
         attach_at = structure.atoms[attach_to].pos

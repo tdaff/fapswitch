@@ -13,6 +13,12 @@ where PORT is the port that fapswitch is listening on.
 import socket
 import sys
 
+# Python 2/3 compatibility
+try:
+    input = raw_input
+except NameError:
+    pass
+
 # HOST is the machine that fapswitch is running on (i.e. the same machine)
 HOST = 'localhost'
 # The port depends on which one fapswitch chooses, this just takes the
@@ -28,7 +34,7 @@ fapswitch.connect((HOST, PORT))
 # keep going until user types exit
 while 1:
     # Get user input from standard input
-    line = raw_input("fapswitch >>> ")
+    line = input("fapswitch >>> ")
     if 'help' in line.lower():
         print("Fapswitch client:")
         print("Freeform strings: dot separated between curly braces")
@@ -41,7 +47,7 @@ while 1:
         break
     else:
         # Just send the input data straight to fapswitch
-        fapswitch.sendall(line)
+        fapswitch.sendall(line.encode('utf-8'))
         # wait for a reply
         data = fapswitch.recv(1024)
         # dump the reply stright out
