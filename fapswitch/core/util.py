@@ -5,8 +5,38 @@ e.g. with basic maths and geometry small functions.
 
 """
 
-from numpy import asarray
+from numpy import array, asarray, outer, cos, identity, sin
 from numpy.linalg import norm
+
+
+def rotation_about_angle(axis_in, angle):
+    """
+    Create a rotation matrix corresponding to the rotation around a general
+    axis by a specified angle.
+
+    """
+    axis = axis_in/norm(axis_in)
+
+    aprod = outer(axis, axis)
+    skew = array([[0, axis[2], -axis[1]], [-axis[2], 0, axis[0]],
+        [axis[1], -axis[0], 0]])
+
+    # R = dd^T + cos(a) (I - dd^T) + sin(a) skew(d)
+    return aprod+cos(angle)*(identity(3)-aprod)+sin(angle)*skew
+
+
+
+def arbitrary_normal(vector):
+    """Create a normalised normal to an input, does not use random values."""
+    if vector == [0, 0, 0]:
+        # everything is norma to a zero length vector
+        return asarray([1, 0 , 0])
+    elif vector[0] == vector[1] == vector[2]:
+        # just need cross product with something with non-equal elements
+        return normalise(cross(vector, [0.0, 1.0, 0.0]))
+    else:
+        #different elements so we can swap some to create a different vector
+        return normalise(cross(vector, roll(vector, 1)))
 
 
 def min_vect(c_coa, f_coa, c_cob, f_cob_in, box):
@@ -42,6 +72,18 @@ def direction3d(source, target):
             target[1] - source[1],
             target[2] - source[2]]
 
+
 def normalise(vector):
     """Return an array with magnitude 1."""
     return asarray(vector)/norm(vector)
+
+
+
+# Itertools derived functions
+
+
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+

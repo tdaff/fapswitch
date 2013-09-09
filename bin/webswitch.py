@@ -11,7 +11,8 @@ import tornado.web
 import tornado.ioloop
 import tornado.template
 
-from function_switch import ModifiableStructure, FunctionalGroupLibrary
+from fapswitch.core.components import Structure
+from fapswitch.functional_groups import functional_groups
 from function_switch import random_combination_replace
 from backend.web_store import WebStoreBackend
 
