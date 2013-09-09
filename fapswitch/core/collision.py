@@ -27,9 +27,9 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
     """
 
     if test_method is None:
-        test_method = options.get('fapswitch_collision_method').lower()
+        test_method = options.get('collision_method').lower()
     if test_scale is None:
-        test_scale = options.getfloat('fapswitch_collision_scale')
+        test_scale = options.getfloat('collision_scale')
 
     if test_method == 'covalent':
         info('Covalent radii collision test, scale factor: %f' % test_scale)

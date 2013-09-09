@@ -6,13 +6,84 @@ structures and pickled structures.
 
 """
 
+import pickle
 import time
+from os import path
 
+from fapswitch.config import options
+from fapswitch.core.components import Structure
 from fapswitch.core.elements import CCDC_BOND_ORDERS
-from fapswitch.config import debug
+from fapswitch.config import info, debug, warning, error
 
+DOT_FAPSWITCH_VERSION = (7, 0)
 
-DOT_FAPSWITCH_VERSION = (6, 0)
+def load_structure(name):
+    """
+    Load a structure from a pickle or generate a new one as required.
+    Returns an initialised structure. Caches loaded structure on disk.
+
+    """
+
+    pickle_file = "__{}.fapswitch".format(name)
+    loaded = False
+    if path.exists(pickle_file):
+        info("Existing structure found: {}; loading...".format(pickle_file))
+        #TODO(tdaff): deal with errors
+        with open(pickle_file, 'rb') as p_structure:
+            structure = pickle.load(p_structure)
+        # Negative versions ensure that very old caches will be removed
+        if not hasattr(structure, 'fapswitch_version'):
+            structure.fapswitch_version = (-1, -1)
+        # Need to make sure it is still valid
+        if structure.fapswitch_version[0] < DOT_FAPSWITCH_VERSION[0]:
+            error("Old dot-fapswitch detected, re-initialising")
+            loaded = False
+        elif structure.fapswitch_version[1] < DOT_FAPSWITCH_VERSION[1]:
+            warning("Cached file {} may be out of date".format(pickle_file))
+            loaded = True
+        else:
+            debug("Finished loading")
+            loaded = True
+
+    if not loaded:
+        info("Initialising a new structure. This may take some time.")
+        structure = Structure(name)
+        structure.from_cif('{}.cif'.format(name))
+
+        # Ensure that atoms in the structure are properly typed
+        structure.gen_factional_positions()
+        bonding_src = options.get('connectivity')
+        if bonding_src == 'file':
+            # Rudimentary checks for poor structures
+            if not hasattr(structure, 'bonds'):
+                error("No bonding in input structure, will probably fail")
+            elif len(structure.bonds) == 0:
+                error("Zero bonds found, will fail")
+            elif not hasattr(structure.atoms[0], 'uff_type'):
+                warning("Atoms not properly typed, expect errors")
+            else:
+                info("Bonding from input file used")
+        elif bonding_src == 'openbabel':
+            info("Generating topology with Open Babel")
+            structure.gen_babel_uff_properties()
+
+        # A couple of structure checks
+        structure.check_close_contacts()
+        structure.bond_length_check()
+
+        # Initialise the sites after bonds are perceived
+        structure.gen_attachment_sites()
+        structure.gen_normals()
+
+        # Cache the results
+        info("Dumping cache of structure to %s".format(pickle_file))
+        debug("dot-fapswitch version {}.{}".format(*DOT_FAPSWITCH_VERSION))
+        structure.fapswitch_version = DOT_FAPSWITCH_VERSION
+        with open(pickle_file, 'wb') as p_structure:
+            pickle.dump(structure, p_structure)
+
+    return structure
+
 
 def atoms_to_cif(atoms, cell, bonds, name):
     """Return a CIF file with bonding and atom types."""
@@ -22,7 +93,7 @@ def atoms_to_cif(atoms, cell, bonds, name):
     type_count = {}
 
     atom_part = []
-    for idx, atom in enumerate(atoms):
+    for atom in atoms:
         if atom is None:
             # blanks are left in here
             continue
@@ -35,7 +106,8 @@ def atoms_to_cif(atoms, cell, bonds, name):
         else:
             type_count[atom.element] = 1
         atom.site = "%s%i" % (atom.element, type_count[atom.element])
-        atom_part.append("%-5s %-5s %-5s " % (atom.site, atom.element, uff_type))
+        atom_part.append("%-5s %-5s %-5s " % (atom.site, atom.element,
+                                              uff_type))
         atom_part.append("%f %f %f " % tuple(atom.ifpos(inv_cell)))
         atom_part.append("%f\n" % atom.charge)
 
@@ -53,8 +125,10 @@ def atoms_to_cif(atoms, cell, bonds, name):
 
     cif_file = [
         "data_%s\n" % name.replace(' ', '_'),
-        "%-33s %s\n" % ("_audit_creation_date", time.strftime('%Y-%m-%dT%H:%M:%S%z')),
-        "%-33s %s\n" % ("_audit_creation_method", "fapswitch_%i.%i" % DOT_FAPSWITCH_VERSION),
+        "%-33s %s\n" % ("_audit_creation_date",
+                        time.strftime('%Y-%m-%dT%H:%M:%S%z')),
+        "%-33s %s\n" % ("_audit_creation_method",
+                        "fapswitch_%i.%i" % DOT_FAPSWITCH_VERSION),
         "%-33s %s\n" % ("_symmetry_space_group_name_H-M", "P1"),
         "%-33s %s\n" % ("_symmetry_Int_Tables_number", "1"),
         "%-33s %s\n" % ("_space_group_crystal_system", cell.crystal_system),

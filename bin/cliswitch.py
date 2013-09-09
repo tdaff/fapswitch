@@ -17,12 +17,12 @@ import socket
 from os import path
 
 
-from fapswitch.functional_groups import functional_groups
-from fapswitch.core.components import Structure
 from fapswitch.config import options
 from fapswitch.config import debug, info, warning, error, critical
+from fapswitch.core.io import load_structure
 from fapswitch.core.methods import site_replace, all_combinations_replace
 from fapswitch.core.methods import freeform_replace, random_combination_replace
+from fapswitch.functional_groups import functional_groups
 
 
 DOT_FAPSWITCH_VERSION = (6, 0)
@@ -35,7 +35,7 @@ def fapswitch_deamon(structure, f_groups, backends):
     """
     timeout = 7200
     # set this to zero for random available port
-    port = options.getint("fapswitch_port")
+    port = options.getint("port")
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # no host as this is running locally
     listener.bind(('', port))
@@ -110,70 +110,14 @@ def main():
     job_options = options
     job_name = job_options.get('job_name')
 
-    # Load an existing pickled structure or generate a new one
-    pickle_file = "__%s.fapswitch" % job_name
-    loaded = False
-    if path.exists(pickle_file):
-        info("Existing structure found: %s; loading..." % pickle_file)
-        with open(pickle_file, 'rb') as load_structure:
-            input_structure = pickle.load(load_structure)
-        # Negative versions ensure that very old caches will be removed
-        if not hasattr(input_structure, 'fapswitch_version'):
-            input_structure.fapswitch_version = (-1, -1)
-        # Need to make sure it is still valid
-        if input_structure.fapswitch_version[0] < DOT_FAPSWITCH_VERSION[0]:
-            error("Old dot-fapswitch detected, re-initialising")
-            loaded = False
-        elif input_structure.fapswitch_version[1] < DOT_FAPSWITCH_VERSION[1]:
-            warning("Cached file %s may be out of date" % pickle_file)
-            loaded = True
-        else:
-            debug("Finished loading")
-            loaded = True
-
-    if not loaded:
-        info("Initialising a new structure. This may take some time.")
-        input_structure = Structure(job_name)
-        input_structure.from_cif('{}.cif'.format(job_name))
-
-        # Ensure that atoms in the structure are properly typed
-        input_structure.gen_factional_positions()
-        bonding_src = job_options.get('fapswitch_connectivity')
-        if bonding_src == 'file':
-            # Rudimentary checks for poor structures
-            if not hasattr(input_structure, 'bonds'):
-                error("No bonding in input structure, will probably fail")
-            elif len(input_structure.bonds) == 0:
-                error("Zero bonds found, will fail")
-            elif not hasattr(input_structure.atoms[0], 'uff_type'):
-                warning("Atoms not properly typed, expect errors")
-            else:
-                info("Bonding from input file used")
-        elif bonding_src == 'openbabel':
-            info("Generating topology with Open Babel")
-            input_structure.gen_babel_uff_properties()
-
-        # A couple of structure checks
-        input_structure.check_close_contacts()
-        input_structure.bond_length_check()
-
-        # Initialise the sites after bonds are perceived
-        input_structure.gen_attachment_sites()
-        input_structure.gen_normals()
-
-        # Cache the results
-        info("Dumping cache of structure connectivity to %s" % pickle_file)
-        debug("dot-fapswitch version %i.%i" % DOT_FAPSWITCH_VERSION)
-        input_structure.fapswitch_version = DOT_FAPSWITCH_VERSION
-        with open(pickle_file, 'wb') as save_structure:
-            pickle.dump(input_structure, save_structure)
+    input_structure = load_structure(job_name)
 
     # Structure is ready!
     # Begin processing
     info("Structure attachment sites: %s" % list(input_structure.attachments))
 
     # Will use selected sites if specified, otherwise use all
-    replace_only = job_options.gettuple('fapswitch_replace_only')
+    replace_only = job_options.gettuple('replace_only')
     if replace_only == ():
         replace_only = None
 
@@ -183,7 +127,7 @@ def main():
 
     #Define some backends for where to send the structures
     backends = []
-    backend_options = job_options.gettuple('fapswitch_backends')
+    backend_options = job_options.gettuple('backends')
 
     if 'sqlite' in backend_options:
         # Initialise and add the database writer
@@ -213,7 +157,7 @@ def main():
             raise SystemExit
 
     # User defined, single-shot functionalisations
-    custom_strings = job_options.get('fapswitch_custom_strings')
+    custom_strings = job_options.get('custom_strings')
     # Pattern matching same as in the daemon
     # freeform strings are in braces {}, no spaces
     freeform_strings = re.findall('{(.*?)}', custom_strings)
@@ -233,15 +177,15 @@ def main():
     # Full systematic replacement of everything start here
 
     # Only use these functional groups for replacements
-    replace_groups = job_options.gettuple('fapswitch_replace_groups')
+    replace_groups = job_options.gettuple('replace_groups')
     if replace_groups == ():
         replace_groups = None
 
-    max_different = job_options.getint('fapswitch_max_different')
+    max_different = job_options.getint('max_different')
 
-    prob_unfunc = job_options.getfloat('fapswitch_unfunctionalised_probability')
+    prob_unfunc = job_options.getfloat('unfunctionalised_probability')
 
-    if job_options.getbool('fapswitch_replace_all_sites'):
+    if job_options.getbool('replace_all_sites'):
         all_combinations_replace(input_structure, f_groups,
                                  replace_only=replace_only,
                                  groups_only=replace_groups,
@@ -249,7 +193,7 @@ def main():
                                  backends=backends)
 
     # group@site randomisations
-    random_count = job_options.getint('fapswitch_site_random_count')
+    random_count = job_options.getint('site_random_count')
     successful_randoms = 0
     while successful_randoms < random_count:
         #function returns true if structure is generated
@@ -264,7 +208,7 @@ def main():
                  (successful_randoms, random_count))
 
     # fully freeform randomisations
-    random_count = job_options.getint('fapswitch_full_random_count')
+    random_count = job_options.getint('full_random_count')
     successful_randoms = 0
     while successful_randoms < random_count:
         #function returns true if structure is generated

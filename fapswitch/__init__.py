@@ -1,26 +1,9 @@
 """
 Fapswitch
 
-The program to switch your functional groups in MOFS.
+The program to switch your functional groups in MOFs.
 
 """
 
-# Turn on keyword expansion to get revision numbers in version strings
-# in .hg/hgrc put
-# [extensions]
-# keyword =
-#
-# [keyword]
-# faps.py =
-#
-# [keywordmaps]
-# Revision = {rev}
-
-# If there is no keyword expansion then just fall back to 0 for final digit.
-try:
-    __version_info__ = (7, 0, 0, int("$Revision$".strip("$Revision: ")))
-except ValueError:
-    __version_info__ = (7, 0, 0, 0)
-
-# Keep this standard so that faps.__version__ will give the current version!
-__version__ = "%i.%i.%i.%i" % __version_info__
+__version_info__ = (7, 0, 0)
+__version__ = "{}.{}.{}".format(*__version_info__)
