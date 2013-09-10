@@ -11,31 +11,17 @@ try:
     import configparser
 except ImportError:
     import ConfigParser as configparser
-import hashlib
 import glob
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
-import random
 import re
-import socket
-import sys
-import textwrap
-import time
-from itertools import chain, combinations, product
-from logging import debug, info, warn, error, critical
+from logging import debug, error
 from os import path
 
 import numpy as np
-from numpy import array, identity, asarray, dot, cross, outer, sin, cos
-from numpy import roll
+from numpy import array, identity, asarray, dot, cross
 from numpy.linalg import norm
 
-from fapswitch.core.components import Structure, Atom
+from fapswitch.core.components import Atom
 from fapswitch.core.components import vecdist3, subgroup
-from fapswitch.config.config import Options
-from fapswitch.core.elements import CCDC_BOND_ORDERS
 
 
 DOT_FAPSWITCH_VERSION = (6, 0)
@@ -68,18 +54,18 @@ class FunctionalGroupLibrary(dict):
         for library in glob.glob('*.flib'):
             self._from_file(path.join(library))
 
-    def _from_file(self, library_file_name='functional_groups.flib'):
+    def _from_file(self, flib_file_name='functional_groups.flib'):
         """Parse groups from the configparser .ini style file."""
         # just a standard configparser conversion to a dict of
         # FunctionalGroup objects
-        library_file = configparser.SafeConfigParser()
-        debug("Reading groups from %s" % library_file_name)
-        library_file.read(library_file_name)
-        for group_name in library_file.sections():
+        flib_file = configparser.SafeConfigParser()
+        debug("Reading groups from %s" % flib_file_name)
+        flib_file.read(flib_file_name)
+        for group_name in flib_file.sections():
             try:
                 if group_name in self:
                     debug("Overriding group %s" % group_name)
-                self[group_name] = FunctionalGroup(library_file.items(group_name))
+                self[group_name] = FunctionalGroup(flib_file.items(group_name))
             except KeyError:
                 error("Group %s is missing data; update library" % group_name)
 
@@ -107,7 +93,8 @@ class FunctionalGroup(object):
         items = dict(items)
 
         self._parse_atoms(items.pop('atoms'))
-        self.orientation = normalise(string_to_tuple(items.pop('orientation'), float))
+        self.orientation = normalise(string_to_tuple(items.pop('orientation'),
+                                                     float))
         self.normal = normalise(string_to_tuple(items.pop('normal'), float))
         self.bond_length = float(items.pop('carbon_bond'))
         self._parse_bonds(items.pop('bonds'))
@@ -147,7 +134,8 @@ class FunctionalGroup(object):
         # Iterate over all pairs
         # Assume non periodic and geometries are good
         # dummy atom at the tether point
-        self.atoms.append(Atom('C', [-self.bond_length*x for x in self.orientation]))
+        self.atoms.append(Atom('C', [-self.bond_length*x
+                                     for x in self.orientation]))
         for atom in self.atoms:
             # distance matrix for all neighbours except self
             neighbours = []
@@ -163,17 +151,16 @@ class FunctionalGroup(object):
         # first atom should be bonded to the tether, flag this as '-1'
         #self.atoms[0].bonds[self.atoms[0].bonds.index(self.natoms)] = -1
 
-    def atoms_attached_to(self, point, direction, normal, attach_point, start_index, bond_length=None):
+    def atoms_attached_to(self, point, direction, normal, attach_point,
+                          start_index):
         """Return a list of atoms at the specified position."""
-        if bond_length is None:
-            bond_length = self.bond_length
         new_atoms = [copy.copy(atom) for atom in self.atoms]
         rotate_matrix = matrix_rotate(self.orientation, direction)
         my_rotated_normal = np.dot(rotate_matrix, self.normal)
         orient_matrix = matrix_rotate(my_rotated_normal, normal)
         for index, atom in enumerate(new_atoms):
             atom.pos = np.dot(orient_matrix, np.dot(rotate_matrix, atom.pos))
-            atom.pos = (atom.pos + point + bond_length*np.array(direction))
+            atom.pos = (atom.pos + point + self.bond_length*np.array(direction))
             atom.idx = start_index + index
         new_bonds = {}
         for bond_pair, bond_info in self.bonds.items():
@@ -214,7 +201,7 @@ def normalise(vector):
 
 def string_to_tuple(value, dtype=None):
     """Parse a list of items, ignoring whitespace, brackets and commas."""
-    value = [x for x in re.split('[\s,\(\)\[\]]*', value) if x]
+    value = [x for x in re.split(r'[\s,\(\)\[\]]*', value) if x]
     if dtype is not None:
         return tuple([dtype(x) for x in value])
     else:
