@@ -13,15 +13,15 @@ except ImportError:
     import ConfigParser as configparser
 import glob
 import re
-from logging import debug, error
 from os import path
 
 import numpy as np
 from numpy import array, identity, asarray, dot, cross
 from numpy.linalg import norm
 
+from fapswitch.config import debug, error
 from fapswitch.core.components import Atom
-from fapswitch.core.components import vecdist3, subgroup
+from fapswitch.core.util import vecdist3, subgroup
 
 
 DOT_FAPSWITCH_VERSION = (6, 0)

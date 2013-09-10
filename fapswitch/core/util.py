@@ -25,7 +25,6 @@ def rotation_about_angle(axis_in, angle):
     return aprod+cos(angle)*(identity(3)-aprod)+sin(angle)*skew
 
 
-
 def arbitrary_normal(vector):
     """Create a normalised normal to an input, does not use random values."""
     if vector == [0, 0, 0]:
@@ -78,12 +77,40 @@ def normalise(vector):
     return asarray(vector)/norm(vector)
 
 
+def vecdist3(coord1, coord2):
+    """Calculate vector between two 3d points."""
+    #return [i - j for i, j in zip(coord1, coord2)]
+    # Twice as fast for fixed 3d vectors
+    vec = [coord2[0] - coord1[0],
+           coord2[1] - coord1[1],
+           coord2[2] - coord1[2]]
+
+    return (vec[0]*vec[0] + vec[1]*vec[1] + vec[2]*vec[2])**0.5
+
 
 # Itertools derived functions
-
 
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
+
+# List functions
+
+def strip_blanks(lines):
+    """Strip lines and remove blank lines."""
+    return [line.strip() for line in lines if line.strip() != '']
+
+
+def subgroup(iterable, width, itype=None):
+    """Split an iterable into nested sub-itypes of width members."""
+    # Return the same type as iterable
+    if itype is None:
+        if isinstance(iterable, list):
+            itype = list
+        else:
+            itype = tuple
+    # Will leave short groups if not enough members
+    return itype([itype(iterable[x:x+width])
+                  for x in range(0, len(iterable), width)])

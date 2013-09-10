@@ -133,7 +133,7 @@ class Options(object):
         """Return item's value interpreted as a tuple of 'dtype' [strings]."""
         value = self.get(item)
         # Regex strips bracketing so can't nest, but safer than eval
-        value = [x for x in re.split('[\s,\(\)\[\]]*', value) if x]
+        value = [x for x in re.split(r'[\s,\(\)\[\]]*', value) if x]
         if dtype is not None:
             return tuple([dtype(x) for x in value])
         else:

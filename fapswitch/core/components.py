@@ -21,7 +21,7 @@ from numpy import pi, cos, sin, sqrt, arccos
 from numpy import array, identity, dot, cross
 from numpy.linalg import norm
 
-from fapswitch.core.util import min_vect, normalise
+from fapswitch.core.util import min_vect, normalise, strip_blanks, vecdist3
 from fapswitch.core.elements import WEIGHT, ATOMIC_NUMBER, UFF
 from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS
 from fapswitch.core.elements import COVALENT_RADII
@@ -684,52 +684,6 @@ class Atom(object):
             #TODO(tdaff): remove for 2.0
             self.charge = float(at_dict['_atom_type_parital_charge'])
 
-    def from_pdb(self, line, charges=False):
-        """
-        Parse the ATOM line from a pdb file.
-        Occupancy field may be used to specify the charge as in a '.pqr' file.
-        """
-        # pdb is defined with fixed width fields rather than splitting
-        self.idx = try_int(line[6:11])
-        self.site = line[12:16].strip()
-        self.molecule = try_int(line[22:26])
-        at_pos = float(line[30:38]), float(line[38:46]), float(line[47:54])
-        self.pos = at_pos
-        self.type = line[76:78].strip()
-        self.mass = WEIGHT[self.type]
-        if charges:
-            self.charge = float(line[54:60])
-
-    def from_vasp(self, line, at_type=None, cell=identity(3)):
-        """Set the atom data from vasp input. Only pass cell if fractional."""
-        self.pos = dot([float(x) for x in line.split()[:3]], cell)
-        if at_type is not None:
-            self.type = at_type
-            self.mass = WEIGHT[at_type]
-
-    def from_siesta(self, line, cell):
-        """Parse line from SIESTA.STRUCT_OUT file."""
-        self.pos = dot([float(x) for x in line.split()[2:5]], cell)
-        self.atomic_number = int(line.split()[1])
-        self.mass = WEIGHT[self.type]
-
-    def from_xyz(self, line):
-        """Parse line from generic xyz file."""
-        split_line = line.split()
-        self.pos = [float(x) for x in split_line[1:4]]
-        if len(split_line) > 4:
-            try:
-                self.charge = float(split_line[4])
-            except ValueError:
-                # Assume a comment so skip it
-                pass
-        self.type = line.split()[0]
-        self.mass = WEIGHT[self.type]
-
-    def translate(self, vec):
-        """Move the atom by the given vector."""
-        self.pos = [x + y for x, y in zip(self.pos, vec)]
-
     def get_atomic_number(self):
         """The atomic number for the element, or closest match."""
         name = self.type
@@ -860,29 +814,6 @@ def mkdirs(directory):
 
 
 
-def move_and_overwrite(src, dest):
-    """Move src to dest and overwrite if it is an existing file."""
-    # As src and dest can be files or directories, do some checks.
-    if path.exists(dest):
-        if path.isdir(dest):
-            dest_full = path.join(dest, path.basename(src))
-            if path.exists(dest_full):
-                if path.isfile(dest_full):
-                    os.remove(dest_full)
-                    shutil.move(src, dest)
-                else:
-                    raise OSError("Directory %s already exists" % dest_full)
-            else:
-                shutil.move(src, dest)
-        elif path.isfile(dest):
-            os.remove(dest)
-            shutil.move(src, dest)
-        else:
-            raise OSError("%s is not a folder or file" % dest)
-    else:
-        shutil.move(src, dest)
-
-
 
 def ufloat(text):
     """Convert string to float, ignoring the uncertainty part."""
@@ -950,53 +881,6 @@ def min_dist(c_coa, f_coa, c_cob, f_cob_in, box):
                  f_cob[0]*box[0][1] + f_cob[1]*box[1][1] + f_cob[2]*box[2][1],
                  f_cob[0]*box[0][2] + f_cob[1]*box[1][2] + f_cob[2]*box[2][2]]
         return vecdist3(c_coa, new_b)
-
-
-def vecdist3(coord1, coord2):
-    """Calculate vector between two 3d points."""
-    #return [i - j for i, j in zip(coord1, coord2)]
-    # Twice as fast for fixed 3d vectors
-    vec = [coord2[0] - coord1[0],
-           coord2[1] - coord1[1],
-           coord2[2] - coord1[2]]
-
-    return (vec[0]*vec[0] + vec[1]*vec[1] + vec[2]*vec[2])**0.5
-
-
-
-
-def strip_blanks(lines):
-    """Strip lines and remove blank lines."""
-    return [line.strip() for line in lines if line.strip() != '']
-
-
-def subgroup(iterable, width, itype=None):
-    """Split an iterable into nested sub-itypes of width members."""
-    # Return the same type as iterable
-    if itype is None:
-        if isinstance(iterable, list):
-            itype = list
-        else:
-            itype = tuple
-    # Will leave short groups if not enough members
-    return itype([itype(iterable[x:x+width])
-                  for x in range(0, len(iterable), width)])
-
-
-def name_from_types(sites, guest):
-    """Generate a string that gives the atoms represented in sites."""
-    stypes = []
-    for site_ident in sites:
-        if site_ident is 0:
-            stypes.append('COM')
-        else:
-            stypes.append(guest.atoms[site_ident-1].element)
-    stypes = unique(stypes)
-    if len(stypes) > 1:
-        site_name = "-".join(stypes)
-    else:
-        site_name = stypes[0]
-    return site_name
 
 
 def other_bond_index(bond, index):
