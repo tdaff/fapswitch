@@ -136,6 +136,14 @@
               MOF CIF file name:
           </li>
           <li class="list-group-item">
+            <span class="badge">{{ mepo_compliant }}</span>
+              MEPO compliant[<a href="#Kadantsev2013">Kadantsev2013</a>]:
+          </li>
+          <li class="list-group-item">
+            <span class="badge">?????</span>
+              Synthesis score/cost:
+          </li>
+          <li class="list-group-item">
             <h4 class="list-group-item-heading">Extra details</h4>
             <p class="list-group-item-text">Some references that you might like to look at and stuff about synthesis and things and information on other stuff too just things go in here.</p>
           </li>
@@ -150,6 +158,14 @@
   </div>
 
   <div id="footer">
+    <div class="container">
+      <h4>References</h4>
+      <ul>
+        {% for ref in references %}
+          <li id="{{ ref.key }}"><a href="http://dx.doi.org//{{ ref.doi }}"> {{ ref.key }} </a>"{{ ref.title }}" {{ ref.author }} <em>{{ ref.journal }}</em> <strong>{{ ref.year }}</strong></li>
+        {% end %}
+      </ul>
+    </div>
     <div class="container">
       <p class="text-muted credit">MOF randomiser copyright <a href=
       "http://titan.chem.uottawa.ca">The Woo Lab</a> and Tom Daff.</p>

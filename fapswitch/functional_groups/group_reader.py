@@ -24,9 +24,6 @@ from fapswitch.core.components import Atom
 from fapswitch.core.util import vecdist3, subgroup
 
 
-DOT_FAPSWITCH_VERSION = (6, 0)
-
-
 class FunctionalGroupLibrary(dict):
     """
     Container for all the available functional groups just subclasses
@@ -59,15 +56,15 @@ class FunctionalGroupLibrary(dict):
         # just a standard configparser conversion to a dict of
         # FunctionalGroup objects
         flib_file = configparser.SafeConfigParser()
-        debug("Reading groups from %s" % flib_file_name)
+        debug("Reading groups from {}".format(flib_file_name))
         flib_file.read(flib_file_name)
         for group_name in flib_file.sections():
             try:
                 if group_name in self:
-                    debug("Overriding group %s" % group_name)
+                    debug("Overriding group {}".format(group_name))
                 self[group_name] = FunctionalGroup(flib_file.items(group_name))
             except KeyError:
-                error("Group %s is missing data; update library" % group_name)
+                error("Group {} is missing data".format(group_name))
 
     @property
     def group_list(self):
@@ -88,6 +85,8 @@ class FunctionalGroup(object):
         self.atoms = []
         self.bonds = {}
         self.orientation = [0, 1, 0]
+        self.smiles = ""
+        self.mepo_compliant = False
 
         # pop the items from a dict giving neater code
         items = dict(items)
@@ -100,6 +99,8 @@ class FunctionalGroup(object):
         self._parse_bonds(items.pop('bonds'))
         self.idx = 0
         self.connection_point = 0  # always connect to the first atom
+        if 'mepo_compliant' in items:
+            self.mepo_compliant = bool(items.pop('mepo_compliant'))
         # Arbitrary attributes can be set
         self.__dict__.update(items)
         self._gen_neighbours()

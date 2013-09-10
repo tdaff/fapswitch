@@ -63,16 +63,36 @@ class RandomHandler(tornado.web.RequestHandler):
         # groups_only: only use specific groups
         # max_different: resrict simultaneous types of groups
 
+        # This is new every time and keeps all the information
+        # we need specific to the web version
         backends = [WebStoreBackend()]
+
         for _trial in range(max_trials):
+
+            debug("Trial {}".format(_trial))
             base_structure = random.choice(initialised_structures)
             status = random_combination_replace(groups_only=groups,
                                                 structure=base_structure,
                                                 backends=backends)
             if status:
                 cif_info = backends[0].cifs[0]
-                page = templates.load('random.html').generate(**cif_info)
+                # MEPO compliance if all groups are okay
+                if all(functional_groups[function[0]].mepo_compliant for
+                       function in cif_info['functions']):
+                    mepo_compliant = "Yes"
+                else:
+                    mepo_compliant = "No"
+
+                references = [
+                    Reference('Kadantsev2013', '10.1021/jz401479k', 'Fast and Accurate Electrostatics in Metal Organic Frameworks with a Robust Charge Equilibration Parameterization for High-Throughput Virtual Screening of Gas Adsorption', 'Eugene S. Kadantsev, Peter G. Boyd, Thomas D. Daff, and Tom K. Woo', 'The Journal of Physical Chemistry Letters', '2013')
+                ]
+
+                page = templates.load('random.html').generate(
+                    mepo_compliant=mepo_compliant,
+                    references=references,
+                    **cif_info)
                 self.write(page)
+
                 break
         else:
             page = templates.load('failed.html').generate()
@@ -92,6 +112,16 @@ application = tornado.web.Application([
     (r"/(.*\.css)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'css') }),
 ])
 
+
+class Reference(object):
+    """Store information about a citation/reference."""
+    def __init__(self, key, doi, title, author, journal, year):
+         self.key = key
+         self.doi = doi
+         self.title = title
+         self.author = author
+         self.journal = journal
+         self.year = year
 
 
 if __name__ == "__main__":
@@ -130,6 +160,6 @@ if __name__ == "__main__":
 
     #start tornado
     application.listen(TORNADO_PORT)
-    print("Starting server on port number %i..." % TORNADO_PORT)
-    print("Open at http://127.0.0.1:%i/index.html" % TORNADO_PORT)
+    info("Starting server on port number {}...".format(TORNADO_PORT))
+    info("Open at http://127.0.0.1:{}/index.html".format(TORNADO_PORT))
     tornado.ioloop.IOLoop.instance().start()
