@@ -9,12 +9,15 @@ import hashlib
 import os
 import os.path
 
-_generated_path = os.path.join('web', 'generated')
+import fapswitch
+
+cif_dir = os.path.join(os.path.dirname(fapswitch.__file__),
+                       'web', 'generated')
 
 class WebStoreBackend(object):
     """Abstraction for keeping cif file in memory to be retrieved."""
 
-    def __init__(self, directory=_generated_path):
+    def __init__(self, directory=cif_dir):
         """
         Make a storage containing backend and setup a directory.
         """
