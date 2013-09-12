@@ -196,9 +196,6 @@ class Structure(object):
                                 # same type are doubly specified
                                 bond_id = tuple(sorted((first_index, second_index)))
                                 bonds[bond_id] = (distance, CCDC_BOND_ORDERS[bond_data[1]])
-                                if first_atom.is_metal or second_atom.is_metal:
-                                    first_atom.is_fixed = True
-                                    second_atom.is_fixed = True
 
         self.bonds = bonds
         self.symmetry = symmetry
@@ -634,9 +631,10 @@ class Atom(object):
         self.idx = False
         self.site = None
         self.mass = 0.0
-        self.molecule = None
         self.uff_type = None
-        self.is_fixed = False
+        self.vdw_radius = 0.0
+        self.covalent_radius = 0.0
+
         # Sets anything else specified as an attribute
         for key, val in kwargs.items():
             setattr(self, key, val)
@@ -683,6 +681,16 @@ class Atom(object):
         elif '_atom_type_parital_charge' in at_dict:
             #TODO(tdaff): remove for 2.0
             self.charge = float(at_dict['_atom_type_parital_charge'])
+
+        # set these as atributes, not properties
+        # breaks use with other initialisations
+        self.vdw_radius = UFF[self.type][0]/2.0
+        if self.type == 'C' and self.uff_type:
+            self.covalent_radius = COVALENT_RADII[self.uff_type]
+        else:
+            self.covalent_radius = COVALENT_RADII[self.type]
+        self.is_metal = self.atomic_number in METALS
+
 
     def get_atomic_number(self):
         """The atomic number for the element, or closest match."""
@@ -742,22 +750,6 @@ class Atom(object):
                 name = name[:-1]
         return self.type
 
-    @property
-    def vdw_radius(self):
-        """Get the vdw radius from the UFF parameters."""
-        return UFF[self.type][0]/2.0
-
-    @property
-    def covalent_radius(self):
-        """Get the covalent radius from the library parameters."""
-        if self.type == 'C' and self.uff_type:
-            return COVALENT_RADII[self.uff_type]
-        return COVALENT_RADII[self.type]
-
-    @property
-    def is_metal(self):
-        """Return True if element is in a predetermined set of metals."""
-        return self.atomic_number in METALS
 
 
 

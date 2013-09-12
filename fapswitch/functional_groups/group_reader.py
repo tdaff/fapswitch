@@ -21,6 +21,7 @@ from numpy.linalg import norm
 
 from fapswitch.config import debug, error
 from fapswitch.core.components import Atom
+from fapswitch.core.elements import UFF
 from fapswitch.core.util import vecdist3, subgroup
 
 
@@ -114,6 +115,7 @@ class FunctionalGroup(object):
                 continue
             new_atom = Atom(atom[0], [float(x) for x in atom[2:5]])
             new_atom.uff_type = atom[1]
+            new_atom.vdw_radius = UFF[new_atom.type][0]/2.0
             self.atoms.append(new_atom)
 
     def _parse_bonds(self, bond_block):
