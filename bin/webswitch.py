@@ -5,6 +5,7 @@ import json
 import logging
 import pickle
 import random
+import re
 from os import path
 
 import tornado.web
@@ -12,6 +13,7 @@ import tornado.ioloop
 import tornado.template
 
 import fapswitch
+from fapswitch.bibliography import references
 from fapswitch.config import debug, info
 from fapswitch.core.io import load_structure
 from fapswitch.functional_groups import functional_groups
@@ -51,11 +53,13 @@ class RandomHandler(tornado.web.RequestHandler):
     def handle_request(self):
         """Generate a random structure and return the rendered page."""
 
-        groups = self.get_argument('groups', None)
+        info("{}".format(self))
+        info("{}".format(self.request.arguments))
+        groups = self.get_arguments('groups')
         debug(groups)
-        if groups is not None:
-            groups = groups.split(',')
-        debug("{}".format(groups))
+        if not groups:
+            groups = None
+        info("GROUPS !! {}".format(groups))
 
         max_trials = 10
         # Possible options:
@@ -83,13 +87,32 @@ class RandomHandler(tornado.web.RequestHandler):
                 else:
                     mepo_compliant = "No"
 
-                references = [
-                    Reference('Kadantsev2013', '10.1021/jz401479k', 'Fast and Accurate Electrostatics in Metal Organic Frameworks with a Robust Charge Equilibration Parameterization for High-Throughput Virtual Screening of Gas Adsorption', 'Eugene S. Kadantsev, Peter G. Boyd, Thomas D. Daff, and Tom K. Woo', 'The Journal of Physical Chemistry Letters', '2013')
-                ]
+                synthesis = """<h4>Step one:</h4>
+                <p>Add some reagents and heat for a long time[Blank2017]</p>
+                <h4>Step two:</h4>
+                <p>More reagents and put in ice[Blank2015]<p>
+                """
+
+                local_references = []
+                # This is always there for MEPO
+                local_references.append(references['Kadantsev2013'])
+
+                # Find all the references and add them too
+                for reference in re.findall(r'\[(.*?)\]', synthesis):
+                    local_references.append(references[reference])
+
+                # Raw HTML anchors. Ugly.
+                synthesis = re.sub(
+                    r'\[(.*?)\]',  # non-greedy(?) find in square brackets
+                    r'[<a href="#\1">\1</a>]',  # replace raw html
+                    synthesis)
+
 
                 page = templates.load('random.html').generate(
                     mepo_compliant=mepo_compliant,
-                    references=references,
+                    references=local_references,
+                    functional_groups=functional_groups,
+                    synthesis=synthesis,
                     **cif_info)
                 self.write(page)
 
@@ -111,17 +134,6 @@ application = tornado.web.Application([
     (r"/(.*\.js)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'js')}),
     (r"/(.*\.css)", tornado.web.StaticFileHandler,{"path": path.join(web_dir, 'css') }),
 ])
-
-
-class Reference(object):
-    """Store information about a citation/reference."""
-    def __init__(self, key, doi, title, author, journal, year):
-         self.key = key
-         self.doi = doi
-         self.title = title
-         self.author = author
-         self.journal = journal
-         self.year = year
 
 
 if __name__ == "__main__":

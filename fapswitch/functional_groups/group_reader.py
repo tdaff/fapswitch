@@ -102,6 +102,7 @@ class FunctionalGroup(object):
         self.connection_point = 0  # always connect to the first atom
         if 'mepo_compliant' in items:
             self.mepo_compliant = bool(items.pop('mepo_compliant'))
+        # FIXME(tdaff) Add the synthesis stuff
         # Arbitrary attributes can be set
         self.__dict__.update(items)
         self._gen_neighbours()

@@ -98,6 +98,7 @@
     $("#appletplace1").html(Jmol.getAppletHtml(jmol1));
   });
 
+
   </script>
 </head>
 
@@ -145,13 +146,31 @@
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">Extra details</h4>
-            <p class="list-group-item-text">Some references that you might like to look at and stuff about synthesis and things and information on other stuff too just things go in here.</p>
+            <p class="list-group-item-text">{% raw synthesis %}</p>
           </li>
         </ul>
         <p>
           <a class="btn btn-primary" href="{{ cif_filename }}">Download CIF</a>
           <a class="btn btn-default" href="random">
             <i class="glyphicon glyphicon-refresh"></i> Make another </a></p>
+      </div>
+      <div id="customisation">
+        <form role="form" class="form-inline" onsubmit="return joinGroups(this);">
+          <div class="form-group">
+
+            <div class="select">
+              <select multiple class="form-control" name="groups">
+                {% for ident, group in functional_groups.items() %}
+                  <option title="{{ group.name }} (smiles: {{ group.smiles }})">{{ ident }}</option>
+                {% end %}
+              </select>
+            </div>
+
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-default">Customise</button>
+          </div>
+        </form>
       </div>
     </div>
 
