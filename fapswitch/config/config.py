@@ -251,7 +251,7 @@ class Options(object):
         # of the file if they are missing.
         try:
             with open(filename, 'r') as filetemp:
-                file_contents_fp = StringIO('[options]\n' + filetemp.read())
+                file_contents_fp = StringIO(u'[options]\n' + filetemp.read())
             self.optfiles.readfp(file_contents_fp)
             debug('Incorporated options from: {}'.format(filename))
         except IOError:
