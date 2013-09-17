@@ -80,7 +80,7 @@ def load_structure(name):
         structure.gen_normals()
 
         # Cache the results
-        info("Dumping cache of structure to %s".format(pickle_file))
+        info("Dumping cache of structure to {}".format(pickle_file))
         debug("dot-fapswitch version {}.{}".format(*DOT_FAPSWITCH_VERSION))
         structure.fapswitch_version = DOT_FAPSWITCH_VERSION
         with open(pickle_file, 'wb') as p_structure:
