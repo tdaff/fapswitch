@@ -41,6 +41,7 @@ compatibility breaking changes
   * ``functional_groups`` and ``options`` are now in globally accessible modules
   * ``-q`` and ``-v`` cancel each other.
   * ``--silent`` option has been removed, ``-qq`` gives the same effect
+  * output text is no longer automatically wrapped
   * Collision detection now properly uses 1/2 sum of vdW radii
 
   * User defined socket timeout
