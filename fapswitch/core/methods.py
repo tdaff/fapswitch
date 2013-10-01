@@ -18,7 +18,7 @@ from fapswitch.core.io import atoms_to_cif
 from fapswitch.core.util import rotation_about_angle
 from fapswitch.functional_groups import functional_groups
 
-test_collision = make_collision_tester(test_method='cvdw', test_scale=0.561231)
+test_collision = make_collision_tester(test_method='cvdw', test_scale=1.122462048309373)
 
 
 

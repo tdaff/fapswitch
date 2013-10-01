@@ -6,26 +6,23 @@ references.
 
 """
 
-class Reference(object):
-    """Store information about a citation/reference."""
-    def __init__(self, key, doi, title, author, journal, year):
-         self.key = key
-         self.doi = doi
-         self.title = title
-         self.author = author
-         self.journal = journal
-         self.year = year
+from collections import namedtuple
+
+Reference = namedtuple('Reference',
+                       ['key', 'doi', 'title', 'author', 'journal', 'year'])
 
 
 references = {
     'Kadantsev2013' : Reference(
-        'Kadantsev2013', '10.1021/jz401479k',
-        'Fast and Accurate Electrostatics in Metal Organic '
+        key='Kadantsev2013',
+        doi='10.1021/jz401479k',
+        title='Fast and Accurate Electrostatics in Metal Organic '
         'Frameworks with a Robust Charge Equilibration Parameterization '
         'for High-Throughput Virtual Screening of Gas Adsorption',
-        'Eugene S. Kadantsev, Peter G. Boyd, Thomas D. Daff, '
-        'and Tom K. Woo', 'The Journal of Physical Chemistry Letters',
-        '2013'),
+        author='Eugene S. Kadantsev, Peter G. Boyd, Thomas D. Daff, '
+        'and Tom K. Woo',
+        journal='The Journal of Physical Chemistry Letters',
+        year='2013'),
     'Blank2015' : Reference(
         'Blank2015', '0.1021/jz123456z',
         'Some uninteresitng paper about things',

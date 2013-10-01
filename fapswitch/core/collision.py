@@ -55,6 +55,7 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
 
     elif test_method == 'vdw':
         info('VdW radii collision test, scale factor: %f' % test_scale)
+        half_scale = test_scale*0.5
         def collision(test_atom, atoms, cell, ignore=()):
             """Covalent radii collision test."""
             pos = test_atom.ipos(cell.cell, cell.inverse)
@@ -66,7 +67,7 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
                 dist = min_vect(pos, ipos, atom.ipos(cell.cell, cell.inverse),
                                 atom.ifpos(cell.inverse), cell.cell)
                 dist = (dot(dist, dist))**0.5
-                min_dist = test_scale*(test_atom.vdw_radius + atom.vdw_radius)
+                min_dist = half_scale*(test_atom.vdw_radius + atom.vdw_radius)
                 if dist < min_dist:
                     return False
             return True
@@ -74,6 +75,7 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
     elif test_method == 'cvdw':
 #        from ccollision import wdist
         info('CVdW radii collision test, scale factor: %f' % test_scale)
+        half_scale = test_scale*0.5
         def collision(test_atom, atoms, cell, ignore=()):
             """Covalent radii collision test."""
             pos = test_atom.ipos(cell.cell, cell.inverse)
@@ -84,7 +86,7 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
                     continue
                 dist = wdist(pos, ipos, atom.ipos(cell.cell, cell.inverse),
                              atom.ifpos(cell.inverse), cell.cell)
-                min_dist = test_scale*(test_atom.vdw_radius + atom.vdw_radius)
+                min_dist = half_scale*(test_atom.vdw_radius + atom.vdw_radius)
                 if dist < min_dist:
                     return False
             return True
