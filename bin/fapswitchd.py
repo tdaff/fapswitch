@@ -12,6 +12,9 @@ and responds to
 
 import re
 import socket
+import sys
+from os.path import dirname, realpath
+sys.path.insert(1, dirname(dirname(realpath(__file__))))
 
 from fapswitch.config import options
 from fapswitch.config import debug, info, error, critical
