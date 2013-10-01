@@ -8,14 +8,16 @@ SciPy weave compiled collision testers.
 """
 
 
-#from scipy import weave
-#from scipy.weave import converters
-
 from numpy import dot
 
 from fapswitch.core.util import min_vect
 from fapswitch.config import debug, info, warning, error, critical
 
+try:
+    from scipy import weave
+    from scipy.weave import converters
+except ImportError:
+    warning("No scipy.weave, cvdw not available")
 
 
 
@@ -70,7 +72,7 @@ def make_collision_tester(options=None, test_method=None, test_scale=None):
             return True
 
     elif test_method == 'cvdw':
-        from ccollision import wdist
+#        from ccollision import wdist
         info('CVdW radii collision test, scale factor: %f' % test_scale)
         def collision(test_atom, atoms, cell, ignore=()):
             """Covalent radii collision test."""
