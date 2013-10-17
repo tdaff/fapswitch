@@ -12,10 +12,11 @@ from os import path
 
 from fapswitch.config import options
 from fapswitch.core.components import Structure
-from fapswitch.core.elements import CCDC_BOND_ORDERS
+from fapswitch.core.elements import CCDC_BOND_ORDERS, OB_BOND_ORDERS
 from fapswitch.config import info, debug, warning, error
 
 DOT_FAPSWITCH_VERSION = (7, 0)
+
 
 def load_structure(name):
     """
@@ -161,3 +162,47 @@ def atoms_to_cif(atoms, cell, bonds, name):
 
     return cif_file
 
+
+def atoms_to_smiles(atoms, bonds):
+    """Derive the smiles for all the organic ligands."""
+    try:
+        import openbabel as ob
+        import pybel
+    except ImportError:
+        # Don't bother if no openbabel'
+        return
+
+    obmol = ob.OBMol()
+    obmol.BeginModify()
+
+    # Translation table for indexes
+    seen_atoms = {}
+
+    babel_idx = 1
+
+    for idx, atom in enumerate(atoms):
+        if atom is None or atom.is_metal: # or atom.atomic_number == 1:
+            # If we ignore them it should split the
+            # ligands into fragments
+            continue
+        else:
+            new_atom = obmol.NewAtom()
+            new_atom.SetAtomicNum(atom.atomic_number)
+            # so we correlate the bond index
+            # to the index for the babel_mol
+            seen_atoms[idx] = babel_idx
+            babel_idx += 1
+
+    for bond, bond_info in bonds.items():
+        if bond[0] in seen_atoms and bond[1] in seen_atoms:
+
+            obmol.AddBond(seen_atoms[bond[0]],
+                          seen_atoms[bond[1]],
+                          OB_BOND_ORDERS[bond_info[1]])
+
+    obmol.SetHydrogensAdded()
+    obmol.EndModify()
+
+    pybelmol = pybel.Molecule(obmol)
+
+    info("Unique smiles: {}".format(set(pybelmol.write().strip().split("."))))

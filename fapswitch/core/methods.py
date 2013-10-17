@@ -14,7 +14,7 @@ from numpy import dot
 from fapswitch.config import debug, info, warning, error, critical
 from fapswitch.core.util import powerset
 from fapswitch.core.collision import make_collision_tester
-from fapswitch.core.io import atoms_to_cif
+from fapswitch.core.io import atoms_to_cif, atoms_to_smiles
 from fapswitch.core.util import rotation_about_angle
 from fapswitch.functional_groups import functional_groups
 
@@ -160,6 +160,7 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
 
     full_mof_name = "%s_func_%s" % (structure.name, new_mof_name)
     cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
+    atoms_to_smiles(new_mof, new_mof_bonds)
 
     for backend in backends:
         backend.add_symmetry_structure(structure.name, replace_list, cif_file)

@@ -634,6 +634,7 @@ class Atom(object):
         self.uff_type = None
         self.vdw_radius = 0.0
         self.covalent_radius = 0.0
+        self.is_metal = False
 
         # Sets anything else specified as an attribute
         for key, val in kwargs.items():

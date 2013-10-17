@@ -1,5 +1,5 @@
 """
-Cif file wriing backend for fapswitch.
+Cif file writing backend for fapswitch.
 
 """
 

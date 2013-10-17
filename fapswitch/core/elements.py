@@ -264,6 +264,16 @@ CCDC_BOND_ORDERS = {
 }
 
 
+OB_BOND_ORDERS = {
+    # openbabel needs integers and aromatics are 5?
+    1.0: 1,  # single (two-electron) bond or sigma bond to metal
+    2.0: 2,  # double (four-electron) bond
+    3.0: 3,  # triple (six-electron) bond
+    4.0: 4,  # quadruple (eight-electron, metal-metal) bond
+    1.5: 5,  # alternating normalized ring bond (aromatic)
+    1.41: 5  # Amide bond (non standard)
+}
+
 METALS = [3, 4, 11, 12, 13, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
           37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 55, 56, 57,
           58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
