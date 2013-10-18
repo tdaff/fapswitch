@@ -7,6 +7,7 @@ structures and pickled structures.
 """
 
 import pickle
+import re
 import time
 from os import path
 
@@ -90,7 +91,7 @@ def load_structure(name):
     return structure
 
 
-def atoms_to_cif(atoms, cell, bonds, name):
+def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
     """Return a CIF file with bonding and atom types."""
 
     inv_cell = cell.inverse
@@ -128,6 +129,16 @@ def atoms_to_cif(atoms, cell, bonds, name):
             # one of the atoms is None so skip
             debug("cif NoneType atom")
 
+    identifiers_part = []
+    if identifiers is not None:
+        identifiers_part.extend(["loop_\n",
+                                 "_chemical_identifier_smiles\n",
+                                 "_chemical_identifier_inchi\n",
+                                 "_chemical_identifier_inchi_key\n"])
+        for identifiers in identifiers:
+            identifiers_part.append("{}  {}  {}\n".format(*identifiers))
+
+
     cif_file = [
         "data_%s\n" % name.replace(' ', '_'),
         "%-33s %s\n" % ("_audit_creation_date",
@@ -158,12 +169,12 @@ def atoms_to_cif(atoms, cell, bonds, name):
         "_geom_bond_atom_site_label_1\n",
         "_geom_bond_atom_site_label_2\n",
         "_geom_bond_distance\n",
-        "_ccdc_geom_bond_type\n"] + bond_part
+        "_ccdc_geom_bond_type\n"] + bond_part + ["\n"] + identifiers_part
 
     return cif_file
 
 
-def atoms_to_smiles(atoms, bonds):
+def atoms_to_identifiers(atoms, bonds):
     """Derive the smiles for all the organic ligands."""
     try:
         import openbabel as ob
@@ -200,9 +211,23 @@ def atoms_to_smiles(atoms, bonds):
                           seen_atoms[bond[1]],
                           OB_BOND_ORDERS[bond_info[1]])
 
-    obmol.SetHydrogensAdded()
     obmol.EndModify()
 
     pybelmol = pybel.Molecule(obmol)
 
-    info("Unique smiles: {}".format(set(pybelmol.write().strip().split("."))))
+    # Fix for delocalised carboxylate detached from metals
+    full_molecule = pybelmol.write('can').strip()
+    full_molecule = re.sub(r'C\(O\)O([)$.])', r'C(=O)O\1', full_molecule)
+
+    # remove any lone atoms
+    unique_smiles = (set(full_molecule.split(".")) -
+                     {'O', 'H', 'N'})
+
+    identifiers = []
+    for smile in unique_smiles:
+        pybelmol = pybel.readstring('smi', smile)
+        identifiers.append((pybelmol.write('can').strip(),
+                            pybelmol.write('inchi').strip(),
+                            pybelmol.write('inchikey').strip()))
+
+    return identifiers

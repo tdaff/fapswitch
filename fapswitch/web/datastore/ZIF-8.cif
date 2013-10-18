@@ -60,7 +60,7 @@ _geom_bond_site_symmetry_2
 _ccdc_geom_bond_type
 C2     H1      1.140   .     S
 C2     N1      1.371   .     A
-C2     C2      1.346   20_344 S
+C2     C2      1.346   20_344 A
 N1     C1      1.339   1_544 A
 N1     Zn1     1.987   1_544 S
 C1     H3      1.141   .     S
