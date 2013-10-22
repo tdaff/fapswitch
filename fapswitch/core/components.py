@@ -22,6 +22,7 @@ from numpy import array, identity, dot, cross
 from numpy.linalg import norm
 
 from fapswitch.core.util import min_vect, normalise, strip_blanks, vecdist3
+from fapswitch.core.util import arbitrary_normal
 from fapswitch.core.elements import WEIGHT, ATOMIC_NUMBER, UFF
 from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS
 from fapswitch.core.elements import COVALENT_RADII

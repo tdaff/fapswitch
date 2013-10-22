@@ -8,6 +8,7 @@ e.g. with basic maths and geometry small functions.
 from itertools import chain, combinations
 
 from numpy import array, asarray, outer, cos, identity, sin
+from numpy import cross, roll
 from numpy.linalg import norm
 
 
