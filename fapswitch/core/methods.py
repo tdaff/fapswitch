@@ -13,13 +13,10 @@ from numpy import dot
 
 from fapswitch.config import debug, info, warning, error, critical
 from fapswitch.core.util import powerset
-from fapswitch.core.collision import make_collision_tester
+from fapswitch.core.collision import test_collision
 from fapswitch.core.io import atoms_to_cif, atoms_to_identifiers
 from fapswitch.core.util import rotation_about_angle
 from fapswitch.functional_groups import functional_groups
-
-test_collision = make_collision_tester(test_method='cvdw', test_scale=1.122462048309373)
-
 
 
 def count(reset=False):
