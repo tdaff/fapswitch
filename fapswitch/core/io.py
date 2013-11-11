@@ -9,15 +9,18 @@ structures and pickled structures.
 import pickle
 import re
 import time
+from collections import namedtuple
 from os import path
 
 from fapswitch.config import options
 from fapswitch.core.components import Structure
 from fapswitch.core.elements import CCDC_BOND_ORDERS, OB_BOND_ORDERS
 from fapswitch.config import info, debug, warning, error
+from fapswitch.extensions import sa_score
 
 DOT_FAPSWITCH_VERSION = (7, 0)
 
+Ligand = namedtuple('Ligand', ['smiles', 'inchi', 'inchikey', 'sa_score'])
 
 def load_structure(name):
     """
@@ -134,9 +137,10 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
         identifiers_part.extend(["loop_\n",
                                  "_chemical_identifier_smiles\n",
                                  "_chemical_identifier_inchi\n",
-                                 "_chemical_identifier_inchi_key\n"])
+                                 "_chemical_identifier_inchi_key\n",
+                                 "_chemical_synthetic_accessibility\n"])
         for identifiers in identifiers:
-            identifiers_part.append("{}  {}  {}\n".format(*identifiers))
+            identifiers_part.append("{}  {}  {}  {}\n".format(*identifiers))
 
 
     cif_file = [
@@ -215,8 +219,9 @@ def atoms_to_identifiers(atoms, bonds):
 
     pybelmol = pybel.Molecule(obmol)
 
+    # Strip out stereochemistry
+    full_molecule = pybelmol.write('can', opt={'i': None}).strip()
     # Fix for delocalised carboxylate detached from metals
-    full_molecule = pybelmol.write('can').strip()
     full_molecule = re.sub(r'C\(O\)O([)$.])', r'C(=O)O\1', full_molecule)
 
     # remove any lone atoms
@@ -226,8 +231,11 @@ def atoms_to_identifiers(atoms, bonds):
     identifiers = []
     for smile in unique_smiles:
         pybelmol = pybel.readstring('smi', smile)
-        identifiers.append((pybelmol.write('can').strip(),
-                            pybelmol.write('inchi').strip(),
-                            pybelmol.write('inchikey').strip()))
+        can_smiles = pybelmol.write('can', opt={'i': None}).strip()
+        smol = Ligand(can_smiles,
+                      pybelmol.write('inchi', opt={'w': None}).strip(),
+                      pybelmol.write('inchikey', opt={'w': None}).strip(),
+                      sa_score(can_smiles))
+        identifiers.append(smol)
 
     return identifiers

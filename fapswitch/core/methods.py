@@ -164,8 +164,9 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
     cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds,
                             full_mof_name, identifiers=ligands)
 
-    info("Ligands (%i): %s" % (identifier,
-                               ", ".join(ligand[0] for ligand in ligands)))
+    ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
+                      for ligand in ligands]
+    info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
         backend.add_symmetry_structure(structure.name, replace_list, cif_file)
@@ -284,11 +285,21 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
             return False
 
     new_mof_name = ".".join(new_mof_name)
-    info("Generated (%i): {%s}" %  (count(), new_mof_name))
+
+    # Counts how many have been made
+    identifier = count()
+    info("Generated (%i): {%s}" % (identifier, new_mof_name))
     info("With unique name: %s" % unique_name)
 
     full_mof_name = "%s_free_%s" % (structure.name, new_mof_name)
-    cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds, full_mof_name)
+
+    ligands = atoms_to_identifiers(new_mof, new_mof_bonds)
+    cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds,
+                            full_mof_name, identifiers=ligands)
+
+    ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
+                      for ligand in ligands]
+    info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
         backend.add_freeform_structure(structure.name, func_repr, cif_file)
