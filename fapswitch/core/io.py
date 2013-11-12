@@ -130,7 +130,8 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
                               bond_length, bond_order))
         except AttributeError:
             # one of the atoms is None so skip
-            debug("cif NoneType atom")
+            #debug("cif NoneType atom")
+            pass
 
     identifiers_part = []
     if identifiers is not None:

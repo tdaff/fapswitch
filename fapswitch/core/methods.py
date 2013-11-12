@@ -136,7 +136,7 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
                 incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
                 for atom in incoming_group:
                     if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
-                        debug("Rotating group")
+                        #debug("Rotating group")
                         attach_normal = dot(rotation_about_angle(attach_towards, rotation_angle), attach_normal)
                         # Don't need to test more atoms
                         break
@@ -148,7 +148,7 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
             else:
                 # Did not attach
                 fail_name = ".".join(["@".join(x) for x in replace_list])
-                error("Failed: %s@%s from %s" % (this_group, this_site, fail_name))
+                warning("Failed: %s@%s from %s" % (this_group, this_site, fail_name))
                 return False
 
     new_mof_name = ".".join(new_mof_name)
@@ -270,7 +270,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
             incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
             for atom in incoming_group:
                 if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
-                    debug("Randomly rotating group")
+                    #debug("Randomly rotating group")
                     attach_normal = dot(rotation_about_angle(attach_towards, random.random()*np.pi*2), attach_normal)
                     break
             else:
@@ -280,7 +280,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
                 break
         else:
             # this_point not valid
-            error("Failed to generate: %s" % ".".join([x or "" for x in func_repr]))
+            warning("Failed to generate: %s" % ".".join([x or "" for x in func_repr]))
             warning("Stopped after: %s" % ".".join(new_mof_name))
             return False
 

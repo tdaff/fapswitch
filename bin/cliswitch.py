@@ -81,14 +81,14 @@ def main():
     # Pattern matching same as in the daemon
     # freeform strings are in braces {}, no spaces
     freeform_strings = re.findall('{(.*?)}', custom_strings)
-    debug("Freeform option strings: %s".format(freeform_strings))
+    debug("Freeform option strings: {}".format(freeform_strings))
     for freeform_string in freeform_strings:
         freeform_replace(input_structure, custom=freeform_string,
                          backends=backends)
 
     # site replacements in square brackets [], no spaces
     site_strings = re.findall(r'\[(.*?)\]', custom_strings)
-    debug("Site replacement options strings: %s".format(site_strings))
+    debug("Site replacement options strings: {}".format(site_strings))
     for site_string in site_strings:
         # These should be functional_group1@site1.functional_group2@site2
         site_list = [x.split('@') for x in site_string.split('.') if x]
