@@ -25,13 +25,15 @@ except ImportError:
     _SCIPY_WEAVE = False
 
 
-
-def make_collision_tester(test_method=None, test_scale=None):
+def make_collision_tester(test_method='vdw', test_scale=1.122462048309373):
     """
     Create a function that will test atom overlap based on separation
     and atomic radii.
 
     """
+
+    # OH NO MY CAPSLOCK GOT STUCK!
+    test_method = test_method.lower()
 
     if test_method == 'cvdw':
         if _SCIPY_WEAVE == False or sys.platform in ['win32']:
@@ -93,6 +95,11 @@ def make_collision_tester(test_method=None, test_scale=None):
                 min_dist = test_scale*(test_atom.covalent_radius + atom.covalent_radius)
                 if dist < min_dist:
                     return False
+            return True
+
+    elif test_method == 'none':
+        info('Collision detection turned off')
+        def collision(*args, **kwargs):
             return True
 
     else:
@@ -185,7 +192,7 @@ return_val = sqrt(distance);
 # Make an importable tester that picks up values from the global
 # options set
 
-_test_method = options.get('collision_method').lower()
+_test_method = options.get('collision_method')
 _test_scale = options.getfloat('collision_scale')
 
 test_collision = make_collision_tester(_test_method, _test_scale)
