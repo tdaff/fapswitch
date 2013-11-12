@@ -120,6 +120,7 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
     # copy the atoms and bonds so we don't alter the original structure
     new_mof = list(structure.atoms)
     new_mof_bonds = dict(structure.bonds)
+    rotation_count = 0
     for this_group, this_site in replace_list:
         attachment = functional_groups[this_group]
         new_mof_name.append("%s@%s" % (this_group, this_site))
@@ -136,8 +137,8 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
                 incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
                 for atom in incoming_group:
                     if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
-                        #debug("Rotating group")
                         attach_normal = dot(rotation_about_angle(attach_towards, rotation_angle), attach_normal)
+                        rotation_count += 1
                         # Don't need to test more atoms
                         break
                 else:
@@ -149,7 +150,10 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
                 # Did not attach
                 fail_name = ".".join(["@".join(x) for x in replace_list])
                 warning("Failed: %s@%s from %s" % (this_group, this_site, fail_name))
+                debug("Needed {} rotations".format(rotation_count))
                 return False
+
+    debug("Needed {} rotations".format(rotation_count))
 
     new_mof_name = ".".join(new_mof_name)
     new_mof_friendly_name = ".".join(new_mof_friendly_name)
@@ -251,6 +255,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
     new_mof_name = []
     new_mof = list(structure.atoms)
     new_mof_bonds = dict(structure.bonds)
+    rotation_count = 0
     for this_point, this_group in zip(chain(*[structure.attachments[x] for x in sorted(structure.attachments)]), func_repr):
         if this_group == "":
             new_mof_name.append("")
@@ -270,7 +275,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
             incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
             for atom in incoming_group:
                 if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
-                    #debug("Randomly rotating group")
+                    rotation_count += 1
                     attach_normal = dot(rotation_about_angle(attach_towards, random.random()*np.pi*2), attach_normal)
                     break
             else:
@@ -282,6 +287,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
             # this_point not valid
             warning("Failed to generate: %s" % ".".join([x or "" for x in func_repr]))
             warning("Stopped after: %s" % ".".join(new_mof_name))
+            debug("Needed {} rotations".format(rotation_count))
             return False
 
     new_mof_name = ".".join(new_mof_name)
