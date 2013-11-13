@@ -11,10 +11,6 @@
 # Acceptable boolean values (case-insensitive) are True,
 # yes, on, 1 and False, no, off, 0
 
-# Run fapswitch as a service and wait for line-by-line input.
-# See also commandline options. [bool]
-daemon = False
-
 # Backends to store the output structures. [str, list] {file, sqlite}
 backends = file
 
