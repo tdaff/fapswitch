@@ -168,9 +168,10 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
     cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds,
                             full_mof_name, identifiers=ligands)
 
-    ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
-                      for ligand in ligands]
-    info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
+    if ligands is not None:
+        ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
+                          for ligand in ligands]
+        info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
         backend.add_symmetry_structure(structure.name, replace_list, cif_file)
@@ -303,9 +304,10 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
     cif_file = atoms_to_cif(new_mof, structure.cell, new_mof_bonds,
                             full_mof_name, identifiers=ligands)
 
-    ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
-                      for ligand in ligands]
-    info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
+    if ligands is not None:
+        ligand_strings = ["{}:{}".format(ligand.smiles, ligand.sa_score)
+                          for ligand in ligands]
+        info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
         backend.add_freeform_structure(structure.name, func_repr, cif_file)
