@@ -24,6 +24,7 @@ from collections import defaultdict
 from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors
 
+from fapswitch.config import debug
 from fapswitch.extensions.fragments import moldb
 
 
@@ -84,8 +85,13 @@ def sa_score(smiles):
     #
 
     # use a radius of 2 for circular fingerprint
-    fingerprint = rdMolDescriptors.GetMorganFingerprint(molecule, 2)
-    fingerprint = fingerprint.GetNonzeroElements()
+    try:
+        fingerprint = rdMolDescriptors.GetMorganFingerprint(molecule, 2)
+        fingerprint = fingerprint.GetNonzeroElements()
+    except Exception as error:
+        # Will throw a boost error for N+ so we just give a 0 for score
+        debug(error)
+        return 0
 
     fragment_score = 0.0
     fragment_count = 0
