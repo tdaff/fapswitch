@@ -13,7 +13,7 @@ Reference = namedtuple('Reference',
 
 
 references = {
-    'Kadantsev2013' : Reference(
+    'Kadantsev2013': Reference(
         key='Kadantsev2013',
         doi='10.1021/jz401479k',
         title='Fast and Accurate Electrostatics in Metal Organic '
@@ -23,18 +23,12 @@ references = {
         'and Tom K. Woo',
         journal='The Journal of Physical Chemistry Letters',
         year='2013'),
-    'Blank2015' : Reference(
-        'Blank2015', '0.1021/jz123456z',
-        'Some uninteresitng paper about things',
-        'A. Guy, A. Student',
-        'The Journal of Things',
-        '2015'
-    ),
-    'Blank2017' : Reference(
-        'Blank2017', '0.1055/jz123456z',
-        'Synthesis of materials to make the best MOFS',
-        'M. Post Doc, A. Student, T. E. Knetitian',
-        'The Journal of Synthesis',
-        '2017'
-    )
+    'Ertl2009': Reference(
+        key='Ertl2009',
+        doi='10.1186/1758-2946-1-8',
+        title='Estimation of synthetic accessibility score of drug-like '
+        'molecules based on molecular complexity and fragment contributions',
+        author='Peter Ertl and Ansgar Schuffenhauer',
+        journal='Journal of Cheminformatics',
+        year='2009')
 }
