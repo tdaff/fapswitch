@@ -9,7 +9,7 @@ import hashlib
 class CifFileBackend(object):
     """Abstraction for writing cif files in a pluggable manner."""
 
-    def add_symmetry_structure(self, base_structure, functions, cif_file):
+    def add_symmetry_structure(self, base_structure, functions, cif_file, **kwargs):
         """
         Write out the cif file with a name derived from the base structure
         and the functionalisations.
@@ -20,7 +20,7 @@ class CifFileBackend(object):
         with open(cif_filename, 'w') as output_file:
             output_file.writelines(cif_file)
 
-    def add_freeform_structure(self, base_structure, functions, cif_file):
+    def add_freeform_structure(self, base_structure, functions, cif_file, **kwargs):
         """
         Write a cif file with an md5 fixed-length name based on the
         functionalisation.

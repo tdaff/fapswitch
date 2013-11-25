@@ -31,7 +31,8 @@ class WebStoreBackend(object):
             else:
                 raise
 
-    def add_symmetry_structure(self, base_structure, functions, cif_file):
+    def add_symmetry_structure(self, base_structure, functions, cif_file,
+                               ligands=None, **kwargs):
         """
         Write out the cif file with a name derived from the base structure
         and the functionalisations and track the name.
@@ -46,9 +47,11 @@ class WebStoreBackend(object):
             {'mof_name': new_mof_name,
              'base_structure': base_structure,
              'functions': functions,
-             'cif_filename': cif_filename})
+             'cif_filename': cif_filename,
+             'ligands': ligands})
 
-    def add_freeform_structure(self, base_structure, functions, cif_file):
+    def add_freeform_structure(self, base_structure, functions, cif_file,
+                               ligands=None, **kwargs):
         """
         Write a cif file with an md5 fixed-length name based on the
         functionalisation.
@@ -64,4 +67,5 @@ class WebStoreBackend(object):
             {'mof_name': unique_name,
              'base_structure': base_structure,
              'functions': functions,
-             'cif_filename': cif_filename})
+             'cif_filename': cif_filename,
+             'ligands': ligands})

@@ -141,12 +141,17 @@
               MEPO-QEq compliant[<a href="#Kadantsev2013">Kadantsev2013</a>]:
           </li>
           <li class="list-group-item">
-            <span class="badge">?????</span>
+            <span class="badge">{{ sa_score }}</span>
               Synthesis SA Score[<a href="#Ertl2009">Ertl2009</a>]:
           </li>
           <li class="list-group-item">
             <h4 class="list-group-item-heading">Extra details</h4>
             <p class="list-group-item-text">{% raw extra_info %}</p>
+            <p class="list-group-item-text">
+              {% for ligand in processed_ligands %}
+                <img src="{{ ligand[1] }}" alt="Ligand: {{ ligand[0] }}" title="Ligand: {{ ligand[0] }}; SA Score: {{ ligand[2] }}" />
+              {% end %}
+            </p>
           </li>
         </ul>
         <p>

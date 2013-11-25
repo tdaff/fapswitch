@@ -30,7 +30,8 @@ def count(reset=False):
     return count.idx
 
 
-def all_combinations_replace(structure, rotations=12, replace_only=None, groups_only=None, max_different=None, backends=()):
+def all_combinations_replace(structure, rotations=12, replace_only=None,
+                             groups_only=None, max_different=None, backends=()):
     """
     Replace every functional point with every combination of functional groups.
 
@@ -63,7 +64,9 @@ def all_combinations_replace(structure, rotations=12, replace_only=None, groups_
             site_replace(structure, replace_list, backends=backends)
 
 
-def random_combination_replace(structure, rotations=12, replace_only=None, groups_only=None, max_different=0, prob_unfunc=-1.0, backends=()):
+def random_combination_replace(structure, rotations=12, replace_only=None,
+                               groups_only=None, max_different=0,
+                               prob_unfunc=-1.0, backends=()):
     """
     Make a random structure in the site symmetry constrained sample space.
 
@@ -174,13 +177,16 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
         info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
-        backend.add_symmetry_structure(structure.name, replace_list, cif_file)
+        backend.add_symmetry_structure(structure.name, replace_list, cif_file,
+                                       ligands=ligands)
 
     # successful
     return True
 
 
-def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=None, custom=None, rotations=36, max_different=0, prob_unfunc=0.5, backends=()):
+def freeform_replace(structure, replace_only=None, groups_only=None,
+                     num_groups=None, custom=None, rotations=36,
+                     max_different=0, prob_unfunc=0.5, backends=()):
     """
     Replace sites with no symmetry constraint and with random rotations
     for successive insertion trials (i.e. there will be variation for the
@@ -310,7 +316,8 @@ def freeform_replace(structure, replace_only=None, groups_only=None, num_groups=
         info("Ligands (%i): %s" % (identifier, ", ".join(ligand_strings)))
 
     for backend in backends:
-        backend.add_freeform_structure(structure.name, func_repr, cif_file)
+        backend.add_freeform_structure(structure.name, func_repr, cif_file,
+                                       ligands=ligands)
 
     # completed sucessfully
     return True

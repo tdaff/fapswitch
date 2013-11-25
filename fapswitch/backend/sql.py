@@ -191,7 +191,7 @@ class AlchemyBackend(object):
         self.session.commit()
         self.groups = self.session.query(FunctionalGroup)
 
-    def add_symmetry_structure(self, base_structure, functions, cif_file):
+    def add_symmetry_structure(self, base_structure, functions, cif_file, **kwargs):
         """
         Insert a structure with symmetry based functionalisation into the
         database. Will try not to duplicate the "group@site" association
@@ -238,7 +238,7 @@ class AlchemyBackend(object):
 
         self.session.commit()
 
-    def add_freeform_structure(self, base_structure, functions, cif_file):
+    def add_freeform_structure(self, base_structure, functions, cif_file, **kwargs):
         """
         Insert a structure with freeform functionalisation into the
         database. Will try to associate all the different functional

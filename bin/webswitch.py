@@ -35,6 +35,8 @@ from fapswitch.backend.web_store import WebStoreBackend
 TORNADO_PORT = 8888
 
 web_dir = path.join(path.dirname(fapswitch.__file__), 'web')
+datastore = os.path.join(web_dir, 'datastore')
+ligand_dir = os.path.join(web_dir, 'generated')
 
 templates = tornado.template.Loader(path.join(web_dir, 'templates'))
 
@@ -107,6 +109,18 @@ class RandomHandler(tornado.web.RequestHandler):
                 collision_tester = options.get('collision_method')
                 collision_cutoff = options.getfloat('collision_scale')
 
+                if cif_info['ligands'] is None:
+                    ligands = []
+                else:
+                    ligands = cif_info['ligands']
+
+                if ligands:
+                    sa_score = max(ligand.sa_score for ligand in ligands)
+                else:
+                    sa_score = 0.0
+
+                processed_ligands = make_ligands(ligands)
+
                 extra_info = """<h4>Hypothetical functionalised MOF</h4>
                 <p>Functional groups have been added using the crystal
                 symmetry. A collision detection routine with a {} radius
@@ -135,6 +149,8 @@ class RandomHandler(tornado.web.RequestHandler):
                     references=local_references,
                     functional_groups=functional_groups,
                     extra_info=extra_info,
+                    sa_score=sa_score,
+                    processed_ligands=processed_ligands,
                     **cif_info)
                 self.write(page)
 
@@ -153,7 +169,7 @@ application = tornado.web.Application([
     (r"/(.*\.cif)", tornado.web.StaticFileHandler,
      {"path": path.join(web_dir, 'generated')}),
     (r"/(.*\.png)", tornado.web.StaticFileHandler,
-     {"path": path.join(web_dir, 'static')}),
+     {"path": path.join(web_dir, 'generated')}),
     (r"/(.*\.jpg)", tornado.web.StaticFileHandler,
      {"path": path.join(web_dir, 'static')}),
     (r"/(.*\.js)", tornado.web.StaticFileHandler,
@@ -161,6 +177,45 @@ application = tornado.web.Application([
     (r"/(.*\.css)", tornado.web.StaticFileHandler,
      {"path": path.join(web_dir, 'css')}),
 ])
+
+
+def make_ligands(ligands):
+    """
+    Process lignds to find the maximum SA Score and make png files.
+    Takes a list of Ligand namedtuples and returns a list of:
+    (smiles, png_filename, sa_score).
+    """
+
+    out_ligands = []
+
+    try:
+        import pybel
+        import openbabel as ob
+        # Test if we have png2 or _png2 as it changes in the
+        # 2.3.1 and 2.3.2 versions
+        obconversion = ob.OBConversion()
+        formatok = obconversion.SetOutFormat("png2")
+        if formatok:
+            png_fmt = 'png2'
+        else:
+            png_fmt = '_png2'
+
+    except ImportError:
+        return out_ligands
+
+    for ligand in ligands:
+        png_file = "{}.png".format(ligand.inchikey)
+        png_path = path.join(ligand_dir, png_file)
+
+        # Make the png if it doesn't exist yet
+        if not os.path.exists(png_path):
+            smi = pybel.readstring('smi', ligand.smiles)
+            smi.write(png_fmt, png_path)
+
+        # Add everything to the list
+        out_ligands.append((ligand.smiles, png_file, ligand.sa_score))
+
+    return out_ligands
 
 
 if __name__ == "__main__":
@@ -173,8 +228,6 @@ if __name__ == "__main__":
     # Directory to store pickles
 
     initial_directory = os.getcwd()
-
-    datastore = os.path.join(web_dir, 'datastore')
 
     os.chdir(datastore)
 
