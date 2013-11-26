@@ -47,11 +47,11 @@ class IndexHandler(tornado.web.RequestHandler):
     Respond to the root path with an intro page.
     """
 
-    def get(self):
+    def get(self, url='/'):
         """Render index."""
         self.index()
 
-    def post(self):
+    def post(self, url='/'):
         """Render index."""
         self.index()
 
