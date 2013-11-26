@@ -47,11 +47,19 @@ class IndexHandler(tornado.web.RequestHandler):
     Respond to the root path with an intro page.
     """
 
-    def get(self, url='/'):
-        self.render('index.html')
+    def get(self):
+        """Render index."""
+        self.index()
 
-    def post(self, url='/'):
-        self.render('index.html')
+    def post(self):
+        """Render index."""
+        self.index()
+
+    def index(self):
+        """Make the index page and send it out."""
+        my_refs = [references['Daff2013']]
+        page = templates.load('index.html').generate(references=my_refs)
+        self.write(page)
 
 
 # Random webpage generator
@@ -164,8 +172,7 @@ class RandomHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
     (r"/(random.*)", RandomHandler),
     (r"/", IndexHandler),
-    (r"/(index\.html)", tornado.web.StaticFileHandler,
-     {"path": web_dir}),
+    (r"/(index.*)", IndexHandler),
     (r"/(.*\.cif)", tornado.web.StaticFileHandler,
      {"path": path.join(web_dir, 'generated')}),
     (r"/(.*\.png)", tornado.web.StaticFileHandler,
