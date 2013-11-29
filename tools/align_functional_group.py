@@ -158,16 +158,43 @@ def main():
         "class = {}\n".format(args.classification),
         "mepo_compliant = {}\n".format(args.mepo_compliant)]
 
+    # functional group fingerprint
+    nbins = 10
+    max_distance = 10.0
+    bin_width = max_distance/nbins
+    fingerprint = [0.0]*(nbins*3)
+
     atom_block = []
+    base_atom = pybel_mol.atoms[10].OBAtom
     for ob_atom, coord in zip(pybel_mol, rotated_coordinates):
-        element = ATOMIC_NUMBER[ob_atom.atomicnum]
-        ff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
-        atom_block.append("    {0:4} {1:5} {2[0]:10.6f} {2[1]:10.6f} {2[2]:10.6f}\n".format(element, ff_type, coord))
+        atom_idx = ob_atom.OBAtom.GetIndex()
+        if atom_idx > 10:
+            atomicnum = ob_atom.atomicnum
+            element = ATOMIC_NUMBER[atomicnum]
+            ff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
+            atom_block.append("    {0:4} {1:5} {2[0]:10.6f} {2[1]:10.6f} {2[2]:10.6f}\n".format(element, ff_type, coord))
+
+            # Generate fingerprint data
+            distance = ob_atom.OBAtom.GetDistance(base_atom)
+            if distance > max_distance:
+                continue
+            # Put in distance bin
+            fingerprint[int(distance/bin_width)] += 1
+            # Put in electronegativity bin
+            electronegativity = ob.etab.GetElectroNeg(atomicnum)
+            fingerprint[nbins + int(distance/bin_width)] += electronegativity
+            # Put in vdw radii
+            vdw_radius = ob.etab.GetVdwRad(atomicnum)
+            fingerprint[2*nbins + int(distance/bin_width)] += vdw_radius
+
+    fingerprint = ",".join("{:.2f}".format(i) for i in fingerprint)
+
     output_text.append('atoms =\n')
-    output_text.extend(atom_block[11:])
+    output_text.extend(atom_block)
     output_text.extend('orientation = 0.0 1.0 0.0\n')
     output_text.append('normal = 0.0 0.0 1.0\n')
     output_text.append('carbon_bond = {:.3f}\n'.format(bonds[(-1, 0)][0]))
+    output_text.append('fingerprint = {}\n'.format(fingerprint))
 
     bonds_block = []
     # no bonds < idx 11
