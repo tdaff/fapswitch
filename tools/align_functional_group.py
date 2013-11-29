@@ -85,7 +85,7 @@ def main():
                         help='Descriptive name (e.g. PropylEther)')
     parser.add_argument('-m', '--mepo-compliant', action='store_true',
                         help='Record group as compliant with MEPO-QEq')
-    parser.add_argument('-c', '--classification', default="Unclassified",
+    parser.add_argument('-c', '--classification',
                         help='General classification (e.g. "Alkyl Halide")')
     parser.add_argument('-t', '--terminal', action='store_true',
                         help='Output to terminal as well as files')
@@ -105,6 +105,7 @@ def main():
 
     # make3D by default gives an optimised structure, great!
     pybel_mol = pybel.readstring('smi', attached + fgroup)
+    pybel_mol.title = args.name
     pybel_mol.make3D(forcefield='UFF')
 
     uff = ob.OBForceField_FindForceField('uff')
@@ -155,8 +156,10 @@ def main():
         "[{}]\n".format(args.short_name),
         "name = {}\n".format(args.name),
         "smiles = {}\n".format(fgroup),
-        "class = {}\n".format(args.classification),
         "mepo_compliant = {}\n".format(args.mepo_compliant)]
+
+    if args.classification:
+        output_text.append("class = {}\n".format(args.classification))
 
     # functional group fingerprint
     nbins = 10
@@ -191,7 +194,7 @@ def main():
 
     output_text.append('atoms =\n')
     output_text.extend(atom_block)
-    output_text.extend('orientation = 0.0 1.0 0.0\n')
+    output_text.append('orientation = 0.0 1.0 0.0\n')
     output_text.append('normal = 0.0 0.0 1.0\n')
     output_text.append('carbon_bond = {:.3f}\n'.format(bonds[(-1, 0)][0]))
     output_text.append('fingerprint = {}\n'.format(fingerprint))
