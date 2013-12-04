@@ -25,7 +25,7 @@
 #bonds =
 
 [F]
-name = Fluoro
+name = fluoro
 #
 #     F         _______________________   
 #
@@ -40,7 +40,7 @@ carbon_bond = 1.41
 bonds =
 
 [Cl]
-name = Chloro
+name = chloro
 #
 #     Cl        _______________________   
 #
@@ -55,7 +55,7 @@ carbon_bond = 1.77
 bonds =
 
 [Br]
-name = Bromo
+name = bromo
 #
 #     Br        _______________________   
 #
@@ -70,7 +70,7 @@ carbon_bond = 2.04
 bonds =
 
 [I]
-name = Iodo
+name = iodo
 #
 #     I         _______________________   
 #
@@ -85,7 +85,7 @@ carbon_bond = 2.12
 bonds =
 
 [NH2]
-name = Amine
+name = amino
 #
 #                    H                    
 #                     |                   
@@ -112,7 +112,7 @@ bonds =
     0   2   1.0
 
 [Me]
-name = Methyl
+name = methyl
 #
 #                      H                  
 #                      |                  
@@ -147,7 +147,7 @@ bonds =
    0   3   1.0
 
 [Et]
-name = Ethyl
+name = ethyl
 #
 #              H            H             
 #  H           |             |          H 
@@ -184,7 +184,7 @@ bonds =
    1   4   1.0
 
 [Pr]
-name = Propyl
+name = propyl
 #
 #               H          H              
 #                  \     /                
@@ -229,7 +229,7 @@ bonds =
    2   5   1.0
 
 [NO2]
-name = Nitro
+name = nitro
 #
 #                    O                    
 #                   |   |                 
@@ -256,7 +256,7 @@ bonds =
    0   2   1.5
 
 [HCO]
-name = Aldehyde
+name = formyl
 #
 #                    O                    
 #                   |   |                 
@@ -286,7 +286,7 @@ bonds =
    0   2   2.0
 
 [COOH]
-name = Carboxylate
+name = carboxy
 #
 #              O                        O 
 #           _       ___           ____    
@@ -317,7 +317,7 @@ bonds =
    2   3   1.0
 
 [OH]
-name = Alcohol
+name = hydroxy
 #
 #                     O                   
 #               _           __            
@@ -338,7 +338,7 @@ bonds =
    0   1   1.0
 
 [CN]
-name = Nitrile
+name = cyano
 #
 #         _____________                   
 #   N     _______________________________ 
@@ -357,7 +357,7 @@ bonds =
    0   1   3.0
 
 [Ph]
-name = Phenyl
+name = phenyl
 #
 #                  H                      
 #                  |                      
@@ -410,7 +410,7 @@ bonds =
    5  10   1.0
 
 [OMe]
-name = Methoxy
+name = methoxy
 #
 #                        O    ___________ 
 #                      /                  
@@ -443,7 +443,7 @@ bonds =
    1   4   1.0
 
 [OEt]
-name = Ethoxy
+name = ethoxy
 #
 #                  H           H          
 #         H         |          |        H 
@@ -481,7 +481,7 @@ bonds =
    4   7   1.0
 
 [OPr]
-name = PropylEther
+name = propoxy
 #
 #               H                         
 #  H           /                          
@@ -528,7 +528,7 @@ bonds =
    7  10   1.0
 
 [NHMe]
-name = MethylAmine
+name = methylamino
 #
 #                H                        
 #                |                        
@@ -566,7 +566,7 @@ bonds =
    2   5   1.0
 
 [SO3H]
-name = SulphonicAcid
+name = sulfo
 #
 #                        O                
 #  H                                      
@@ -599,7 +599,7 @@ bonds =
    3   4   1.0
 
 [CHCH2]
-name = Ethene
+name = vinyl
 #
 #              H                          
 #               |                         
@@ -636,7 +636,7 @@ bonds =
    1   4   1.0
 
 [CCH]
-name = Ethyne
+name = ethynyl
 #
 #               _____________             
 #  H    _________________________________ 
@@ -656,7 +656,7 @@ bonds =
    1   2   1.0
 
 [MeNH2]
-name = PendantMethylAmine
+name = aminomethyl
 #
 #                           H             
 #                            |            
@@ -695,7 +695,7 @@ bonds =
    1   5   1.0
 
 [OEte]
-name = Oxyethene
+name = vinyloxy
 #
 #           H                             
 #            |                            
@@ -731,7 +731,7 @@ bonds =
    2   5   1.0
 
 [OPre]
-name = Oxypropene
+name = allyloxy
 #
 #                     H                   
 #                      |                  
@@ -775,7 +775,7 @@ bonds =
    5   7   1.0
 
 [CF3]
-name = TriFluoroMethyl
+name = trifluoromethyl
 #
 #                      F                  
 #                      |                  
@@ -810,7 +810,7 @@ bonds =
     0   3   1.0
 
 [CONH2]
-name = Amide
+name = carbamoyl
 #
 #                           O             
 #                          | |            
@@ -844,7 +844,7 @@ bonds =
     2   4   1.0
 
 [CHNH]
-name = Ethanimine
+name = methanimidoyl
 #
 #              N                        _ 
 #           _      ____             ___/  
