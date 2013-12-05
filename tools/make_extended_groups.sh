@@ -13,21 +13,30 @@ PROG=./align_functional_group.py
 
 set -o noglob
 
-$PROG -t -n AcylBromide -s COBr C\(=O\)Br
+$PROG -t -n AcylFluoride -s COF C\(=O\)F
 $PROG -t -n AcylChloride -s COCl C\(=O\)Cl
-$PROG -t -n DiChloroMethyl -s MeCl2 C\(Cl\)Cl
-$PROG -t -n DiFluoroMethyl -s MeF2 C\(F\)F
-$PROG -t -n MethylBromide -s MeBr CBr
-$PROG -t -n MethylChloride -s MeCl CCl
+$PROG -t -n AcylBromide -s COBr C\(=O\)Br
+$PROG -t -n AcylIodide -s COI C\(=O\)I
 $PROG -t -n MethylFluoride -s MeF CF
+$PROG -t -n MethylChloride -s MeCl CCl
+$PROG -t -n MethylBromide -s MeBr CBr
 $PROG -t -n MethylIodide -s MeI CI
+$PROG -t -n DiFluoroMethyl -s MeF2 C\(F\)F
+$PROG -t -n DiChloroMethyl -s MeCl2 C\(Cl\)Cl
+$PROG -t -n DiBromoMethyl -s MeBr2 C\(Br\)Br
+$PROG -t -n DiIodoMethyl -s MeI2 C\(I\)I
 $PROG -t -n TriChloroMethyl -s MeCl3 C\(Cl\)\(Cl\)Cl
-$PROG -t -n AzaBorine:1 -s AzBorn:1 N1BC=CC=C1
-$PROG -t -n AzaBorine:2 -s AzBorn:2 B1NC=CC=C1
-$PROG -t -n AzaBorine:3 -s AzBorn:3 C1=CC=CNB1
-$PROG -t -n AzaBorine:4 -s AzBorn:4 C1=CC=CNB1
-$PROG -t -n AzaBorine:5 -s AzBorn:5 C1=CNBC=C1
-$PROG -t -n AzaBorine:6 -s AzBorn:6 C1=CC=CBN1
+$PROG -t -n TriBromoMethyl -s MeBr3 C\(Br\)\(Br\)Br
+$PROG -t -n TriIodoMethyl -s MeI3 C\(I\)\(I\)I
+
+# Boron containing
+
+$PROG -t -n AzaBorine:1 -s AzBorn:1 N1C=CC=CB1
+$PROG -t -n AzaBorine:2 -s AzBorn:2 C1=CC=CBN1
+$PROG -t -n AzaBorine:3 -s AzBorn:3 C1=CNBC=C1
+$PROG -t -n AzaBorine:4 -s AzBorn:4 C1=CBNC=C1
+$PROG -t -n AzaBorine:5 -s AzBorn:5 C1=CC=CNB1
+$PROG -t -n AzaBorine:6 -s AzBorn:6 B1C=CC=CN1
 $PROG -t -n Borate -s Bate OB\(O\)O
 $PROG -t -n Borole:1 -s Borl:1 B1C=CC=C1
 $PROG -t -n Borole:2 -s Borl:2 C1=CC=CB1
@@ -47,14 +56,17 @@ $PROG -t -n 2But2ene -s 2Bt2e C\(C\)=CC
 $PROG -t -n 2Pro1ene -s 2Pr1e C\(=C\)C
 $PROG -t -n 3But1ene -s 3Bt1e C\(C\)C=C
 $PROG -t -n IsoPropyl -s iPr C\(C\)C
+
+# Nitrogen aromatic
+
 $PROG -t -n 123Triazole:1 -s 123Trzl:1 N1N=NC=C1
 $PROG -t -n 123Triazole:4 -s 123Trzl:4 C1=CNN=N1
 $PROG -t -n 123Triazole:5 -s 123Trzl:5 C1=CN=NN1
 $PROG -t -n 124Oxadiazole:3 -s 124Oxdzl:3 C1=NC=NO1
 $PROG -t -n 124Oxadiazole:5 -s 124Oxdzl:5 C1=NOC=N1
-$PROG -t -n 124Triazole:1 -s 124Trzl:1 N1C=NC=N1
-$PROG -t -n 124Triazole:3 -s 124Trzl:3 C1=NNC=N1
-$PROG -t -n 124Triazole:5 -s 124Trzl:5 N1C=NC=N1
+$PROG -t -n 124Triazole:1 -s 124Trzl:1 C1=NNC=N1
+$PROG -t -n 124Triazole:3 -s 124Trzl:3 C1=NC=NN1
+$PROG -t -n 124Triazole:5 -s 124Trzl:5 N1N=CN=C1
 $PROG -t -n 134AminoOxadiazole -s 134AmOxdzl C1=NN=C\(N\)O1
 $PROG -t -n 134Oxadiazole -s 134Oxdzl C1=NN=CO1
 $PROG -t -n DiAminoTriazine -s DAmTzn c1nc\(N\)nc\(N\)n1
@@ -86,6 +98,9 @@ $PROG -t -n Pyrrole:1 -s Pyrl:1 N1C=CC=C1
 $PROG -t -n Pyrrole:2 -s Pyrl:2 C1=CC=CN1
 $PROG -t -n Pyrrole:3 -s Pyrl:3 C1=CNC=C1
 $PROG -t -n TriAzine -s TAzn c1ncncn1
+
+# Nitrogen containing
+
 $PROG -t -n AminoMaleic -s AmMale NC\(=O\)C=CC\(=O\)O
 $PROG -t -n AminoMalonic -s AmMalon N\(C\(=O\)O\)C\(=O\)O
 $PROG -t -n Aziridine -s AzIrdn N1CC1
@@ -95,6 +110,9 @@ $PROG -t -n HemiAminal -s HmAmal NC\(O\)C
 $PROG -t -n MethylAzo -s NNMe N=NC
 $PROG -t -n Nitrate -s NO3 O[N+]\([O-]\)\(=O\)
 $PROG -t -n Nitrosyl -s NO N=O
+
+# Oxygen containing
+
 $PROG -t -n Carbonate -s OCOOH OC\(=O\)O
 $PROG -t -n Hydroperoxy -s OOH OO
 $PROG -t -n MethylCarbonate -s OCOOMe OC\(=O\)OC
@@ -103,11 +121,17 @@ $PROG -t -n NitroPeroxy -s OONOOH OO[N+]\(=O\)[O-]
 $PROG -t -n Nitrosooxy -s ONO ON=O
 $PROG -t -n Pro1eneEther -s OPr1e OC=CC
 $PROG -t -n PropylEther -s OPr OCCC
+
+# Phosphorous containing
+
 $PROG -t -n DiMethylPhosphanyl -s PMe2 P\(C\)C
 $PROG -t -n MethylPhosphanyl -s PHMe PC
 $PROG -t -n MethylPhosphate -s MeHPO4 OP\(O\)\(=O\)OC
 $PROG -t -n Phosphate -s PO4H2 OP\(O\)\(=O\)O
 $PROG -t -n Phosphono -s PO3H2 P\(O\)\(O\)=O
+
+# Sulphur containing
+
 $PROG -t -n DiSulfide -s SSH SS
 $PROG -t -n MethylDisulfide -s SSMe SSC
 $PROG -t -n MethylSulfide -s SMe SC
@@ -117,7 +141,7 @@ $PROG -t -n Sulfinamide -s SONH2 S\(=O\)N
 $PROG -t -n Sulfino -s SOOH S\(=O\)O
 $PROG -t -n Sulfinyl -s SOH S\([H]\)\(=O\)
 $PROG -t -n Sulfonamide -s SO2NH2 S\(=O\)\(=O\)N
-$PROG -t -n Thial -s CHS C\(S\)
+$PROG -t -n Thial -s CHS C=S
 $PROG -t -n Thiazole:1 -s Thzl:1 S1C=NC=C1
 $PROG -t -n Thiazole:2 -s Thzl:2 C1=NC=CS1
 $PROG -t -n Thiazole:4 -s Thzl:4 C1=CSC=N1
@@ -128,6 +152,9 @@ $PROG -t -n Thiazolium:3 -s Thzlum:3 [N+]1=CSC=C1
 $PROG -t -n Thiazolium:4 -s Thzlum:4 C1=CSC=[N+]1
 $PROG -t -n Thiazolium:5 -s Thzlum:5 C1=C[N+]=CS1
 $PROG -t -n Thiol -s SH S\([H]\)
+
+# Mixed groups
+
 $PROG -t -n 2BromoFuran:3 -s 2BrFur:3 c1c\(Br\)occ1
 $PROG -t -n 2BromoFuran:4 -s 2BrFur:4 c1cc\(Br\)oc1
 $PROG -t -n 2BromoFuran:5 -s 2BrFur:5 c1ccc\(Br\)o1
@@ -179,27 +206,27 @@ $PROG -t -n 3FluoroThiophene:5 -s 3FThphn:5 c1cc\(F\)cs1
 $PROG -t -n AcetAldoxime -s AcAdxm C\(C\)=NO
 $PROG -t -n Aldoxime -s Adxm C=NO
 $PROG -t -n AminoAldoxime -s AmAdxm C\(N\)=NO
+$PROG -t -n FluoroAldoxime -s FAdxm C\(F\)=NO
+$PROG -t -n ChloroAldoxime -s ClAdxm C\(Cl\)=NO
+$PROG -t -n BromoAldoxime -s BrAdxm C\(Br\)=NO
+$PROG -t -n PropionAldoxime -s PrAdxm C\(CC\)=NO
 $PROG -t -n BiFuran:3 -s BiFur:3 c1c\(c2ccco2\)occ1
 $PROG -t -n BiFuran:4 -s BiFur:4 c1coc\(c2ccco2\)c1
 $PROG -t -n BiFuran:5 -s BiFur:5 c1ccc\(c2ccco2\)o1
 $PROG -t -n BiThiophene:3 -s BiThphn:3 c1c\(c2cccs2\)scc1
 $PROG -t -n BiThiophene:4 -s BiThphn:4 c1csc\(c2cccs2\)c1
 $PROG -t -n BiThiophene:5 -s BiThphn:5 c1ccc\(c2cccs2\)s1
-$PROG -t -n BromoAldoxime -s BrAdxm C\(Br\)=NO
 $PROG -t -n BromoBiFuran:3 -s BrBiFur:3 c1c\(c2ccc\(Br\)o2\)occ1
 $PROG -t -n BromoBiFuran:4 -s BrBiFur:4 c1cc\(c2ccc\(Br\)o2\)oc1
 $PROG -t -n BromoBiFuran:5 -s BrBiFur:5 c1ccc\(c2ccc\(Br\)o2\)o1
 $PROG -t -n BromoBiThiophene:3 -s BrBiThphn:3 c1c\(c2ccc\(Br\)s2\)scc1
 $PROG -t -n BromoBiThiophene:4 -s BrBiThphn:4 c1cc\(c2ccc\(Br\)s2\)sc1
 $PROG -t -n BromoBiThiophene:5 -s BrBiThphn:5 c1ccc\(c2ccc\(Br\)s2\)s1
-$PROG -t -n ChloroAldoxime -s ClAdxm C\(Cl\)=NO
-$PROG -t -n FluoroAldoxime -s FAdxm C\(F\)=NO
 $PROG -t -n Furan:2 -s Fur:2 C1=CC=CO1
 $PROG -t -n Furan:3 -s Fur:3 C1=COC=C1
 $PROG -t -n FuranAmine:3 -s FurAm:3 c1c\(N\)occ1
 $PROG -t -n FuranAmine:4 -s FurAm:4 c1coc\(N\)c1
 $PROG -t -n FuranAmine:5 -s FurAm:5 C1=CC=C\(N\)O1
-$PROG -t -n PropionAldoxime -s PrAdxm C\(CC\)=NO
 $PROG -t -n Pyrazine -s Pyraz c1nccnc1
 $PROG -t -n SulfenicAcid -s Senic SO
 $PROG -t -n Thiophene:2 -s Thphn:2 C1=CC=CS1
@@ -207,6 +234,9 @@ $PROG -t -n Thiophene:3 -s Thphn:2 C1=CSC=C1
 $PROG -t -n Thiopheneamine:3 -s ThphnAm:3 c1c\(N\)scc1
 $PROG -t -n Thiopheneamine:4 -s ThphnAm:4 c1csc\(N\)c1
 $PROG -t -n Thiopheneamine:5 -s ThphnAm:5 C1=CC=C\(N\)S1
+
+# Most common from Ertl no included before
+
 $PROG -t -n 1_3_DiChloroBenzene:4 -s Ph13Cl2:4 c1c\(Cl\)cc\(Cl\)cc1
 $PROG -t -n 1Butane -s 1Btn CCCC
 $PROG -t -n 2MethylPropyl -s 2MePr CC\(C\)C
@@ -236,7 +266,6 @@ $PROG -t -n 1-PropylGuanidine -s PrNCNN CCCNC\(=N\)N
 $PROG -t -n 4MethylPhenol -s CPh4OH Cc1ccc\(O\)cc1
 $PROG -t -n AceticAcid -s AcOH CC\(=O\)O
 $PROG -t -n Butane:3 -s Btn:3 C\(C\)CC
-$PROG -t -n Cyanide -s Cyano C#N
 $PROG -t -n DiEthylAmine:N -s NEt2:N N\(CC\)CC
 $PROG -t -n Ethanol:1 -s EtOH:1 C\(O\)C
 $PROG -t -n FormAmidine -s Amidn C\(N\)=N
