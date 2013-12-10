@@ -13,49 +13,49 @@ PROG=./align_functional_group.py
 
 set -o noglob
 
-$PROG -t -n AcylFluoride -s COF C\(=O\)F
-$PROG -t -n AcylChloride -s COCl C\(=O\)Cl
-$PROG -t -n AcylBromide -s COBr C\(=O\)Br
-$PROG -t -n AcylIodide -s COI C\(=O\)I
-$PROG -t -n MethylFluoride -s MeF CF
-$PROG -t -n MethylChloride -s MeCl CCl
-$PROG -t -n MethylBromide -s MeBr CBr
-$PROG -t -n MethylIodide -s MeI CI
-$PROG -t -n DiFluoroMethyl -s MeF2 C\(F\)F
-$PROG -t -n DiChloroMethyl -s MeCl2 C\(Cl\)Cl
-$PROG -t -n DiBromoMethyl -s MeBr2 C\(Br\)Br
-$PROG -t -n DiIodoMethyl -s MeI2 C\(I\)I
-$PROG -t -n TriChloroMethyl -s MeCl3 C\(Cl\)\(Cl\)Cl
-$PROG -t -n TriBromoMethyl -s MeBr3 C\(Br\)\(Br\)Br
-$PROG -t -n TriIodoMethyl -s MeI3 C\(I\)\(I\)I
+$PROG -t -n fluorocarbonyl -s COF C\(=O\)F
+$PROG -t -n chlorocarbonyl -s COCl C\(=O\)Cl
+$PROG -t -n bromocarbonyl -s COBr C\(=O\)Br
+$PROG -t -n iodocarbonyl -s COI C\(=O\)I
+$PROG -t -n fluoromethyl -s MeF CF
+$PROG -t -n chloromethyl -s MeCl CCl
+$PROG -t -n bromomethyl -s MeBr CBr
+$PROG -t -n iodomethyl -s MeI CI
+$PROG -t -n difluoromethyl -s MeF2 C\(F\)F
+$PROG -t -n dichloromethyl -s MeCl2 C\(Cl\)Cl
+$PROG -t -n dibromomethyl -s MeBr2 C\(Br\)Br
+$PROG -t -n diiodomethyl -s MeI2 C\(I\)I
+$PROG -t -n trichloromethyl -s MeCl3 C\(Cl\)\(Cl\)Cl
+$PROG -t -n tribromomethyl -s MeBr3 C\(Br\)\(Br\)Br
+$PROG -t -n triiodomethyl -s MeI2 C\(I\)\(I\)I
 
 # Boron containing
 
-$PROG -t -n AzaBorine:1 -s AzBorn:1 N1C=CC=CB1
-$PROG -t -n AzaBorine:2 -s AzBorn:2 C1=CC=CBN1
-$PROG -t -n AzaBorine:3 -s AzBorn:3 C1=CNBC=C1
-$PROG -t -n AzaBorine:4 -s AzBorn:4 C1=CBNC=C1
-$PROG -t -n AzaBorine:5 -s AzBorn:5 C1=CC=CNB1
-$PROG -t -n AzaBorine:6 -s AzBorn:6 B1C=CC=CN1
-$PROG -t -n Borate -s Bate OB\(O\)O
-$PROG -t -n Borole:1 -s Borl:1 B1C=CC=C1
-$PROG -t -n Borole:2 -s Borl:2 C1=CC=CB1
-$PROG -t -n Borole:3 -s Borl:3 C1=CBC=C1
-$PROG -t -n Borono -s BOH2 B\(O\)O
-$PROG -t -n DiMethylBorate -s DMeBate OB\(OC\)\(OC\)
-$PROG -t -n MethylBorate -s MeBate OB\(O\)OC
-$PROG -t -n MethylHydroxyBorino -s BOHOMe B\(OC\)O
-$PROG -t -n MethylEster -s COOMe C\(=O\)OC
-$PROG -t -n MethylKetone -s COMe C\(=O\)C
-$PROG -t -n Cyanate -s OCN OC#N
-$PROG -t -n IsoCyanate -s NCO N=C=O
-$PROG -t -n IsoThioCyanate -s NCS N=C=S
-$PROG -t -n ThioCyanate -s SCN SC#N
-$PROG -t -n 2But1ene -s 2Bt1e C\(=C\)CC
-$PROG -t -n 2But2ene -s 2Bt2e C\(C\)=CC
-$PROG -t -n 2Pro1ene -s 2Pr1e C\(=C\)C
-$PROG -t -n 3But1ene -s 3Bt1e C\(C\)C=C
-$PROG -t -n IsoPropyl -s iPr C\(C\)C
+$PROG -t -n 2H-azaborinin-1-yl -s AzBorn1 N1C=CC=CB1
+$PROG -t -n 1,2-dihydroazaborinin-6-yl -s AzBorn6 C1=CC=CBN1
+$PROG -t -n 1,2-dihydroazaborinin-5-yl -s AzBorn5 C1=CNBC=C1
+$PROG -t -n 1,2-dihydroazaborinin-4-yl -s AzBorn4 C1=CBNC=C1
+$PROG -t -n 1,2-dihydroazaborinin-3-yl -s AzBorn3 C1=CC=CNB1
+$PROG -t -n 1H-azaborinin-2-yl -s AzBorn2 B1C=CC=CN1
+$PROG -t -n boronooxy -s Boox OB\(O\)O
+$PROG -t -n borol-1-yl -s Borl1 B1C=CC=C1
+$PROG -t -n 1H-borol-2-yl -s Borl2 C1=CC=CB1
+$PROG -t -n 1H-borol-3-yl -s Borl3 C1=CBC=C1
+$PROG -t -n borono -s BOH2 B\(O\)O
+$PROG -t -n dimethoxyboranyloxy -s DMeBanox OB\(OC\)\(OC\)
+$PROG -t -n [hydroxy\(methoxy\)boranyl]oxy -s MeBanox OB\(O\)OC
+$PROG -t -n [hydroxy(methoxy)boranyl]-s BOHOMe B\(OC\)O
+$PROG -t -n methoxycarbonyl -s COOMe C\(=O\)OC
+$PROG -t -n acetyl -s COMe C\(=O\)C
+$PROG -t -n cyanato -s OCN OC#N
+$PROG -t -n isocyanato -s NCO N=C=O
+$PROG -t -n isothiocyanato -s NCS N=C=S
+$PROG -t -n thiocyanato -s SCN SC#N
+$PROG -t -n 1-methylenepropyl -s MeePr C\(=C\)CC
+$PROG -t -n 1-methylprop-1-enyl -s MePre C\(C\)=CC
+$PROG -t -n isopropenyl -s iPre C\(=C\)C
+$PROG -t -n 1-methylallyl -s MeAll C\(C\)C=C
+$PROG -t -n isopropyl -s iPr C\(C\)C
 
 # Nitrogen aromatic
 
@@ -146,11 +146,11 @@ $PROG -t -n Thiazole:1 -s Thzl:1 S1C=NC=C1
 $PROG -t -n Thiazole:2 -s Thzl:2 C1=NC=CS1
 $PROG -t -n Thiazole:4 -s Thzl:4 C1=CSC=N1
 $PROG -t -n Thiazole:5 -s Thzl:5 C1=CN=CS1
-$PROG -t -n Thiazolium:1 -s Thzlum:1 S1C=[N+]C=C1
-$PROG -t -n Thiazolium:2 -s Thzlum:2 C1=[N+]C=CS1
+#$PROG -t -n Thiazolium:1 -s Thzlum:1 S1C=[N+]C=C1
+#$PROG -t -n Thiazolium:2 -s Thzlum:2 C1=[N+]C=CS1
 $PROG -t -n Thiazolium:3 -s Thzlum:3 [N+]1=CSC=C1
-$PROG -t -n Thiazolium:4 -s Thzlum:4 C1=CSC=[N+]1
-$PROG -t -n Thiazolium:5 -s Thzlum:5 C1=C[N+]=CS1
+#$PROG -t -n Thiazolium:4 -s Thzlum:4 C1=CSC=[N+]1
+#$PROG -t -n Thiazolium:5 -s Thzlum:5 C1=C[N+]=CS1
 $PROG -t -n Thiol -s SH S\([H]\)
 
 # Mixed groups
