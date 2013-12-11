@@ -9,7 +9,7 @@
 
 PROG=./align_functional_group.py
 
-#rm *.flib *.svg *.mol
+rm *.flib *.svg *.mol
 
 set -o noglob
 
@@ -44,7 +44,7 @@ $PROG -t -n 1H-borol-3-yl -s Borl3 C1=CBC=C1
 $PROG -t -n borono -s BOH2 B\(O\)O
 $PROG -t -n dimethoxyboranyloxy -s DMeBanox OB\(OC\)\(OC\)
 $PROG -t -n [hydroxy\(methoxy\)boranyl]oxy -s MeBanox OB\(O\)OC
-$PROG -t -n [hydroxy(methoxy)boranyl]-s BOHOMe B\(OC\)O
+$PROG -t -n hydroxy\(methoxy\)boranyl -s BOHOMe B\(OC\)O
 $PROG -t -n methoxycarbonyl -s COOMe C\(=O\)OC
 $PROG -t -n acetyl -s COMe C\(=O\)C
 $PROG -t -n cyanato -s OCN OC#N
@@ -70,13 +70,13 @@ $PROG -t -n 1,2,4-triazol-1-yl -s 124Trzl1 N1N=CN=C1
 $PROG -t -n 5-amino-1,3,4-oxadiazol-2-yl -s Am134Oxdzl C1=NN=C\(N\)O1
 $PROG -t -n 1,3,4-oxadiazol-2-yl -s 134Oxdzl C1=NN=CO1
 $PROG -t -n 4,6-diamino-1,3,5-triazin-2-yl -s DAmTzn c1nc\(N\)nc\(N\)n1
-$PROG -t -n imidazol-1-yl -s Imdaz:1 N1C=NC=C1
+$PROG -t -n imidazol-1-yl -s Imdaz1 N1C=NC=C1
 $PROG -t -n 1H-imidazol-2-yl -s Imdaz2 C1=NC=CN1
 $PROG -t -n 1H-imidazol-4-yl -s Imdaz4 C1=CNC=N1
 $PROG -t -n 1H-imidazol-5-yl -s Imdaz5 C1=CN=CN1
-$PROG -t -n isoxazol-3-yl -s IsOxzl:3 C1=NOC=C1
-$PROG -t -n isoxazol-4-yl -s IsOxzl:4 C1=CON=C1
-$PROG -t -n isoxazol-5-yl -s IsOxzl:5 C1=CC=NO1
+$PROG -t -n isoxazol-3-yl -s IsOxzl3 C1=NOC=C1
+$PROG -t -n isoxazol-4-yl -s IsOxzl4 C1=CON=C1
+$PROG -t -n isoxazol-5-yl -s IsOxzl5 C1=CC=NO1
 $PROG -t -n isoxazolidin-2-yl -s IsOxzldn2 N1CCCO1
 $PROG -t -n isoxazolidin-3-yl -s IsOxzldn3 C1NOCC1
 $PROG -t -n isoxazolidin-4-yl -s IsOxzldn4 C1CONC1
@@ -126,7 +126,7 @@ $PROG -t -n propoxy -s OPr OCCC
 
 $PROG -t -n dimethylphosphanyl -s PMe2 P\(C\)C
 $PROG -t -n methylphosphanyl -s PHMe PC
-$PROG -t -n [hydroxy(methoxy)phosphoryl]oxy -s MeHPO4 OP\(O\)\(=O\)OC
+$PROG -t -n [hydroxy\(methoxy\)phosphoryl]oxy -s MeHPO4 OP\(O\)\(=O\)OC
 $PROG -t -n phosphonooxy -s PO4H2 OP\(O\)\(=O\)O
 $PROG -t -n phosphono -s PO3H2 P\(O\)\(O\)=O
 
@@ -189,16 +189,16 @@ $PROG -t -n 4-bromo-3-thienyl -s 4Br3Thi c1c\(Br\)csc1
 $PROG -t -n 4-bromo-2-thienyl -s 4Br2Thi c1cc\(Br\)cs1
 $PROG -t -n 3-chloro-2-furyl -s 3Cl2Fur c1occc1\(Cl\)
 $PROG -t -n 4-chloro-3-furyl -s 4Cl3Fur c1c\(Cl\)coc1
-$PROG -t -n (4-chloro-2-furyl) -s 4Cl2Fur c1cc\(Cl\)co1
-$PROG -t -n (3-chloro-2-thienyl) -s 3Cl2Thi c1sccc1\(Cl\)
-$PROG -t -n (4-chloro-3-thienyl) -s 4Cl3Thi c1c\(Cl\)csc1
-$PROG -t -n (4-chloro-2-thienyl) -s 4Cl2Thi c1cc\(Cl\)cs1
-$PROG -t -n (3-fluoro-2-furyl) -s 3F2Fur c1occc1\(F\)
-$PROG -t -n (4-fluoro-3-furyl) -s 4F3Fur c1c\(F\)coc1
-$PROG -t -n (4-fluoro-2-furyl) -s 4F2Fur c1cc\(F\)co1
-$PROG -t -n (3-fluoro-2-thienyl) -s 3F2Thi c1sccc1\(F\)
-$PROG -t -n (4-fluoro-3-thienyl) -s 4F3Thi c1c\(F\)csc1
-$PROG -t -n (4-fluoro-2-thienyl) -s 4F2Thi c1cc\(F\)cs1
+$PROG -t -n 4-chloro-2-furyl -s 4Cl2Fur c1cc\(Cl\)co1
+$PROG -t -n 3-chloro-2-thienyl -s 3Cl2Thi c1sccc1\(Cl\)
+$PROG -t -n 4-chloro-3-thienyl -s 4Cl3Thi c1c\(Cl\)csc1
+$PROG -t -n 4-chloro-2-thienyl -s 4Cl2Thi c1cc\(Cl\)cs1
+$PROG -t -n 3-fluoro-2-furyl -s 3F2Fur c1occc1\(F\)
+$PROG -t -n 4-fluoro-3-furyl -s 4F3Fur c1c\(F\)coc1
+$PROG -t -n 4-fluoro-2-furyl -s 4F2Fur c1cc\(F\)co1
+$PROG -t -n 3-fluoro-2-thienyl -s 3F2Thi c1sccc1\(F\)
+$PROG -t -n 4-fluoro-3-thienyl -s 4F3Thi c1c\(F\)csc1
+$PROG -t -n 4-fluoro-2-thienyl -s 4F2Thi c1cc\(F\)cs1
 $PROG -t -n N-hydroxy-C-methyl-carbonimidoyl -s AcAdxm C\(C\)=NO
 $PROG -t -n hydroxyiminomethyl -s Adxm C=NO
 $PROG -t -n N-hydroxycarbamimidoyl -s AmAdxm C\(N\)=NO
@@ -220,16 +220,16 @@ $PROG -t -n 5-\(5-bromo-2-thienyl\)-3-thienyl -s 55Br2Thi3Thi c1cc\(c2ccc\(Br\)s
 $PROG -t -n 5-\(5-bromo-2-thienyl\)-2-thienyl -s 55Br2Thi2Thi c1ccc\(c2ccc\(Br\)s2\)s1
 $PROG -t -n 2-furyl -s 2Fur C1=CC=CO1
 $PROG -t -n 3-furyl -s 3Fur C1=COC=C1
-$PROG -t -n (2-amino-3-furyl) -s 2Am3Fur c1c\(N\)occ1
-$PROG -t -n (5-amino-3-furyl) -s 5Am3Fur c1coc\(N\)c1
-$PROG -t -n (5-amino-2-furyl) -s 5Am2Fur C1=CC=C\(N\)O1
+$PROG -t -n 2-amino-3-furyl -s 2Am3Fur c1c\(N\)occ1
+$PROG -t -n 5-amino-3-furyl -s 5Am3Fur c1coc\(N\)c1
+$PROG -t -n 5-amino-2-furyl -s 5Am2Fur C1=CC=C\(N\)O1
 $PROG -t -n pyrazin-2-yl -s Pyraz c1nccnc1
 $PROG -t -n hydroxysulfanyl -s SOH SO
 $PROG -t -n 2-thienyl -s 2Thi C1=CC=CS1
 $PROG -t -n 3-thienyl -s 3Thi C1=CSC=C1
-$PROG -t -n (2-amino-3-thienyl) -s 2Am3Thi c1c\(N\)scc1
-$PROG -t -n (5-amino-3-thienyl) -s 5Am3Thi c1csc\(N\)c1
-$PROG -t -n (5-amino-2-thienyl) -s 5Am2Thi C1=CC=C\(N\)S1
+$PROG -t -n 2-amino-3-thienyl -s 2Am3Thi c1c\(N\)scc1
+$PROG -t -n 5-amino-3-thienyl -s 5Am3Thi c1csc\(N\)c1
+$PROG -t -n 5-amino-2-thienyl -s 5Am2Thi C1=CC=C\(N\)S1
 
 # Most common from Ertl, not duplicating already included groups
 
@@ -259,7 +259,7 @@ $PROG -t -n benzoyl -s COPh C\(=O\)c1ccccc1
 $PROG -t -n tert-butyl -s tBu C\(C\)\(C\)\(C\)
 $PROG -t -n 3,4,5-trihydroxy-6-\(hydroxymethyl\)tetrahydropyran-2-yl -s AGlutol C1O[C@@H]\(CO\)[C@H]\(O\)[C@@H]\(O\)[C@@H]1\(O\)
 $PROG -t -n 3-guanidinopropyl -s PrNCNN CCCNC\(=N\)N
-$PROG -t -n (4-hydroxyphenyl)methyl -s CPh4OH Cc1ccc\(O\)cc1
+$PROG -t -n \(4-hydroxyphenyl\)methyl -s CPh4OH Cc1ccc\(O\)cc1
 $PROG -t -n carboxymethyl -s AcOH CC\(=O\)O
 $PROG -t -n sec-butyl -s sBu C\(C\)CC
 $PROG -t -n diethylamino -s NEt2 N\(CC\)CC
@@ -267,8 +267,8 @@ $PROG -t -n 1-hydroxyethyl -s 1OHEt C\(O\)C
 $PROG -t -n carbamimidoyl -s Amidn C\(N\)=N
 $PROG -t -n guanidino -s NCNN NC\(=N\)N
 $PROG -t -n 1H-indol-3-yl -s 3Indl c1c\(C=CC=C2\)c2nc1
-$PROG -t -n (2-amino-2-oxo-ethyl) -s MeCONH2 CC\(=O\)N
+$PROG -t -n \(2-amino-2-oxo-ethyl\) -s MeCONH2 CC\(=O\)N
 $PROG -t -n 4-aminobutyl -s BuNH2 CCCCN
-$PROG -t -n 2-carboxyethyl -s PrOOH:3 CCC\(=O\)O
+$PROG -t -n 2-carboxyethyl -s PrOOH CCC\(=O\)O
 
 
