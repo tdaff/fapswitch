@@ -9,7 +9,7 @@
 
 PROG=./align_functional_group.py
 
-#rm *.lib *.svg *.mol
+rm *.html *.flib *.svg *.mol
 
 set -o noglob
 

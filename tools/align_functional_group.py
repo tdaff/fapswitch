@@ -105,7 +105,7 @@ def main():
 
     # make3D by default gives an optimised structure, great!
     pybel_mol = pybel.readstring('smi', attached + fgroup)
-    pybel_mol.title = args.name
+    pybel_mol.title = "[{}] {}".format(args.short_name, args.name)
     pybel_mol.make3D(forcefield='UFF')
 
     uff = ob.OBForceField_FindForceField('uff')
@@ -221,12 +221,33 @@ def main():
         ascii_mol = ['# {}\n'.format(x) for x in ascii_mol.splitlines() if x.strip()]
         output_text[2:2] = ['#\n'] + ascii_mol + ['#\n']
 
-    pybel_mol.write(format='svg', filename='{}.svg'.format(args.name), opt={'C': None})
-    pybel_mol.write(format='mol', filename='{}.mol'.format(args.name))
+    basename = args.short_name
+
+    pybel_mol.write(format='mol', filename='{}.mol'.format(basename))
 
     # Always output to a library
-    with open('{}.flib'.format(args.name), 'w') as out_lib:
+    with open('{}.flib'.format(basename), 'w') as out_lib:
         out_lib.writelines(output_text)
+
+    # Make the image with R groups and implicit hydrogen
+    unopt_mol = pybel.readstring('smi', "[*:1]" + fgroup)
+    unopt_mol.write(format='svg', filename='{}.svg'.format(basename), opt={'C': None})
+
+    # Make a table row in html
+    with open('{}.html'.format(basename), 'w') as out_html:
+        out_html.write("""\
+                <td>{args.short_name}</td>
+                <td><p>name: {args.name}</p>
+                    <p>smiles: {args.smi_string}</p></td>
+                <td><a href="img/{args.short_name}.svg">
+                    <img src="img/{args.short_name}.svg"
+                         alt="Group: {args.short_name}"
+                         title="[{args.short_name}]
+                                {args.name}
+                                {args.smi_string})"
+                         style="height: 75px"/></a>
+                </td>
+""".format(args=args))
 
     if args.terminal:
         print("".join(output_text))
