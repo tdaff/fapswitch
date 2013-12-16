@@ -9,7 +9,7 @@
 
 PROG=./align_functional_group.py
 
-#rm *.flib *.svg *.mol
+rm *.flib *.svg *.mol *.html
 
 set -o noglob
 
@@ -27,7 +27,7 @@ $PROG -t -n dibromomethyl -s MeBr2 C\(Br\)Br
 $PROG -t -n diiodomethyl -s MeI2 C\(I\)I
 $PROG -t -n trichloromethyl -s MeCl3 C\(Cl\)\(Cl\)Cl
 $PROG -t -n tribromomethyl -s MeBr3 C\(Br\)\(Br\)Br
-$PROG -t -n triiodomethyl -s MeI2 C\(I\)\(I\)I
+$PROG -t -n triiodomethyl -s MeI3 C\(I\)\(I\)I
 
 # Boron containing
 

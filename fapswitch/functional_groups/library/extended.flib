@@ -1,5 +1,5 @@
 [COF]
-name = AcylFluoride
+name = fluorocarbonyl
 #
 #                    O                    
 #                   |   |                 
@@ -30,7 +30,7 @@ bonds =
 
 
 [COCl]
-name = AcylChloride
+name = chlorocarbonyl
 #
 #                    O                    
 #                   |   |                 
@@ -61,7 +61,7 @@ bonds =
 
 
 [COBr]
-name = AcylBromide
+name = bromocarbonyl
 #
 #                    O                    
 #                   |   |                 
@@ -92,7 +92,7 @@ bonds =
 
 
 [COI]
-name = AcylIodide
+name = iodocarbonyl
 #
 #                    O                    
 #                   |   |                 
@@ -123,7 +123,7 @@ bonds =
 
 
 [MeF]
-name = MethylFluoride
+name = fluoromethyl
 #
 #                      H                  
 #                      |                  
@@ -159,7 +159,7 @@ bonds =
 
 
 [MeCl]
-name = MethylChloride
+name = chloromethyl
 #
 #                      H                  
 #                      |                  
@@ -195,7 +195,7 @@ bonds =
 
 
 [MeBr]
-name = MethylBromide
+name = bromomethyl
 #
 #                      H                  
 #                      |                  
@@ -231,7 +231,7 @@ bonds =
 
 
 [MeI]
-name = MethylIodide
+name = iodomethyl
 #
 #                      H                  
 #                      |                  
@@ -267,7 +267,7 @@ bonds =
 
 
 [MeF2]
-name = DiFluoroMethyl
+name = difluoromethyl
 #
 #                      H                  
 #                      |                  
@@ -303,7 +303,7 @@ bonds =
 
 
 [MeCl2]
-name = DiChloroMethyl
+name = dichloromethyl
 #
 #                      H                  
 #                      |                  
@@ -339,7 +339,7 @@ bonds =
 
 
 [MeBr2]
-name = DiBromoMethyl
+name = dibromomethyl
 #
 #                      H                  
 #                      |                  
@@ -375,7 +375,7 @@ bonds =
 
 
 [MeI2]
-name = DiIodoMethyl
+name = diiodomethyl
 #
 #                      H                  
 #                      |                  
@@ -411,7 +411,7 @@ bonds =
 
 
 [MeCl3]
-name = TriChloroMethyl
+name = trichloromethyl
 #
 #                      Cl                 
 #                      |                  
@@ -447,7 +447,7 @@ bonds =
 
 
 [MeBr3]
-name = TriBromoMethyl
+name = tribromomethyl
 #
 #                      Br                 
 #                      |                  
@@ -483,7 +483,7 @@ bonds =
 
 
 [MeI3]
-name = TriIodoMethyl
+name = triiodomethyl
 #
 #                      I                  
 #                      |                  
@@ -518,8 +518,8 @@ bonds =
        0    3  1.00
 
 
-[AzBorn:1]
-name = AzaBorine:1
+[AzBorn1]
+name = 2H-azaborinin-1-yl
 #
 #                  H                      
 #                  |                      
@@ -571,8 +571,8 @@ bonds =
        5   10  1.00
 
 
-[AzBorn:2]
-name = AzaBorine:2
+[AzBorn6]
+name = 1,2-dihydroazaborinin-6-yl
 #
 #                  H                      
 #                  |                      
@@ -625,8 +625,8 @@ bonds =
        5   10  1.00
 
 
-[AzBorn:3]
-name = AzaBorine:3
+[AzBorn5]
+name = 1,2-dihydroazaborinin-5-yl
 #
 #                  H                      
 #                  |                      
@@ -679,8 +679,8 @@ bonds =
        5   10  1.00
 
 
-[AzBorn:4]
-name = AzaBorine:4
+[AzBorn4]
+name = 1,2-dihydroazaborinin-4-yl
 #
 #                  H                      
 #                  |                      
@@ -733,8 +733,8 @@ bonds =
        5   10  1.00
 
 
-[AzBorn:5]
-name = AzaBorine:5
+[AzBorn3]
+name = 1,2-dihydroazaborinin-3-yl
 #
 #                  H                      
 #                  |                      
@@ -787,8 +787,8 @@ bonds =
        5   10  1.00
 
 
-[AzBorn:6]
-name = AzaBorine:6
+[AzBorn2]
+name = 1H-azaborinin-2-yl
 #
 #                  H                      
 #                  |                      
@@ -840,8 +840,8 @@ bonds =
        5   10  1.00
 
 
-[Bate]
-name = Borate
+[Boox]
+name = boronooxy
 #
 #           O                  O          
 #     _____     ____     ____     ____    
@@ -873,8 +873,8 @@ bonds =
        3    5  1.00
 
 
-[Borl:1]
-name = Borole:1
+[Borl1]
+name = borol-1-yl
 #
 #                     H                   
 #                     |                   
@@ -922,8 +922,8 @@ bonds =
        4    8  1.00
 
 
-[Borl:2]
-name = Borole:2
+[Borl2]
+name = 1H-borol-2-yl
 #
 #                     H                   
 #                     |                   
@@ -971,8 +971,8 @@ bonds =
        4    8  1.00
 
 
-[Borl:3]
-name = Borole:3
+[Borl3]
+name = 1H-borol-3-yl
 #
 #                     H                   
 #                     |                   
@@ -1021,7 +1021,7 @@ bonds =
 
 
 [BOH2]
-name = Borono
+name = borono
 #
 #                                       H 
 #                                       | 
@@ -1055,8 +1055,8 @@ bonds =
        2    4  1.00
 
 
-[DMeBate]
-name = DiMethylBorate
+[DMeBanox]
+name = dimethoxyboranyloxy
 #
 #                   H                     
 #                    |                    
@@ -1110,8 +1110,8 @@ bonds =
        5   11  1.00
 
 
-[MeBate]
-name = MethylBorate
+[MeBanox]
+name = [hydroxy(methoxy)boranyl]oxy
 #
 #                     H   __              
 #                           \_            
@@ -1156,7 +1156,7 @@ bonds =
 
 
 [BOHOMe]
-name = MethylHydroxyBorino
+name = hydroxy(methoxy)boranyl
 #
 #                             _/          
 #                            /            
@@ -1196,7 +1196,7 @@ bonds =
 
 
 [COOMe]
-name = MethylEster
+name = methoxycarbonyl
 #
 #  H                  O             __  O 
 #     ____        __     ____    __/ __   
@@ -1232,7 +1232,7 @@ bonds =
 
 
 [COMe]
-name = MethylKetone
+name = acetyl
 #
 #                H                        
 #                |                        
@@ -1273,7 +1273,7 @@ bonds =
 
 
 [OCN]
-name = Cyanate
+name = cyanato
 #
 #                           O             
 #                       _       ___       
@@ -1300,7 +1300,7 @@ bonds =
 
 
 [NCO]
-name = IsoCyanate
+name = isocyanato
 #
 #                           N             
 #                      ___      ___       
@@ -1327,7 +1327,7 @@ bonds =
 
 
 [NCS]
-name = IsoThioCyanate
+name = isothiocyanato
 #
 #                           N             
 #                      ___      ___       
@@ -1354,7 +1354,7 @@ bonds =
 
 
 [SCN]
-name = ThioCyanate
+name = thiocyanato
 #
 #                           S             
 #                       _       ___       
@@ -1380,8 +1380,8 @@ bonds =
        1    2  3.00
 
 
-[2Bt1e]
-name = 2But1ene
+[MeePr]
+name = 1-methylenepropyl
 #
 #       H                                 
 #         \                               
@@ -1433,8 +1433,8 @@ bonds =
        3   10  1.00
 
 
-[2Bt2e]
-name = 2But2ene
+[MePre]
+name = 1-methylprop-1-enyl
 #
 #                         H               
 #                           \             
@@ -1485,8 +1485,8 @@ bonds =
        3   10  1.00
 
 
-[2Pr1e]
-name = 2Pro1ene
+[iPre]
+name = isopropenyl
 #
 #            H                 H          
 #             |                 |         
@@ -1527,8 +1527,8 @@ bonds =
        2    7  1.00
 
 
-[3Bt1e]
-name = 3But1ene
+[MeAll]
+name = 1-methylallyl
 #
 #                  H    H                 
 #                         \               
@@ -1579,7 +1579,7 @@ bonds =
 
 
 [iPr]
-name = IsoPropyl
+name = isopropyl
 #
 #                            H            
 #             H    H          |           
@@ -1626,8 +1626,8 @@ bonds =
        2    9  1.00
 
 
-[123Trzl:1]
-name = 123Triazole:1
+[Trzl1]
+name = triazol-1-yl
 #
 #                      |                  
 #                      |                  
@@ -1671,8 +1671,8 @@ bonds =
        4    6  1.00
 
 
-[123Trzl:4]
-name = 123Triazole:4
+[Trzl4]
+name = 1H-triazol-4-yl
 #
 #                         N               
 #                    ___      _           
@@ -1714,8 +1714,8 @@ bonds =
        3    4  1.50
 
 
-[123Trzl:5]
-name = 123Triazole:5
+[Trzl5]
+name = 1H-triazol-5-yl
 #
 #                N                        
 #            __      _                    
@@ -1757,8 +1757,8 @@ bonds =
        4    6  1.00
 
 
-[124Oxdzl:3]
-name = 124Oxadiazole:3
+[124Oxdzl5]
+name = 1,2,4-oxadiazol-5-yl
 #
 #                         N               
 #                     __      _           
@@ -1799,8 +1799,8 @@ bonds =
        3    4  1.50
 
 
-[124Oxdzl:5]
-name = 124Oxadiazole:5
+[124Oxdzl3]
+name = 1,2,4-oxadiazol-3-yl
 #
 #           H                             
 #           |                             
@@ -1842,8 +1842,8 @@ bonds =
        3    5  1.00
 
 
-[124Trzl:1]
-name = 124Triazole:1
+[124Trzl3]
+name = 1H-1,2,4-triazol-3-yl
 #
 #                     H                   
 #                      |                  
@@ -1887,8 +1887,8 @@ bonds =
        3    6  1.00
 
 
-[124Trzl:3]
-name = 124Triazole:3
+[124Trzl5]
+name = 1H-1,2,4-triazol-5-yl
 #
 #                     N                   
 #  H              __     _              H 
@@ -1928,8 +1928,8 @@ bonds =
        4    6  1.00
 
 
-[124Trzl:5]
-name = 124Triazole:5
+[124Trzl1]
+name = 1,2,4-triazol-1-yl
 #
 #                     N                   
 #  H              __     _              H 
@@ -1969,8 +1969,8 @@ bonds =
        4    6  1.00
 
 
-[134AmOxdzl]
-name = 134AminoOxadiazole
+[Am134Oxdzl]
+name = 5-amino-1,3,4-oxadiazol-2-yl
 #
 #                     |                   
 #                     |                   
@@ -2016,7 +2016,7 @@ bonds =
 
 
 [134Oxdzl]
-name = 134Oxadiazole
+name = 1,3,4-oxadiazol-2-yl
 #
 #           H                             
 #           |                             
@@ -2059,7 +2059,7 @@ bonds =
 
 
 [DAmTzn]
-name = DiAminoTriazine
+name = 4,6-diamino-1,3,5-triazin-2-yl
 #
 #         H                               
 #         |                               
@@ -2113,8 +2113,8 @@ bonds =
        6   11  1.00
 
 
-[Imdaz:1]
-name = Imidazole:1
+[Imdaz1]
+name = imidazol-1-yl
 #
 #                     |                   
 #                     |                   
@@ -2159,8 +2159,8 @@ bonds =
        4    7  1.00
 
 
-[Imdaz:2]
-name = Imidazole:2
+[Imdaz2]
+name = 1H-imidazol-2-yl
 #
 #                     H                   
 #                     |                   
@@ -2206,8 +2206,8 @@ bonds =
        4    7  1.00
 
 
-[Imdaz:4]
-name = Imidazole:4
+[Imdaz4]
+name = 1H-imidazol-4-yl
 #
 #                     H                   
 #                      |                  
@@ -2253,8 +2253,8 @@ bonds =
        3    7  1.00
 
 
-[Imdaz:5]
-name = Imidazole:5
+[Imdaz5]
+name = 1H-imidazol-5-yl
 #
 #                     |                   
 #                     |                   
@@ -2300,8 +2300,8 @@ bonds =
        4    7  1.00
 
 
-[IsOxzl:3]
-name = IsOxazole:3
+[IsOxzl3]
+name = isoxazol-3-yl
 #
 #                      |                  
 #                      |                  
@@ -2346,8 +2346,8 @@ bonds =
        4    6  1.00
 
 
-[IsOxzl:4]
-name = IsOxazole:4
+[IsOxzl4]
+name = isoxazol-4-yl
 #
 #                N                        
 #            __      _                    
@@ -2390,8 +2390,8 @@ bonds =
        4    6  1.00
 
 
-[IsOxzl:5]
-name = IsOxazole:5
+[IsOxzl5]
+name = isoxazol-5-yl
 #
 #                         N               
 #                     __      _           
@@ -2434,8 +2434,8 @@ bonds =
        3    4  1.50
 
 
-[IsOxzldn:2]
-name = IsOxazolidine:2
+[IsOxzldn2]
+name = isoxazolidin-2-yl
 #
 #                ___                      
 #                 __                      
@@ -2488,8 +2488,8 @@ bonds =
        3   10  1.00
 
 
-[IsOxzldn:3]
-name = IsOxazolidine:3
+[IsOxzldn3]
+name = isoxazolidin-3-yl
 #
 #                H          H             
 #                  \       /              
@@ -2540,8 +2540,8 @@ bonds =
        4   10  1.00
 
 
-[IsOxzldn:4]
-name = IsOxazolidine:4
+[IsOxzldn4]
+name = isoxazolidin-4-yl
 #
 #              H                          
 #                        \                
@@ -2591,8 +2591,8 @@ bonds =
        4   10  1.00
 
 
-[IsOxzldn:5]
-name = IsOxazolidine:5
+[IsOxzldn5]
+name = isoxazolidin-5-yl
 #
 #                     H                   
 #                     |                   
@@ -2645,8 +2645,8 @@ bonds =
        3   10  1.00
 
 
-[NO2Imdaz:1]
-name = NO2Imidazole:1
+[NO2Imdaz1]
+name = 5-nitroimidazol-1-yl
 #
 #                      N                  
 #     H  ____      ___    __       ____ H 
@@ -2696,8 +2696,8 @@ bonds =
        7    9  1.00
 
 
-[NO2Imdaz:2]
-name = NO2Imidazole:2
+[NO2Imdaz2]
+name = 5-nitro-1H-imidazol-2-yl
 #
 #          O   __        __ O_            
 #             __ \_    _/                 
@@ -2747,8 +2747,8 @@ bonds =
        7    9  1.00
 
 
-[NO2Imdaz:4]
-name = NO2Imidazole:4
+[NO2Imdaz4]
+name = 5-nitro-1H-imidazol-4-yl
 #
 #                    H                    
 #                     |                   
@@ -2797,8 +2797,8 @@ bonds =
        6    9  1.00
 
 
-[Oxzl:2]
-name = Oxazole:2
+[Oxzl2]
+name = oxazol-2-yl
 #
 #                     H                   
 #                      |                  
@@ -2842,8 +2842,8 @@ bonds =
        3    6  1.00
 
 
-[Oxzl:4]
-name = Oxazole:4
+[Oxzl4]
+name = oxazol-4-yl
 #
 #              H                          
 #              |                          
@@ -2887,8 +2887,8 @@ bonds =
        3    6  1.00
 
 
-[Oxzl:5]
-name = Oxazole:5
+[Oxzl5]
+name = oxazol-5-yl
 #
 #              H                          
 #              |                          
@@ -2932,8 +2932,8 @@ bonds =
        3    6  1.00
 
 
-[Oxzldn:2]
-name = Oxazolidine:2
+[Oxzldn2]
+name = oxazolidin-2-yl
 #
 #          H               |              
 #            \             \              
@@ -2986,8 +2986,8 @@ bonds =
        4   10  1.00
 
 
-[Oxzldn:3]
-name = Oxazolidine:3
+[Oxzldn3]
+name = oxazolidin-3-yl
 #
 #     H               O              H    
 #        \         /               /      
@@ -3037,8 +3037,8 @@ bonds =
        4   10  1.00
 
 
-[Oxzldn:4]
-name = Oxazolidine:4
+[Oxzldn4]
+name = oxazolidin-4-yl
 #
 #            H          H                 
 #              \       /                  
@@ -3092,8 +3092,8 @@ bonds =
        4   10  1.00
 
 
-[Oxzldn:5]
-name = Oxazolidine:5
+[Oxzldn5]
+name = oxazolidin-5-yl
 #
 #                H          H             
 #                  \      /               
@@ -3147,8 +3147,8 @@ bonds =
        3   10  1.00
 
 
-[Oxzln:2]
-name = Oxazoline:2
+[DHOxzl2]
+name = 4,5-dihydrooxazol-2-yl
 #
 #                 |                       
 #                 |                       
@@ -3197,8 +3197,8 @@ bonds =
        3    8  1.00
 
 
-[Oxzln:4]
-name = Oxazoline:4
+[DHOxzl4]
+name = 4,5-dihydrooxazol-4-yl
 #
 #         H          H                    
 #           \       /                     
@@ -3248,8 +3248,8 @@ bonds =
        4    8  1.00
 
 
-[Oxzln:5]
-name = Oxazoline:5
+[DHOxzl5]
+name = 4,5-dihydrooxazol-5-yl
 #
 #         H          H                    
 #           \       /                     
@@ -3299,8 +3299,8 @@ bonds =
        4    8  1.00
 
 
-[Pyrl:1]
-name = Pyrrole:1
+[Pyrl1]
+name = pyrrol-1-yl
 #
 #                     H                   
 #                     |                   
@@ -3348,8 +3348,8 @@ bonds =
        4    8  1.00
 
 
-[Pyrl:2]
-name = Pyrrole:2
+[Pyrl2]
+name = 1H-pyrrol-2-yl
 #
 #                     H                   
 #                     |                   
@@ -3397,8 +3397,8 @@ bonds =
        4    8  1.00
 
 
-[Pyrl:3]
-name = Pyrrole:3
+[Pyrl3]
+name = 1H-pyrrol-3-yl
 #
 #                     H                   
 #                     |                   
@@ -3447,7 +3447,7 @@ bonds =
 
 
 [TAzn]
-name = TriAzine
+name = 1,3,5-triazin-2-yl
 #
 #  H                  N                 H 
 #     ____      ____     __        ____   
@@ -3493,7 +3493,7 @@ bonds =
 
 
 [AmMale]
-name = AminoMaleic
+name = [4-hydroxy-4-oxo-but-2-enoyl]amino
 #
 #                                  |      
 #                                  |      
@@ -3544,8 +3544,8 @@ bonds =
        7   11  1.00
 
 
-[AmMalon]
-name = AminoMalonic
+[DCoxAm]
+name = dicarboxyamino
 #
 #                                    _/ H 
 #                                   /     
@@ -3587,7 +3587,7 @@ bonds =
 
 
 [AzIrdn]
-name = Aziridine
+name = aziridin-1-yl
 #
 #         H                               
 #           \                           _ 
@@ -3631,7 +3631,7 @@ bonds =
 
 
 [NNH]
-name = Azo
+name = diazenyl
 #
 #                  _______                
 #            N                N           
@@ -3659,7 +3659,7 @@ bonds =
 
 
 [NMe2]
-name = DiMethylAmine
+name = dimethylamino
 #
 #            H            H         H     
 #             |             \      /      
@@ -3702,8 +3702,8 @@ bonds =
        2    8  1.00
 
 
-[HmAmal]
-name = HemiAminal
+[EtOHAm]
+name = 1-hydroxyethylamino
 #
 #                                H        
 #                            __           
@@ -3751,7 +3751,7 @@ bonds =
 
 
 [NNMe]
-name = MethylAzo
+name = methylazo
 #
 #                         _____           
 #                     N   _____   N       
@@ -3787,7 +3787,7 @@ bonds =
 
 
 [NO3]
-name = Nitrate
+name = nitrooxy
 #
 #  O_                       O             
 #       ___             _       ___       
@@ -3815,7 +3815,7 @@ bonds =
 
 
 [NO]
-name = Nitrosyl
+name = nitroso
 #
 #                     N                   
 #               _                         
@@ -3838,7 +3838,7 @@ bonds =
 
 
 [OCOOH]
-name = Carbonate
+name = carboxyoxy
 #
 #                           O             
 #                          | |            
@@ -3874,7 +3874,7 @@ bonds =
 
 
 [OOH]
-name = Hydroperoxy
+name = hydroperoxy
 #
 #            O     _______    O           
 #                                 \       
@@ -3900,7 +3900,7 @@ bonds =
 
 
 [OCOOMe]
-name = MethylCarbonate
+name = methoxycarbonyloxy
 #
 #            H                 O          
 #             |                ||         
@@ -3942,7 +3942,7 @@ bonds =
 
 
 [OOMe]
-name = MethylPeroxy
+name = methylperoxy
 #
 #                     O   _____   O       
 #                                   \     
@@ -3976,8 +3976,8 @@ bonds =
        2    5  1.00
 
 
-[OONOOH]
-name = NitroPeroxy
+[OONOO]
+name = nitroperoxy
 #
 #  O                        O             
 #      \___             _       ___       
@@ -4008,7 +4008,7 @@ bonds =
 
 
 [ONO]
-name = Nitrosooxy
+name = nitrosooxy
 #
 #            N     _______    O           
 #        /                        \       
@@ -4034,7 +4034,7 @@ bonds =
 
 
 [OPr1e]
-name = Pro1eneEther
+name = prop-1-enoxy
 #
 #                                       __
 #                                  ____/  
@@ -4079,7 +4079,7 @@ bonds =
 
 
 [OPr]
-name = PropylEther
+name = propoxy
 #
 #               H                         
 #  H           /                          
@@ -4127,7 +4127,7 @@ bonds =
 
 
 [PMe2]
-name = DiMethylPhosphanyl
+name = dimethylphosphanyl
 #
 #            H            H         H     
 #             |             \      /      
@@ -4171,7 +4171,7 @@ bonds =
 
 
 [PHMe]
-name = MethylPhosphanyl
+name = methylphosphanyl
 #
 #                H                        
 #                |                        
@@ -4210,7 +4210,7 @@ bonds =
 
 
 [MeHPO4]
-name = MethylPhosphate
+name = [hydroxy(methoxy)phosphoryl]oxy
 #
 #               H                         
 #  H           /                          
@@ -4231,18 +4231,18 @@ smiles = OP(O)(=O)OC
 mepo_compliant = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
-    P    P_3+3  -1.476742   0.833653  -0.063755
-    O    O_3    -0.495603   2.205338  -0.575929
-    O    O_2    -1.692492   0.375244  -1.533623
-    O    O_3    -2.982201   1.683517  -0.128751
-    C    C_3    -2.843158   3.087456  -0.109466
-    H    H_      0.357269   2.219808  -0.065021
-    H    H_     -3.849210   3.549071  -0.086202
-    H    H_     -2.384157   3.459044  -1.053221
-    H    H_     -2.293710   3.426153   0.796024
+    P    P_3+3  -1.477640   0.832375  -0.059501
+    O    O_3    -0.484504   2.220359  -0.499007
+    O    O_2    -1.665910   0.420909  -1.546679
+    O    O_3    -2.984014   1.680937  -0.120158
+    C    C_3    -2.847136   3.085106  -0.112629
+    H    H_      0.343635   2.226540   0.051544
+    H    H_     -3.853382   3.546485  -0.101753
+    H    H_     -2.376696   3.447697  -1.054343
+    H    H_     -2.307795   3.431403   0.796331
 orientation = 0.0 1.0 0.0
 normal = 0.0 0.0 1.0
-carbon_bond = 1.373
+carbon_bond = 1.372
 fingerprint = 0.00,1.00,2.00,2.00,1.00,3.00,1.00,0.00,0.00,0.00,0.00,3.44,5.63,5.64,3.44,6.95,2.20,0.00,0.00,0.00,0.00,1.52,3.32,2.62,1.52,3.90,1.10,0.00,0.00,0.00
 bonds =
        0    1  1.00
@@ -4257,7 +4257,7 @@ bonds =
 
 
 [PO4H2]
-name = Phosphate
+name = phosphonooxy
 #
 #                     O                   
 #  H                                    H 
@@ -4276,16 +4276,16 @@ smiles = OP(O)(=O)O
 mepo_compliant = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
-    P    P_3+3  -1.475540   0.835099  -0.072100
-    O    O_3    -0.664887   2.300948  -0.580696
-    O    O_2    -1.692389   0.364695  -1.537850
-    O    O_3    -2.979774   1.686438  -0.145602
-    H    H_      0.300846   2.228958  -0.371313
-    H    H_     -2.960706   2.311051   0.623283
+    P    P_3+3  -1.460571   0.862503   0.051296
+    O    O_3    -1.996253   0.073141  -1.403498
+    O    O_2    -2.068398  -0.015748   1.177061
+    O    O_3    -2.949543   1.741778   0.103590
+    H    H_     -1.288836   0.310123  -2.067441
+    H    H_     -2.785640   2.547034  -0.449415
 orientation = 0.0 1.0 0.0
 normal = 0.0 0.0 1.0
-carbon_bond = 1.373
-fingerprint = 0.00,1.00,2.00,2.00,2.00,0.00,0.00,0.00,0.00,0.00,0.00,3.44,5.63,5.64,5.64,0.00,0.00,0.00,0.00,0.00,0.00,1.52,3.32,2.62,2.62,0.00,0.00,0.00,0.00,0.00
+carbon_bond = 1.403
+fingerprint = 0.00,1.00,4.00,0.00,2.00,0.00,0.00,0.00,0.00,0.00,0.00,3.44,11.27,0.00,5.64,0.00,0.00,0.00,0.00,0.00,0.00,1.52,5.94,0.00,2.62,0.00,0.00,0.00,0.00,0.00
 bonds =
        0    1  1.00
        1    2  1.00
@@ -4296,7 +4296,7 @@ bonds =
 
 
 [PO3H2]
-name = Phosphono
+name = phosphono
 #
 #    H                                    
 #         ___                             
@@ -4318,11 +4318,11 @@ smiles = P(O)(O)=O
 mepo_compliant = False
 atoms =
     P    P_3+3   0.000000   0.000000   0.000000
-    O    O_3     0.303687  -0.008054   1.723432
-    O    O_3     1.700125   0.077847  -0.368763
+    O    O_3     1.565851   0.110929  -0.790193
+    O    O_3    -0.902911   0.049557  -1.503986
     O    O_2     0.000000   1.544270   0.000000
-    H    H_     -0.302020  -0.669984   2.149914
-    H    H_      1.792865  -0.246830  -1.300312
+    H    H_      1.644708  -0.557856  -1.518241
+    H    H_     -1.642847  -0.609252  -1.483383
 orientation = 0.0 1.0 0.0
 normal = 0.0 0.0 1.0
 carbon_bond = 1.792
@@ -4336,7 +4336,7 @@ bonds =
 
 
 [SSH]
-name = DiSulfide
+name = disulfanyl
 #
 #            S     _______    S           
 #                                 \       
@@ -4362,7 +4362,7 @@ bonds =
 
 
 [SSMe]
-name = MethylDisulfide
+name = methyldisulfanyl
 #
 #                     S   _____   S       
 #                                   \     
@@ -4397,7 +4397,7 @@ bonds =
 
 
 [SMe]
-name = MethylSulfide
+name = methylsulfanyl
 #
 #                        S    ___________ 
 #                      /                  
@@ -4431,7 +4431,7 @@ bonds =
 
 
 [SOMe]
-name = MethylSulfinyl
+name = methylsulfinyl
 #
 #                H                        
 #                |                        
@@ -4472,7 +4472,7 @@ bonds =
 
 
 [CSMe]
-name = MethylThioyl
+name = ethanethioyl
 #
 #                H                        
 #                |                        
@@ -4513,7 +4513,7 @@ bonds =
 
 
 [SONH2]
-name = Sulfinamide
+name = aminosulfinyl
 #
 #                           O             
 #                          | |            
@@ -4549,7 +4549,7 @@ bonds =
 
 
 [SOOH]
-name = Sulfino
+name = hydroxysulfinyl
 #
 #              O                        O 
 #           _       ___           ___/    
@@ -4577,8 +4577,8 @@ bonds =
        2    3  1.00
 
 
-[SOH]
-name = Sulfinyl
+[SHO]
+name = hydrosulfinyl
 #
 #                    H                    
 #                     |                   
@@ -4607,7 +4607,7 @@ bonds =
 
 
 [SO2NH2]
-name = Sulfonamide
+name = sulfamoyl
 #
 #                        O                
 #  H                                      
@@ -4644,7 +4644,7 @@ bonds =
 
 
 [CHS]
-name = Thial
+name = methanethioyl
 #
 #                    S                    
 #                   |   |                 
@@ -4674,8 +4674,8 @@ bonds =
        0    2  1.00
 
 
-[Thzl:1]
-name = Thiazole:1
+[Thzl1]
+name = thiazol-1-yl
 #
 #                    ___                  
 #                    ___                  
@@ -4721,8 +4721,8 @@ bonds =
        4    7  1.00
 
 
-[Thzl:2]
-name = Thiazole:2
+[Thzl2]
+name = thiazol-2-yl
 #
 #                     H                   
 #                      |                  
@@ -4766,8 +4766,8 @@ bonds =
        3    6  1.00
 
 
-[Thzl:4]
-name = Thiazole:4
+[Thzl4]
+name = thiazol-4-yl
 #
 #              H                          
 #              |                          
@@ -4811,8 +4811,8 @@ bonds =
        3    6  1.00
 
 
-[Thzl:5]
-name = Thiazole:5
+[Thzl5]
+name = thiazol-5-yl
 #
 #              H                          
 #              |                          
@@ -4856,100 +4856,8 @@ bonds =
        3    6  1.00
 
 
-[Thzlum:1]
-name = Thiazolium:1
-#
-#                    ___                  
-#                    | /                  
-#                     |                   
-#                     |                   
-#                     S                   
-#  H              __     _              H 
-#      ____    __/        \__     ____    
-#          \__/              \___/        
-#             \ \           /  /          
-#              \ \         |  /           
-#              | |         / /            
-#               \ \         /             
-#                \_______  N+.            
-#               _/                        
-#             _/                          
-#            /                            
-#         H /                             
-#
-smiles = S1C=[N+]C=C1
-mepo_compliant = False
-atoms =
-    S    S_3+2   0.000000   0.000000   0.000000
-    C    C_R     0.804463   0.960719  -1.253459
-    N    N_2     0.047505   1.381171  -2.200114
-    C    C_R    -1.297741   1.045773  -2.012424
-    C    C_R    -1.526464   0.285555  -0.896312
-    H    H_      1.879560   1.045129  -1.290120
-    H    H_     -2.080212   1.382034  -2.680042
-    H    H_     -2.517013  -0.007021  -0.571217
-orientation = 0.0 1.0 0.0
-normal = 0.0 0.0 1.0
-carbon_bond = 1.782
-fingerprint = 0.00,1.00,1.00,5.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,2.58,2.55,12.54,2.20,0.00,0.00,0.00,0.00,0.00,0.00,1.80,1.70,7.15,1.10,0.00,0.00,0.00,0.00,0.00
-bonds =
-       0    1  1.00
-       0    4  1.00
-       1    2  2.00
-       1    5  1.00
-       2    3  1.00
-       3    4  2.00
-       3    6  1.00
-       4    7  1.00
-
-
-[Thzlum:2]
-name = Thiazolium:2
-#
-#                     H                   
-#                      |                  
-#                      |                  
-#                     __                  
-#                   _/  \__               
-#  H   __         _/  __   \__            
-#        \___   _/___/                    
-#            \_/_/             S          
-#              \               /          
-#              |              |           
-#               \             /           
-#                     ______ |            
-#                N+. ________/            
-#                             \_          
-#                               \         
-#                                \_       
-#                                  \      
-#
-smiles = C1=[N+]C=CS1
-mepo_compliant = False
-atoms =
-    C    C_R     0.000000   0.000000   0.000000
-    N    N_R     1.110731   0.784046   0.032907
-    C    C_R     0.791429   2.123661   0.115873
-    C    C_R    -0.582102   2.410516   0.155984
-    S    S_R    -1.343642   0.957893   0.080101
-    H    H_      1.549700   2.893385   0.156829
-    H    H_     -1.058282   3.375193   0.229634
-orientation = 0.0 1.0 0.0
-normal = 0.0 0.0 1.0
-carbon_bond = 1.472
-fingerprint = 0.00,1.00,2.00,2.00,2.00,0.00,0.00,0.00,0.00,0.00,0.00,2.55,5.62,5.10,4.40,0.00,0.00,0.00,0.00,0.00,0.00,1.70,3.35,3.40,2.20,0.00,0.00,0.00,0.00,0.00
-bonds =
-       0    1  1.50
-       0    4  1.50
-       1    2  1.50
-       2    3  1.50
-       2    5  1.00
-       3    4  1.50
-       3    6  1.00
-
-
-[Thzlum:3]
-name = Thiazolium:3
+[Thzlum3]
+name = thiazol-3-ium-3-yl
 #
 #                     |                   
 #                     |                   
@@ -4994,98 +4902,8 @@ bonds =
        4    7  1.00
 
 
-[Thzlum:4]
-name = Thiazolium:4
-#
-#              H                          
-#              |                          
-#              |                          
-#             __                          
-#          __/  \___                      
-#        _/     _   \__                   
-#                \___    +.               
-#     S                 N                 
-#       \              /                  
-#       |             |                   
-#        \            /                   
-#        |  ________ |                    
-#         \__________/                    
-#         /           \_                  
-#       _/              \_                
-#      /                  \_              
-#  H  /                     \             
-#
-smiles = C1=CSC=[N+]1
-mepo_compliant = False
-atoms =
-    C    C_R     0.000000   0.000000   0.000000
-    C    C_R     1.176810   0.779388   0.009944
-    S    S_R     0.676620   2.348110   0.090608
-    C    C_R    -0.947887   2.071471   0.109046
-    N    N_R    -1.169835   0.731172   0.054952
-    H    H_      2.203444   0.448855  -0.004736
-    H    H_     -1.722818   2.821434   0.169335
-orientation = 0.0 1.0 0.0
-normal = 0.0 0.0 1.0
-carbon_bond = 1.490
-fingerprint = 0.00,1.00,3.00,2.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,2.55,7.79,5.13,2.20,0.00,0.00,0.00,0.00,0.00,0.00,1.70,4.35,3.50,1.10,0.00,0.00,0.00,0.00,0.00
-bonds =
-       0    1  1.50
-       0    4  1.50
-       1    2  1.50
-       1    5  1.00
-       2    3  1.50
-       3    4  1.50
-       3    6  1.00
-
-
-[Thzlum:5]
-name = Thiazolium:5
-#
-#              H                          
-#              |                          
-#              |                          
-#             __                          
-#          __/  \___                      
-#        _/  ___    \__                   
-#      +.  _/                             
-#     N                 S                 
-#       \              /                  
-#       |             |                   
-#        \            /                   
-#        |  ________ |                    
-#         \__________/                    
-#         /           \_                  
-#       _/              \_                
-#      /                  \_              
-#  H  /                     \             
-#
-smiles = C1=C[N+]=CS1
-mepo_compliant = False
-atoms =
-    C    C_R     0.000000   0.000000   0.000000
-    C    C_R     1.096311   0.879757   0.022970
-    N    N_R     0.752958   2.216383   0.093052
-    C    C_R    -0.590449   2.410758   0.125047
-    S    S_R    -1.347916   0.954779   0.066349
-    H    H_      2.129535   0.563351   0.011014
-    H    H_     -1.076904   3.371571   0.192406
-orientation = 0.0 1.0 0.0
-normal = 0.0 0.0 1.0
-carbon_bond = 1.478
-fingerprint = 0.00,1.00,3.00,2.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,2.55,7.33,5.59,2.20,0.00,0.00,0.00,0.00,0.00,0.00,1.70,4.60,3.25,1.10,0.00,0.00,0.00,0.00,0.00
-bonds =
-       0    1  1.50
-       0    4  1.50
-       1    2  1.50
-       1    5  1.00
-       2    3  1.50
-       3    4  1.50
-       3    6  1.00
-
-
 [SH]
-name = Thiol
+name = sulfanyl
 #
 #                     S                   
 #               _           __            
@@ -5106,8 +4924,8 @@ bonds =
        0    1  1.00
 
 
-[2BrFur:3]
-name = 2BromoFuran:3
+[2Br3Fur]
+name = 2-bromo-3-furyl
 #
 #              H                          
 #              |                          
@@ -5153,8 +4971,8 @@ bonds =
        5    7  1.00
 
 
-[2BrFur:4]
-name = 2BromoFuran:4
+[5Br3Fur]
+name = 5-bromo-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -5200,8 +5018,8 @@ bonds =
        5    7  1.00
 
 
-[2BrFur:5]
-name = 2BromoFuran:5
+[5Br2Fur]
+name = 5-bromo-2-furyl
 #
 #                     Br                  
 #                      |                  
@@ -5247,8 +5065,8 @@ bonds =
        3    5  1.50
 
 
-[2BrThphn:3]
-name = 2BromoThiophene:3
+[2Br3Thi]
+name = 2-bromo-3-thienyl
 #
 #              H                          
 #              |                          
@@ -5294,8 +5112,8 @@ bonds =
        5    7  1.00
 
 
-[2BrThphn:4]
-name = 2BromoThiophene:4
+[5Br3Thi]
+name = 5-bromo-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -5341,8 +5159,8 @@ bonds =
        5    7  1.00
 
 
-[2BrThphn:5]
-name = 2BromoThiophene:5
+[5Br2Thi]
+name = 5-bromo-2-thienyl
 #
 #                     Br                  
 #                      |                  
@@ -5388,8 +5206,8 @@ bonds =
        3    5  1.50
 
 
-[2ClFur:3]
-name = 2ChloroFuran:3
+[2Cl3Fur]
+name = 2-chloro-3-furyl
 #
 #              H                          
 #              |                          
@@ -5435,8 +5253,8 @@ bonds =
        5    7  1.00
 
 
-[2ClFur:4]
-name = 2ChloroFuran:4
+[5Cl3Fur]
+name = 5-chloro-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -5482,8 +5300,8 @@ bonds =
        5    7  1.00
 
 
-[2ClFur:5]
-name = 2ChloroFuran:5
+[5Cl2Fur]
+name = 5-chloro-2-furyl
 #
 #                     Cl                  
 #                      |                  
@@ -5529,8 +5347,8 @@ bonds =
        3    5  1.50
 
 
-[2ClThphn:3]
-name = 2ChloroThiophene:3
+[2Cl3Thi]
+name = 2-chloro-3-thienyl
 #
 #              H                          
 #              |                          
@@ -5576,8 +5394,8 @@ bonds =
        5    7  1.00
 
 
-[2ClThphn:4]
-name = 2ChloroThiophene:4
+[5Cl3Thi]
+name = 5-chloro-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -5623,8 +5441,8 @@ bonds =
        5    7  1.00
 
 
-[2ClThphn:5]
-name = 2ChloroThiophene:5
+[5Cl2Thi]
+name = 5-chloro-2-thienyl
 #
 #                     Cl                  
 #                      |                  
@@ -5670,8 +5488,8 @@ bonds =
        3    5  1.50
 
 
-[2EtFur:3]
-name = 2EthylFuran:3
+[2Et3Fur]
+name = 2-ethyl-3-furyl
 #
 #                         H               
 #                          |              
@@ -5729,8 +5547,8 @@ bonds =
        6   13  1.00
 
 
-[2EtFur:4]
-name = 2EthylFuran:4
+[5Et3Fur]
+name = 5-ethyl-3-furyl
 #
 #       H                                 
 #         \              _/               
@@ -5790,8 +5608,8 @@ bonds =
        6   13  1.00
 
 
-[2EtFur:5]
-name = 2EthylFuran:5
+[5Et2Fur]
+name = 5-ethyl-2-furyl
 #
 #       H                                 
 #         \              _/               
@@ -5851,8 +5669,8 @@ bonds =
        6   13  1.00
 
 
-[2EtThphn:3]
-name = 2EthylThiophene:3
+[2Et3Thi]
+name = 2-ethyl-3-thienyl
 #
 #                         H               
 #                          |              
@@ -5910,8 +5728,8 @@ bonds =
        6   13  1.00
 
 
-[2EtThphn:4]
-name = 2EthylThiophene:4
+[5Et3Thi]
+name = 5-ethyl-3-thienyl
 #
 #       H                                 
 #         \              _/               
@@ -5971,8 +5789,8 @@ bonds =
        6   13  1.00
 
 
-[2EtThphn:5]
-name = 2EthylThiophene:5
+[5Et2Thi]
+name = 5-ethyl-2-thienyl
 #
 #       H                                 
 #         \              _/               
@@ -6032,8 +5850,8 @@ bonds =
        6   13  1.00
 
 
-[2FFur:3]
-name = 2FluoroFuran:3
+[2F3Fur]
+name = 2-fluoro-3-furyl
 #
 #              H                          
 #              |                          
@@ -6079,8 +5897,8 @@ bonds =
        5    7  1.00
 
 
-[2FFur:4]
-name = 2FluoroFuran:4
+[5F3Fur]
+name = 5-fluoro-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -6126,8 +5944,8 @@ bonds =
        5    7  1.00
 
 
-[2FFur:5]
-name = 2FluoroFuran:5
+[5F2Fur]
+name = 5-fluoro-2-furyl
 #
 #                     F                   
 #                      |                  
@@ -6173,8 +5991,8 @@ bonds =
        3    5  1.50
 
 
-[2FThphn:3]
-name = 2FluoroThiophene:3
+[2F3Thi]
+name = 2-fluoro-3-thienyl
 #
 #              H                          
 #              |                          
@@ -6220,8 +6038,8 @@ bonds =
        5    7  1.00
 
 
-[2FThphn:4]
-name = 2FluoroThiophene:4
+[5F3Thi]
+name = 5-fluoro-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -6267,8 +6085,8 @@ bonds =
        5    7  1.00
 
 
-[2FThphn:5]
-name = 2FluoroThiophene:5
+[5F2Thi]
+name = 5-fluoro-2-thienyl
 #
 #                     F                   
 #                      |                  
@@ -6314,8 +6132,8 @@ bonds =
        3    5  1.50
 
 
-[2MeFur:3]
-name = 2MethylFuran:3
+[2Me3Fur]
+name = 2-methyl-3-furyl
 #
 #                    H                    
 #                    |                    
@@ -6368,8 +6186,8 @@ bonds =
        5   10  1.00
 
 
-[2MeFur:4]
-name = 2MethylFuran:4
+[5Me3Fur]
+name = 5-methyl-3-furyl
 #
 #        H                                
 #         |               O               
@@ -6416,8 +6234,8 @@ bonds =
        5   10  1.00
 
 
-[2MeFur:5]
-name = 2MethylFuran:5
+[5Me2Fur]
+name = 5-methyl-2-furyl
 #
 #                         H               
 #        H                                
@@ -6467,8 +6285,8 @@ bonds =
        5   10  1.00
 
 
-[2MeThphn:3]
-name = 2MethylThiophene:3
+[2Me3Thi]
+name = 2-methyl-3-thienyl
 #
 #                    H                    
 #                    |                    
@@ -6521,8 +6339,8 @@ bonds =
        5   10  1.00
 
 
-[2MeThphn:4]
-name = 2MethylThiophene:4
+[5Me3Thi]
+name = 5-methyl-3-thienyl
 #
 #        H                                
 #         |               S               
@@ -6569,8 +6387,8 @@ bonds =
        5   10  1.00
 
 
-[2MeThphn:5]
-name = 2MethylThiophene:5
+[5Me2Thi]
+name = 5-methyl-2-thienyl
 #
 #                         H               
 #        H                                
@@ -6620,8 +6438,8 @@ bonds =
        5   10  1.00
 
 
-[3BrFur:2]
-name = 3BromoFuran:2
+[3Br2Fur]
+name = 3-bromo-2-furyl
 #
 #                      |                  
 #                      |                  
@@ -6668,8 +6486,8 @@ bonds =
        4    5  1.00
 
 
-[3BrFur:4]
-name = 3BromoFuran:4
+[4Br3Fur]
+name = 4-bromo-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -6715,8 +6533,8 @@ bonds =
        5    7  1.00
 
 
-[3BrFur:5]
-name = 3BromoFuran:5
+[4Br2Fur]
+name = 4-bromo-2-furyl
 #
 #                     H                   
 #                      |                  
@@ -6762,8 +6580,8 @@ bonds =
        4    7  1.00
 
 
-[3BrThphn:2]
-name = 3BromoThiophene:2
+[3Br2Thi]
+name = 3-bromo-2-thienyl
 #
 #                      |                  
 #                      |                  
@@ -6810,8 +6628,8 @@ bonds =
        4    5  1.00
 
 
-[3BrThphn:4]
-name = 3BromoThiophene:4
+[4Br3Thi]
+name = 4-bromo-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -6857,8 +6675,8 @@ bonds =
        5    7  1.00
 
 
-[3BrThphn:5]
-name = 3BromoThiophene:5
+[4Br2Thi]
+name = 4-bromo-2-thienyl
 #
 #                     H                   
 #                      |                  
@@ -6904,8 +6722,8 @@ bonds =
        4    7  1.00
 
 
-[3ClFur:2]
-name = 3ChloroFuran:2
+[3Cl2Fur]
+name = 3-chloro-2-furyl
 #
 #                      |                  
 #                      |                  
@@ -6952,8 +6770,8 @@ bonds =
        4    5  1.00
 
 
-[3ClFur:4]
-name = 3ChloroFuran:4
+[4Cl3Fur]
+name = 4-chloro-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -6999,8 +6817,8 @@ bonds =
        5    7  1.00
 
 
-[3ClFur:5]
-name = 3ChloroFuran:5
+[4Cl2Fur]
+name = 4-chloro-2-furyl
 #
 #                     H                   
 #                      |                  
@@ -7046,8 +6864,8 @@ bonds =
        4    7  1.00
 
 
-[3ClThphn:2]
-name = 3ChloroThiophene:2
+[3Cl2Thi]
+name = 3-chloro-2-thienyl
 #
 #                      |                  
 #                      |                  
@@ -7094,8 +6912,8 @@ bonds =
        4    5  1.00
 
 
-[3ClThphn:4]
-name = 3ChloroThiophene:4
+[4Cl3Thi]
+name = 4-chloro-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -7141,8 +6959,8 @@ bonds =
        5    7  1.00
 
 
-[3ClThphn:5]
-name = 3ChloroThiophene:5
+[4Cl2Thi]
+name = 4-chloro-2-thienyl
 #
 #                     H                   
 #                      |                  
@@ -7188,8 +7006,8 @@ bonds =
        4    7  1.00
 
 
-[3FFur:2]
-name = 3FluoroFuran:2
+[3F2Fur]
+name = 3-fluoro-2-furyl
 #
 #                      |                  
 #                      |                  
@@ -7236,8 +7054,8 @@ bonds =
        4    5  1.00
 
 
-[3FFur:4]
-name = 3FluoroFuran:4
+[4F3Fur]
+name = 4-fluoro-3-furyl
 #
 #                     |                   
 #                     |                   
@@ -7283,8 +7101,8 @@ bonds =
        5    7  1.00
 
 
-[3FFur:5]
-name = 3FluoroFuran:5
+[4F2Fur]
+name = 4-fluoro-2-furyl
 #
 #                     H                   
 #                      |                  
@@ -7330,8 +7148,8 @@ bonds =
        4    7  1.00
 
 
-[3FThphn:2]
-name = 3FluoroThiophene:2
+[3F2Thi]
+name = 3-fluoro-2-thienyl
 #
 #                      |                  
 #                      |                  
@@ -7378,8 +7196,8 @@ bonds =
        4    5  1.00
 
 
-[3FThphn:4]
-name = 3FluoroThiophene:4
+[4F3Thi]
+name = 4-fluoro-3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -7425,8 +7243,8 @@ bonds =
        5    7  1.00
 
 
-[3FThphn:5]
-name = 3FluoroThiophene:5
+[4F2Thi]
+name = 4-fluoro-2-thienyl
 #
 #                     H                   
 #                      |                  
@@ -7473,7 +7291,7 @@ bonds =
 
 
 [AcAdxm]
-name = AcetAldoxime
+name = N-hydroxy-C-methyl-carbonimidoyl
 #
 #                           H        H    
 #                             \     /     
@@ -7513,7 +7331,7 @@ bonds =
 
 
 [Adxm]
-name = Aldoxime
+name = hydroxyiminomethyl
 #
 #  H                  N  __             __
 #     _____     ____     __\___    ____/  
@@ -7544,7 +7362,7 @@ bonds =
 
 
 [AmAdxm]
-name = AminoAldoxime
+name = N-hydroxycarbamimidoyl
 #
 #                                H        
 #                                |        
@@ -7580,7 +7398,7 @@ bonds =
 
 
 [FAdxm]
-name = FluoroAldoxime
+name = C-fluoro-N-hydroxy-carbonimidoyl
 #
 #  H                  N  __             F 
 #     _____     ____     __\___    ____   
@@ -7612,7 +7430,7 @@ bonds =
 
 
 [ClAdxm]
-name = ChloroAldoxime
+name = C-chloro-N-hydroxy-carbonimidoyl
 #
 #  H                  N  __             Cl
 #     _____     ____     __\___    ____   
@@ -7644,7 +7462,7 @@ bonds =
 
 
 [BrAdxm]
-name = BromoAldoxime
+name = C-bromo-N-hydroxy-carbonimidoyl
 #
 #  H                  N  __             Br
 #     _____     ____     __\___    ____   
@@ -7676,7 +7494,7 @@ bonds =
 
 
 [PrAdxm]
-name = PropionAldoxime
+name = C-ethyl-N-hydroxy-carbonimidoyl
 #
 #                       H      H          
 #                        \    /           
@@ -7720,8 +7538,8 @@ bonds =
        4   10  1.00
 
 
-[BiFur:3]
-name = BiFuran:3
+[22Fur3Fur]
+name = 2-(2-furyl)-3-furyl
 #
 #    H                                    
 #      \                                  
@@ -7778,8 +7596,8 @@ bonds =
        9   14  1.00
 
 
-[BiFur:4]
-name = BiFuran:4
+[52Fur3Fur]
+name = 5-(2-furyl)-3-furyl
 #
 #    H                                    
 #      \                     H            
@@ -7835,8 +7653,8 @@ bonds =
        9   14  1.00
 
 
-[BiFur:5]
-name = BiFuran:5
+[52Fur2Fur]
+name = 5-(2-furyl)-2-furyl
 #
 #    H                                    
 #      \                                  
@@ -7893,8 +7711,8 @@ bonds =
        7   14  1.00
 
 
-[BiThphn:3]
-name = BiThiophene:3
+[22Thi3Thi]
+name = 2-(2-thienyl)-3-thienyl
 #
 #    H                                    
 #      \                                  
@@ -7951,8 +7769,8 @@ bonds =
        9   14  1.00
 
 
-[BiThphn:4]
-name = BiThiophene:4
+[52Thi3Thi]
+name = 5-(2-thienyl)-3-thienyl
 #
 #    H                                    
 #      \                     H            
@@ -8008,8 +7826,8 @@ bonds =
        9   14  1.00
 
 
-[BiThphn:5]
-name = BiThiophene:5
+[52Thi2Thi]
+name = 5-(2-thienyl)-2-thienyl
 #
 #    H                                    
 #      \                                  
@@ -8066,8 +7884,8 @@ bonds =
        7   14  1.00
 
 
-[BrBiFur:3]
-name = BromoBiFuran:3
+[25Br2Fur3Fur]
+name = 2-(5-bromo-2-furyl)-3-furyl
 #
 #    Br                                   
 #      \                                  
@@ -8124,8 +7942,8 @@ bonds =
       10   14  1.00
 
 
-[BrBiFur:4]
-name = BromoBiFuran:4
+[55Br2Fur3Fur]
+name = 5-(5-bromo-2-furyl)-3-furyl
 #
 #    Br                                   
 #      \                                  
@@ -8182,8 +8000,8 @@ bonds =
       10   14  1.00
 
 
-[BrBiFur:5]
-name = BromoBiFuran:5
+[55Br2Fur2Fur]
+name = 5-(5-bromo-2-furyl)-2-furyl
 #
 #    Br                                   
 #      \                                  
@@ -8240,8 +8058,8 @@ bonds =
        7    9  1.50
 
 
-[BrBiThphn:3]
-name = BromoBiThiophene:3
+[25Br2Thi3Thi]
+name = 2-(5-bromo-2-thienyl)-3-thienyl
 #
 #    Br                                   
 #      \                                  
@@ -8298,8 +8116,8 @@ bonds =
       10   14  1.00
 
 
-[BrBiThphn:4]
-name = BromoBiThiophene:4
+[55Br2Thi3Thi]
+name = 5-(5-bromo-2-thienyl)-3-thienyl
 #
 #    Br                                   
 #      \                                  
@@ -8356,8 +8174,8 @@ bonds =
       10   14  1.00
 
 
-[BrBiThphn:5]
-name = BromoBiThiophene:5
+[55Br2Thi2Thi]
+name = 5-(5-bromo-2-thienyl)-2-thienyl
 #
 #    Br                                   
 #      \                                  
@@ -8414,8 +8232,8 @@ bonds =
        7    9  1.50
 
 
-[Fur:2]
-name = Furan:2
+[2Fur]
+name = 2-furyl
 #
 #                     H                   
 #                      |                  
@@ -8461,8 +8279,8 @@ bonds =
        3    7  1.00
 
 
-[Fur:3]
-name = Furan:3
+[3Fur]
+name = 3-furyl
 #
 #                     |                   
 #                     |                   
@@ -8508,8 +8326,8 @@ bonds =
        4    7  1.00
 
 
-[FurAm:3]
-name = FuranAmine:3
+[2Am3Fur]
+name = 2-amino-3-furyl
 #
 #                    H                    
 #                     |                   
@@ -8558,8 +8376,8 @@ bonds =
        5    9  1.00
 
 
-[FurAm:4]
-name = FuranAmine:4
+[5Am3Fur]
+name = 5-amino-3-furyl
 #
 #                        H                
 #      H                                  
@@ -8607,8 +8425,8 @@ bonds =
        5    9  1.00
 
 
-[FurAm:5]
-name = FuranAmine:5
+[5Am2Fur]
+name = 5-amino-2-furyl
 #
 #          H   __        __ H             
 #                \_    _/                 
@@ -8659,7 +8477,7 @@ bonds =
 
 
 [Pyraz]
-name = Pyrazine
+name = pyrazin-2-yl
 #
 #                  H                      
 #                  |                      
@@ -8708,8 +8526,8 @@ bonds =
        5    8  1.00
 
 
-[Senic]
-name = SulfenicAcid
+[SOH]
+name = hydroxysulfanyl
 #
 #            O     _______    S           
 #                                 \       
@@ -8734,8 +8552,8 @@ bonds =
        1    2  1.00
 
 
-[Thphn:2]
-name = Thiophene:2
+[2Thi]
+name = 2-thienyl
 #
 #                     H                   
 #                      |                  
@@ -8781,8 +8599,8 @@ bonds =
        3    7  1.00
 
 
-[Thphn:2]
-name = Thiophene:3
+[3Thi]
+name = 3-thienyl
 #
 #                     |                   
 #                     |                   
@@ -8828,8 +8646,8 @@ bonds =
        4    7  1.00
 
 
-[ThphnAm:3]
-name = Thiopheneamine:3
+[2Am3Thi]
+name = 2-amino-3-thienyl
 #
 #                    H                    
 #                     |                   
@@ -8878,8 +8696,8 @@ bonds =
        5    9  1.00
 
 
-[ThphnAm:4]
-name = Thiopheneamine:4
+[5Am3Thi]
+name = 5-amino-3-thienyl
 #
 #                        H                
 #      H                                  
@@ -8927,8 +8745,8 @@ bonds =
        5    9  1.00
 
 
-[ThphnAm:5]
-name = Thiopheneamine:5
+[5Am2Thi]
+name = 5-amino-2-thienyl
 #
 #          H   __        __ H             
 #                \_    _/                 
@@ -8978,8 +8796,8 @@ bonds =
        4    9  1.00
 
 
-[Ph13Cl2:4]
-name = 1_3_DiChloroBenzene:4
+[24DClPh]
+name = 2,4-dichlorophenyl
 #
 #                  H                      
 #                  |                      
@@ -9032,8 +8850,8 @@ bonds =
        7   10  1.00
 
 
-[1Btn]
-name = 1Butane
+[Bu]
+name = butyl
 #
 #               H          H              
 #                  \     /                
@@ -9088,8 +8906,8 @@ bonds =
        3   12  1.00
 
 
-[2MePr]
-name = 2MethylPropyl
+[iBu]
+name = isobutyl
 #
 #               H                         
 #                  \          H           
@@ -9141,8 +8959,8 @@ bonds =
        3   12  1.00
 
 
-[3Pr1e]
-name = 3Prop1ene
+[All]
+name = allyl
 #
 #                     H                   
 #                      |                  
@@ -9184,7 +9002,7 @@ bonds =
 
 
 [OAc]
-name = Acetyl
+name = acetoxy
 #
 #                           H             
 #                H          |             
@@ -9226,8 +9044,8 @@ bonds =
        3    6  1.00
 
 
-[CONH2:N]
-name = Amide:N
+[NCOMe]
+name = acetamido
 #
 #                    O                    
 #                    | |                  
@@ -9268,8 +9086,8 @@ bonds =
        3    7  1.00
 
 
-[AmPh:N]
-name = AminoPhenyl:N
+[NPh]
+name = anilino
 #
 #                 H                       
 #                                |        
@@ -9326,8 +9144,8 @@ bonds =
        6   12  1.00
 
 
-[BnzlEst]
-name = BenzylEster
+[OBnz]
+name = benzyloxy
 #
 #             H                           
 #              |                          
@@ -9388,8 +9206,8 @@ bonds =
        7   14  1.00
 
 
-[Bnzl]
-name = Benzyl
+[Bnz]
+name = benzyl
 #
 #               H                         
 #                |                        
@@ -9448,8 +9266,8 @@ bonds =
        6   13  1.00
 
 
-[PhBr:4]
-name = BromoBenzene:4
+[4BrPh]
+name = 4-bromophenyl
 #
 #                  Br                     
 #                  |                      
@@ -9502,8 +9320,8 @@ bonds =
        6   10  1.00
 
 
-[PhCl:2]
-name = ChloroBenzene:2
+[2ClPh]
+name = 2-chlorophenyl
 #
 #                  H                      
 #                  |                      
@@ -9556,8 +9374,8 @@ bonds =
        6   10  1.00
 
 
-[PhCl:3]
-name = ChloroBenzene:3
+[3ClPh]
+name = 3-chlorophenyl
 #
 #                  |                      
 #                  |                      
@@ -9610,8 +9428,8 @@ bonds =
        6   10  1.00
 
 
-[PhCl:4]
-name = ChloroBenzene:4
+[4ClPh]
+name = 4-chlorophenyl
 #
 #                  Cl                     
 #                  |                      
@@ -9664,8 +9482,8 @@ bonds =
        6   10  1.00
 
 
-[CycHex]
-name = CycloHexane
+[CHex]
+name = cyclohexyl
 #
 #                                    H    
 #                                   /     
@@ -9731,8 +9549,8 @@ bonds =
        5   16  1.00
 
 
-[EtEst]
-name = EthylEster
+[COOEt]
+name = ethoxycarbonyl
 #
 #          H                              
 #           |                             
@@ -9774,8 +9592,8 @@ bonds =
        4    9  1.00
 
 
-[PhF:4]
-name = FluoroBenzene:4
+[4FPh]
+name = 4-fluorophenyl
 #
 #                  F                      
 #                  |                      
@@ -9829,7 +9647,7 @@ bonds =
 
 
 [COH]
-name = HydroxylMethyl
+name = hydroxymethyl
 #
 #         H                               
 #            \              O             
@@ -9863,8 +9681,8 @@ bonds =
        1    4  1.00
 
 
-[PhOMe:4]
-name = MethOxyBenzene:4
+[4OMePh]
+name = 4-methoxyphenyl
 #
 #                H      H                 
 #                  \    /                 
@@ -9926,8 +9744,8 @@ bonds =
        7   14  1.00
 
 
-[PhMe:2]
-name = MethylBenzene:2
+[oTol]
+name = o-tolyl
 #
 #                        H                
 #                         |               
@@ -9985,8 +9803,8 @@ bonds =
        6   13  1.00
 
 
-[PhMe:4]
-name = MethylBenzene:4
+[pTol]
+name = p-tolyl
 #
 #                        H                
 #                         |               
@@ -10044,8 +9862,8 @@ bonds =
        6   13  1.00
 
 
-[Morph:N]
-name = Morpholine
+[Morph]
+name = morpholino
 #
 #       H                          H      
 #         \           O           /       
@@ -10104,8 +9922,8 @@ bonds =
        5   13  1.00
 
 
-[NO2Ph:4]
-name = NitroBenzene
+[4NO2Ph]
+name = 4-nitrophenyl
 #
 #          _                              
 #         O  \_      ___O                 
@@ -10164,7 +9982,7 @@ bonds =
 
 
 [COPh]
-name = PhenylKetone
+name = benzoyl
 #
 #                H                        
 #                 |                       
@@ -10221,8 +10039,8 @@ bonds =
        7   12  1.00
 
 
-[tBut]
-name = tert-Butyl
+[tBu]
+name = tert-butyl
 #
 #     H                         H         
 #                     |                   
@@ -10275,8 +10093,8 @@ bonds =
        3   12  1.00
 
 
-[15AG:6]
-name = 1,5-Anhydroglucitol:6
+[AGlutol]
+name = 3,4,5-trihydroxy-6-(hydroxymethyl)tetrahydropyran-2-yl
 #
 #                      H                  
 #        H            /      H            
@@ -10300,31 +10118,31 @@ smiles = C1O[C@@H](CO)[C@H](O)[C@@H](O)[C@@H]1(O)
 mepo_compliant = False
 atoms =
     C    C_3     0.000000   0.000000   0.000000
-    O    O_3    -0.951818   0.495531   0.959567
-    C    C_3    -0.554855   0.448899   2.350145
-    H    H_     -1.321077   1.063605   2.873511
-    C    C_3    -0.807730  -0.923022   3.078571
-    O    O_3     0.247486  -1.747447   3.502850
-    C    C_3     0.755930   1.217860   2.619282
-    H    H_      1.050390   1.132189   3.689865
-    O    O_3     0.564542   2.584142   2.329768
-    C    C_3     1.873922   0.702508   1.696026
-    H    H_      2.750346   1.372347   1.809533
-    O    O_3     2.370437  -0.534408   2.107109
-    C    C_3     1.387479   0.731310   0.202704
-    H    H_      2.151713   0.305878  -0.479047
-    O    O_3     1.227093   2.073251  -0.182247
-    H    H_     -0.375352   0.290394  -1.009077
-    H    H_     -1.750169  -1.050369   3.646491
-    H    H_     -1.208266  -1.482829   2.308980
-    H    H_      0.659810  -1.369619   4.313946
-    H    H_     -0.104321   2.945553   2.967828
-    H    H_      1.662685  -1.178477   1.972863
-    H    H_      2.114832   2.511520  -0.074342
+    O    O_3    -0.990905   0.440859   0.945893
+    C    C_3    -0.586247   0.501093   2.327150
+    H    H_     -1.366331   1.146236   2.790743
+    C    C_3    -0.662280  -0.765903   3.255134
+    O    O_3    -0.921982  -1.996249   2.678978
+    C    C_3     0.729162   1.271550   2.576443
+    H    H_      1.026891   1.211543   3.649680
+    O    O_3     0.549822   2.631942   2.274388
+    C    C_3     1.856259   0.703550   1.696659
+    H    H_      2.734105   1.369413   1.815944
+    O    O_3     2.347047  -0.543957   2.130226
+    C    C_3     1.380670   0.738088   0.209366
+    H    H_      2.155010   0.326844  -0.470988
+    O    O_3     1.224612   2.082641  -0.171787
+    H    H_     -0.364282   0.293131  -1.014534
+    H    H_      0.267797  -0.844579   3.852290
+    H    H_     -1.443465  -0.625728   4.024162
+    H    H_     -0.068341  -2.506779   2.663031
+    H    H_     -0.054645   3.006885   2.967695
+    H    H_      1.634661  -1.214159   2.128451
+    H    H_      2.106514   2.527243  -0.038509
 orientation = 0.0 1.0 0.0
 normal = 0.0 0.0 1.0
-carbon_bond = 1.537
-fingerprint = 0.00,1.00,6.00,7.00,7.00,1.00,0.00,0.00,0.00,0.00,0.00,2.55,14.79,20.52,16.64,2.20,0.00,0.00,0.00,0.00,0.00,1.70,7.62,11.36,8.12,1.10,0.00,0.00,0.00,0.00
+carbon_bond = 1.524
+fingerprint = 0.00,1.00,7.00,7.00,6.00,1.00,0.00,0.00,0.00,0.00,0.00,2.55,18.23,19.28,14.44,2.20,0.00,0.00,0.00,0.00,0.00,1.70,9.14,10.94,7.02,1.10,0.00,0.00,0.00,0.00
 bonds =
        0    1  1.00
        0   12  1.00
@@ -10351,7 +10169,7 @@ bonds =
 
 
 [PrNCNN]
-name = 1-PropylGuanidine
+name = 3-guanidinopropyl
 #
 #         H              H                
 #         |              |          H     
@@ -10415,7 +10233,7 @@ bonds =
 
 
 [CPh4OH]
-name = 4MethylPhenol
+name = (4-hydroxyphenyl)methyl
 #
 #                    H                    
 #                 _/                      
@@ -10478,7 +10296,7 @@ bonds =
 
 
 [AcOH]
-name = AceticAcid
+name = carboxymethyl
 #
 #                    O                    
 #                    | |                  
@@ -10516,8 +10334,8 @@ bonds =
        3    6  1.00
 
 
-[Btn:3]
-name = Butane:3
+[sBu]
+name = sec-butyl
 #
 #                 H     H                 
 #                         \               
@@ -10571,8 +10389,8 @@ bonds =
        3   12  1.00
 
 
-[NEt2:N]
-name = DiEthylAmine:N
+[NEt2]
+name = diethylamino
 #
 #                             H           
 #                 \_                      
@@ -10626,8 +10444,8 @@ bonds =
        4   14  1.00
 
 
-[EtOH:1]
-name = Ethanol:1
+[1OHEt]
+name = 1-hydroxyethyl
 #
 #               H                         
 #                   ___                   
@@ -10671,7 +10489,7 @@ bonds =
 
 
 [Amidn]
-name = FormAmidine
+name = carbamimidoyl
 #
 #                     |                   
 #                     |                   
@@ -10706,7 +10524,7 @@ bonds =
 
 
 [NCNN]
-name = Guanidine
+name = guanidino
 #
 #                              H          
 #                        ____             
@@ -10746,8 +10564,8 @@ bonds =
        3    7  1.00
 
 
-[Indl:3]
-name = Indole:3
+[3Indl]
+name = 1H-indol-3-yl
 #
 #              H                          
 #                              H          
@@ -10807,7 +10625,7 @@ bonds =
 
 
 [MeCONH2]
-name = MethylAmide:2
+name = (2-amino-2-oxo-ethyl)
 #
 #                    O                    
 #                    | |                  
@@ -10848,8 +10666,8 @@ bonds =
        3    7  1.00
 
 
-[BuNH2:4]
-name = n-ButylAmine:4
+[BuNH2]
+name = 4-aminobutyl
 #
 #               H         H               
 #       H       |         |       H       
@@ -10908,8 +10726,8 @@ bonds =
        4   14  1.00
 
 
-[PrOOH:3]
-name = PropanoicAcid:3
+[PrOOH]
+name = 2-carboxyethyl
 #
 #                O                        
 #                               |         
