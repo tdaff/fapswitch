@@ -6,7 +6,10 @@ structures and pickled structures.
 
 """
 
-import pickle
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 import re
 import time
 from collections import namedtuple
@@ -89,7 +92,7 @@ def load_structure(name):
         debug("dot-fapswitch version {}.{}".format(*DOT_FAPSWITCH_VERSION))
         structure.fapswitch_version = DOT_FAPSWITCH_VERSION
         with open(pickle_file, 'wb') as p_structure:
-            pickle.dump(structure, p_structure)
+            pickle.dump(structure, p_structure, protocol=-1)
 
     return structure
 
