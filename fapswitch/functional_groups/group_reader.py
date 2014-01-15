@@ -8,33 +8,35 @@ Containers to parse and hold for the functional group information.
 
 import copy
 try:
-    import configparser
+    from configparser import ConfigParser
 except ImportError:
-    import ConfigParser as configparser
+    from ConfigParser import SafeConfigParser as ConfigParser
 import glob
 import re
+from collections import OrderedDict
 from os import path
 
 import numpy as np
 from numpy import array, identity, asarray, dot, cross
 from numpy.linalg import norm
 
-from fapswitch.config import debug, error
+from fapswitch.config import options
+from fapswitch.config import info, debug, error
 from fapswitch.core.components import Atom
 from fapswitch.core.elements import UFF
 from fapswitch.core.util import vecdist3, subgroup
 
 
-class FunctionalGroupLibrary(dict):
+class FunctionalGroupLibrary(OrderedDict):
     """
     Container for all the available functional groups just subclasses
     the standard dict adding some new methods.
 
     """
     def __init__(self, *args, **kwargs):
-        """Initialise a standard dict and update with functional groups."""
+        """Initialise a dictionary and update with functional groups."""
         # Make sure that the dict is properly initilaised
-        dict.__init__(self, *args, **kwargs)
+        OrderedDict.__init__(self, *args, **kwargs)
 
         # Functional groups can be put in several places
         # Defaults '*.lib' files in library directory always loaded
@@ -56,14 +58,20 @@ class FunctionalGroupLibrary(dict):
         """Parse groups from the configparser .ini style file."""
         # just a standard configparser conversion to a dict of
         # FunctionalGroup objects
-        flib_file = configparser.SafeConfigParser()
+        mepo_only = options.getbool('mepo_only')
+        flib_file = ConfigParser()
         debug("Reading groups from {}".format(flib_file_name))
         flib_file.read(flib_file_name)
         for group_name in flib_file.sections():
             try:
-                if group_name in self:
-                    debug("Overriding group {}".format(group_name))
-                self[group_name] = FunctionalGroup(flib_file.items(group_name))
+                new_group = FunctionalGroup(group_name,
+                                            flib_file.items(group_name))
+                if mepo_only and not new_group.mepo_compatible:
+                    debug("Skipped non-MEPO {}".format(group_name))
+                else:
+                    if group_name in self:
+                        debug("Overriding group {}".format(group_name))
+                    self[group_name] = new_group
             except KeyError:
                 error("Group {} is missing data".format(group_name))
 
@@ -80,14 +88,15 @@ class FunctionalGroup(object):
 
     """
 
-    def __init__(self, items):
+    def __init__(self, group_name, items):
         """Initialize from a list of tuples as the attributes."""
         # These are defaults, best that they are overwritten
+        self.ident = group_name
         self.atoms = []
         self.bonds = {}
         self.orientation = [0, 1, 0]
         self.smiles = ""
-        self.mepo_compliant = False
+        self.mepo_compatible = False
 
         # pop the items from a dict giving neater code
         items = dict(items)
@@ -98,10 +107,12 @@ class FunctionalGroup(object):
         self.normal = normalise(string_to_tuple(items.pop('normal'), float))
         self.bond_length = float(items.pop('carbon_bond'))
         self._parse_bonds(items.pop('bonds'))
-        self.idx = 0
         self.connection_point = 0  # always connect to the first atom
-        if 'mepo_compliant' in items:
-            self.mepo_compliant = bool(items.pop('mepo_compliant'))
+        if 'mepo_compatible' in items:
+            # This parsing is taken from config.py as it doesn't like "False"
+            compat = items.pop('mepo_compatible').lower()
+            if compat in ["1", "yes", "true", "on"]:
+                self.mepo_compatible = True
         # FIXME(tdaff) Add the synthesis stuff
         # Arbitrary attributes can be set
         self.__dict__.update(items)
@@ -175,6 +186,24 @@ class FunctionalGroup(object):
         new_bonds[bond_to_structure] = (self.bond_length, 1.0)
 
         return new_atoms, new_bonds
+
+    def log_info(self):
+        """Send all the information about the group to the logging functions."""
+        info("[{}]".format(self.ident))
+        info("name = {}".format(self.name))
+        info("smiles = {}".format(self.smiles))
+        info("mepo_compatible = {}".format(self.mepo_compatible))
+
+        debug("atoms =")
+        for atom in self.atoms:
+            debug("    {0:4} {1:5} {2[0]:10.6f} {2[1]:10.6f} {2[2]:10.6f}".format(atom.type, atom.uff_type, atom.pos))
+        debug("orientation = {0[0]:.1f} {0[1]:.1f} {0[2]:.1f}".format(self.orientation))
+        debug("normal = {0[0]:.1f} {0[1]:.1f} {0[2]:.1f}".format(self.normal))
+        debug("carbon_bond = {}".format(self.bond_length))
+        debug("bonds =")
+        for bond in self.bonds:
+            debug("    {0[0]:4} {0[1]:4} {1[1]:5.2f}".format(bond, self.bonds[bond]))
+        info("")
 
     @property
     def natoms(self):

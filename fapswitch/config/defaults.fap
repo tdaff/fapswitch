@@ -34,6 +34,9 @@ full_random_count = 0
 # Maximum number of groups that will be used simultaneously. [int]
 max_different = 0
 
+# Only load MEPO-QEq compatible groups. [bool]
+mepo_only = False
+
 # Socket port to run the server mode on; leave as zero to pick random
 # available port as two instances cannot share a port. [int]
 port = 0

@@ -13,11 +13,11 @@ the particular job.
 __all__ = ['Options']
 
 import argparse
-# Python 3 fix
+# Python 3.2 fix
 try:
-    import configparser
+    from configparser import ConfigParser
 except ImportError:
-    import ConfigParser as configparser
+    from ConfigParser import SafeConfigParser as ConfigParser
 import copy
 import logging
 import os
@@ -55,7 +55,7 @@ class Options(object):
         self.job_name = job_name
         self.options = {}
         self.cmdopts = {}
-        self.optfiles = configparser.SafeConfigParser()
+        self.optfiles = ConfigParser()
         # populate options
         self._init_paths()
         self.commandline()

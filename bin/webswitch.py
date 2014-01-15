@@ -107,12 +107,12 @@ class RandomHandler(tornado.web.RequestHandler):
                                                 backends=backends)
             if status:
                 cif_info = backends[0].cifs[0]
-                # MEPO compliance if all groups are okay
-                if all(functional_groups[function[0]].mepo_compliant for
+                # MEPO compatibility if all groups are okay
+                if all(functional_groups[function[0]].mepo_compatible for
                        function in cif_info['functions']):
-                    mepo_compliant = "Yes"
+                    mepo_compatible = "Yes"
                 else:
-                    mepo_compliant = "No"
+                    mepo_compatible = "No"
 
                 collision_tester = options.get('collision_method')
                 collision_cutoff = options.getfloat('collision_scale')
@@ -153,7 +153,7 @@ class RandomHandler(tornado.web.RequestHandler):
                     extra_info)
 
                 page = templates.load('random.html').generate(
-                    mepo_compliant=mepo_compliant,
+                    mepo_compatible=mepo_compatible,
                     references=local_references,
                     functional_groups=functional_groups,
                     extra_info=extra_info,

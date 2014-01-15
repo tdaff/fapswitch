@@ -83,8 +83,8 @@ def main():
                         help='Short name (defaults to smiles string)')
     parser.add_argument('-n', '--name', required=True,
                         help='Descriptive name (e.g. PropylEther)')
-    parser.add_argument('-m', '--mepo-compliant', action='store_true',
-                        help='Record group as compliant with MEPO-QEq')
+    parser.add_argument('-m', '--mepo-compatible', action='store_true',
+                        help='Record group as compatible with MEPO-QEq')
     parser.add_argument('-c', '--classification',
                         help='General classification (e.g. "Alkyl Halide")')
     parser.add_argument('-t', '--terminal', action='store_true',
@@ -156,7 +156,7 @@ def main():
         "[{}]\n".format(args.short_name),
         "name = {}\n".format(args.name),
         "smiles = {}\n".format(fgroup),
-        "mepo_compliant = {}\n".format(args.mepo_compliant)]
+        "mepo_compatible = {}\n".format(args.mepo_compatible)]
 
     if args.classification:
         output_text.append("class = {}\n".format(args.classification))
@@ -238,7 +238,8 @@ def main():
         out_html.write("""\
                 <td>{args.short_name}</td>
                 <td><p>name: {args.name}</p>
-                    <p>smiles: {args.smi_string}</p></td>
+                    <p>smiles: {args.smi_string}</p>
+                    <p>MEPO-QEq compatible: {args.mepo_compatible}</td>
                 <td><a href="img/{args.short_name}.svg">
                     <img src="img/{args.short_name}.svg"
                          alt="Group: {args.short_name}"

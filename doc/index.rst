@@ -19,6 +19,7 @@ Contents
    introduction
    userguide
    changes
+   functional_groups
 
 
 Indices and tables

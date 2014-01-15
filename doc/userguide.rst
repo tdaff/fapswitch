@@ -234,6 +234,12 @@ All options
 
   Maximum number of groups that will be used simultaneously. [int]
 
+.. envvar:: mepo_only
+
+  Default: False
+
+  Only load MEPO-QEq compatible groups. [bool]
+
 .. envvar:: port
 
   Default: 0

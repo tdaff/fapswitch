@@ -15,7 +15,7 @@ name = fluorocarbonyl
 #   F                                 \_  
 #
 smiles = C(=O)F
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.052963   0.619791   0.052331
@@ -46,7 +46,7 @@ name = chlorocarbonyl
 #   Cl                                \_  
 #
 smiles = C(=O)Cl
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.057366   0.611980   0.049942
@@ -77,7 +77,7 @@ name = bromocarbonyl
 #   Br                                \_  
 #
 smiles = C(=O)Br
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.057877   0.610963   0.049758
@@ -108,7 +108,7 @@ name = iodocarbonyl
 #   I                                 \_  
 #
 smiles = C(=O)I
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.058603   0.609633   0.049578
@@ -142,7 +142,7 @@ name = fluoromethyl
 #            H                            
 #
 smiles = CF
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     F    F_     -1.281939   0.521901  -0.008312
@@ -178,7 +178,7 @@ name = chloromethyl
 #            H                            
 #
 smiles = CCl
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Cl   Cl     -1.616539   0.767663  -0.000552
@@ -214,7 +214,7 @@ name = bromomethyl
 #            H                            
 #
 smiles = CBr
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Br   Br     -1.748789   0.860522   0.002917
@@ -250,7 +250,7 @@ name = iodomethyl
 #            H                            
 #
 smiles = CI
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     I    I_     -1.913539   0.990450   0.008703
@@ -286,7 +286,7 @@ name = difluoromethyl
 #            F                            
 #
 smiles = C(F)F
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     F    F_      0.684645   0.482416  -1.099982
@@ -322,7 +322,7 @@ name = dichloromethyl
 #            Cl                           
 #
 smiles = C(Cl)Cl
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Cl   Cl      0.883274   0.645385  -1.407709
@@ -358,7 +358,7 @@ name = dibromomethyl
 #            Br                           
 #
 smiles = C(Br)Br
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Br   Br      0.965107   0.710716  -1.524997
@@ -394,7 +394,7 @@ name = diiodomethyl
 #            I                            
 #
 smiles = C(I)I
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     I    I_      1.070506   0.798758  -1.673017
@@ -430,7 +430,7 @@ name = trichloromethyl
 #            Cl                           
 #
 smiles = C(Cl)(Cl)Cl
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Cl   Cl      0.808333   0.563198   1.487231
@@ -466,7 +466,7 @@ name = tribromomethyl
 #            Br                           
 #
 smiles = C(Br)(Br)Br
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     Br   Br      0.877331   0.609829   1.620456
@@ -502,7 +502,7 @@ name = triiodomethyl
 #            I                            
 #
 smiles = C(I)(I)I
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     I    I_      0.963487   0.670664   1.792557
@@ -540,7 +540,7 @@ name = 2H-azaborinin-1-yl
 #                  |                      
 #
 smiles = N1C=CC=CB1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_2    -1.223817   0.763826   0.086540
@@ -594,7 +594,7 @@ name = 1,2-dihydroazaborinin-6-yl
 #                  |                      
 #
 smiles = C1=CC=CBN1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.172486   0.712706  -0.011875
@@ -648,7 +648,7 @@ name = 1,2-dihydroazaborinin-5-yl
 #                  |                      
 #
 smiles = C1=CNBC=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.179078   0.702777  -0.010667
@@ -702,7 +702,7 @@ name = 1,2-dihydroazaborinin-4-yl
 #                  |                      
 #
 smiles = C1=CBNC=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.175372   0.689060  -0.011053
@@ -756,7 +756,7 @@ name = 1,2-dihydroazaborinin-3-yl
 #                  |                      
 #
 smiles = C1=CC=CNB1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.145403   0.741340  -0.010204
@@ -809,7 +809,7 @@ name = 1H-azaborinin-2-yl
 #                  |                      
 #
 smiles = B1C=CC=CN1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     B    B_2     0.000000   0.000000   0.000000
     C    C_2    -1.328822   0.821344   0.092133
@@ -853,7 +853,7 @@ name = boronooxy
 #           H   __/                       
 #
 smiles = OB(O)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     B    B_2    -1.128639   0.932229   0.136225
@@ -895,7 +895,7 @@ name = borol-1-yl
 #         H /                    \_       
 #
 smiles = B1C=CC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     B    B_2     0.000000   0.000000   0.000000
     C    C_R     1.205507   0.942576   0.039508
@@ -944,7 +944,7 @@ name = 1H-borol-2-yl
 #         H /                     \       
 #
 smiles = C1=CC=CB1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_R     1.067325   0.818814   0.003278
@@ -993,7 +993,7 @@ name = 1H-borol-3-yl
 #         H /                     \       
 #
 smiles = C1=CBC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_R    -1.104601   0.756943   0.051709
@@ -1037,7 +1037,7 @@ name = borono
 #                           |             
 #
 smiles = B(O)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     B    B_2     0.000000   0.000000   0.000000
     O    O_3     1.249748   0.775878   0.074865
@@ -1078,7 +1078,7 @@ name = dimethoxyboranyloxy
 #                                    |    
 #
 smiles = OB(OC)(OC)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     B    B_2    -0.913618   1.182638   0.416126
@@ -1129,7 +1129,7 @@ name = [hydroxy(methoxy)boranyl]oxy
 #                                        |
 #
 smiles = OB(O)OC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     B    B_2    -1.156251   0.893933   0.125884
@@ -1171,7 +1171,7 @@ name = hydroxy(methoxy)boranyl
 #           H                             
 #
 smiles = B(OC)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     B    B_2     0.000000   0.000000   0.000000
     O    O_3     1.195494   0.885425   0.144048
@@ -1209,7 +1209,7 @@ name = methoxycarbonyl
 #                              |          
 #
 smiles = C(=O)OC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.063662   0.608899   0.047900
@@ -1252,7 +1252,7 @@ name = acetyl
 #                            |            
 #
 smiles = C(=O)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.070235   0.594298   0.027979
@@ -1285,7 +1285,7 @@ name = cyanato
 #  N                                      
 #
 smiles = OC#N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_1    -1.141212   0.659724   0.011569
@@ -1312,7 +1312,7 @@ name = isocyanato
 #  O                                      
 #
 smiles = N=C=O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_1    -1.079020   0.602283  -0.035317
@@ -1339,7 +1339,7 @@ name = isothiocyanato
 #  S                                      
 #
 smiles = N=C=S
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_1    -1.080916   0.650544   0.021395
@@ -1366,7 +1366,7 @@ name = thiocyanato
 #  N                                      
 #
 smiles = SC#N
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     C    C_1    -1.662145   0.490314  -0.060174
@@ -1403,7 +1403,7 @@ name = 1-methylenepropyl
 #                      |                  
 #
 smiles = C(=C)CC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.165382   0.698743   0.067870
@@ -1455,7 +1455,7 @@ name = 1-methylprop-1-enyl
 #                     H                   
 #
 smiles = C(C)=CC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_3     1.304496   0.784684   0.078509
@@ -1503,7 +1503,7 @@ name = isopropenyl
 #                      |                  
 #
 smiles = C(=C)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_2     1.145654   0.714463   0.061528
@@ -1548,7 +1548,7 @@ name = 1-methylallyl
 #                             H           
 #
 smiles = C(C)C=C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     0.790451   0.548248  -1.204980
@@ -1598,7 +1598,7 @@ name = isopropyl
 #                 H                       
 #
 smiles = C(C)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     0.768850   0.569724  -1.200103
@@ -1648,7 +1648,7 @@ name = triazol-1-yl
 #         H  /                            
 #
 smiles = N1N=NC=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     N    N_R     1.084791   0.755726  -0.001641
@@ -1691,7 +1691,7 @@ name = 1H-triazol-4-yl
 #           H                           \ 
 #
 smiles = C1=CNN=N1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.091720   0.839967   0.016495
@@ -1734,7 +1734,7 @@ name = 1H-triazol-5-yl
 #  H                            \         
 #
 smiles = C1=CN=NN1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.093920   0.842149  -0.000309
@@ -1778,7 +1778,7 @@ name = 1,2,4-oxadiazol-5-yl
 #                                       \ 
 #
 smiles = C1=NC=NO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.110343   0.763368   0.023275
@@ -1821,7 +1821,7 @@ name = 1,2,4-oxadiazol-3-yl
 #                       \                 
 #
 smiles = C1=NOC=N1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.110109   0.763265   0.025185
@@ -1864,7 +1864,7 @@ name = 1H-1,2,4-triazol-3-yl
 #                                  \      
 #
 smiles = C1=NNC=N1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.107142   0.765354   0.024768
@@ -1905,7 +1905,7 @@ name = 1H-1,2,4-triazol-5-yl
 #                                 \       
 #
 smiles = C1=NC=NN1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.115599   0.758579   0.000350
@@ -1946,7 +1946,7 @@ name = 1,2,4-triazol-1-yl
 #                                 \       
 #
 smiles = N1N=CN=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     N    N_R     1.083650   0.751845   0.000299
@@ -1990,7 +1990,7 @@ name = 5-amino-1,3,4-oxadiazol-2-yl
 #             \H                          
 #
 smiles = C1=NN=C(N)O1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.081857   0.811071   0.024389
@@ -2037,7 +2037,7 @@ name = 1,3,4-oxadiazol-2-yl
 #                       \                 
 #
 smiles = C1=NN=CO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.107405   0.767012   0.025180
@@ -2080,7 +2080,7 @@ name = 4,6-diamino-1,3,5-triazin-2-yl
 #                H  __/     \__ H         
 #
 smiles = c1nc(N)nc(N)n1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.178291   0.677497   0.011604
@@ -2113,7 +2113,7 @@ bonds =
        6   11  1.00
 
 
-[Imdaz1]
+[Imidaz1]
 name = imidazol-1-yl
 #
 #                     |                   
@@ -2134,7 +2134,7 @@ name = imidazol-1-yl
 #         H /                             
 #
 smiles = N1C=NC=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     C    C_R     1.068739   0.830670  -0.000517
@@ -2159,7 +2159,7 @@ bonds =
        4    7  1.00
 
 
-[Imdaz2]
+[Imidaz2]
 name = 1H-imidazol-2-yl
 #
 #                     H                   
@@ -2181,7 +2181,7 @@ name = 1H-imidazol-2-yl
 #                                 \       
 #
 smiles = C1=NC=CN1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.124295   0.752940   0.001257
@@ -2206,7 +2206,7 @@ bonds =
        4    7  1.00
 
 
-[Imdaz4]
+[Imidaz4]
 name = 1H-imidazol-4-yl
 #
 #                     H                   
@@ -2228,7 +2228,7 @@ name = 1H-imidazol-4-yl
 #         H  /                     \      
 #
 smiles = C1=CNC=N1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.100908   0.833817   0.017462
@@ -2253,7 +2253,7 @@ bonds =
        3    7  1.00
 
 
-[Imdaz5]
+[Imidaz5]
 name = 1H-imidazol-5-yl
 #
 #                     |                   
@@ -2275,7 +2275,7 @@ name = 1H-imidazol-5-yl
 #         H /                             
 #
 smiles = C1=CN=CN1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.103013   0.835157   0.000155
@@ -2323,7 +2323,7 @@ name = isoxazol-3-yl
 #         H  /                            
 #
 smiles = C1=NOC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.106052   0.766160  -0.000023
@@ -2367,7 +2367,7 @@ name = isoxazol-4-yl
 #  H                            \         
 #
 smiles = C1=CON=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.089531   0.849282   0.000707
@@ -2411,7 +2411,7 @@ name = isoxazol-5-yl
 #           H                           \ 
 #
 smiles = C1=CC=NO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.101258   0.831732   0.017796
@@ -2457,7 +2457,7 @@ name = isoxazolidin-2-yl
 #          H            H                 
 #
 smiles = N1CCCO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3     1.183540   0.821413  -0.052076
@@ -2509,7 +2509,7 @@ name = isoxazolidin-3-yl
 #                                \ H      
 #
 smiles = C1NOCC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     N    N_3     1.004987   0.543101  -0.907392
@@ -2560,7 +2560,7 @@ name = isoxazolidin-4-yl
 #                                  \ H    
 #
 smiles = C1CONC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     1.017375   0.636360  -0.908180
@@ -2614,7 +2614,7 @@ name = isoxazolidin-5-yl
 #              H       H                  
 #
 smiles = C1CCNO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     1.022506   0.592073  -0.938733
@@ -2645,7 +2645,7 @@ bonds =
        3   10  1.00
 
 
-[NO2Imdaz1]
+[NO2Imidaz1]
 name = 5-nitroimidazol-1-yl
 #
 #                      N                  
@@ -2667,7 +2667,7 @@ name = 5-nitroimidazol-1-yl
 #               O                         
 #
 smiles = N1C([N+]([O-])=O)=CN=C1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     C    C_R     0.990353   0.974403  -0.068086
@@ -2696,7 +2696,7 @@ bonds =
        7    9  1.00
 
 
-[NO2Imdaz2]
+[NO2Imidaz2]
 name = 5-nitro-1H-imidazol-2-yl
 #
 #          O   __        __ O_            
@@ -2718,7 +2718,7 @@ name = 5-nitro-1H-imidazol-2-yl
 #                              \          
 #
 smiles = C1=NC=C([N+]([O-])=O)N1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.121123   0.761982  -0.001624
@@ -2747,7 +2747,7 @@ bonds =
        7    9  1.00
 
 
-[NO2Imdaz4]
+[NO2Imidaz4]
 name = 5-nitro-1H-imidazol-4-yl
 #
 #                    H                    
@@ -2768,7 +2768,7 @@ name = 5-nitro-1H-imidazol-4-yl
 #             \O                          
 #
 smiles = C1=C([N+]([O-])=O)NC=N1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.042186   0.979292  -0.051173
@@ -2819,7 +2819,7 @@ name = oxazol-2-yl
 #                                  \      
 #
 smiles = C1=NC=CO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.117931   0.758259   0.024077
@@ -2864,7 +2864,7 @@ name = oxazol-4-yl
 #  H  /                     \             
 #
 smiles = C1=COC=N1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.097097   0.837459   0.020350
@@ -2909,7 +2909,7 @@ name = oxazol-5-yl
 #  H  /                     \             
 #
 smiles = C1=CN=CO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.092764   0.842558   0.020542
@@ -2955,7 +2955,7 @@ name = oxazolidin-2-yl
 #                H /       \H             
 #
 smiles = C1OCCN1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     O    O_3     0.904581   0.520835  -0.954661
@@ -3006,7 +3006,7 @@ name = oxazolidin-3-yl
 #              H                //        
 #
 smiles = N1CCOC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3     1.163482   0.824431   0.054431
@@ -3061,7 +3061,7 @@ name = oxazolidin-4-yl
 #           H                             
 #
 smiles = C1NCOC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     N    N_3     1.023641   0.575776  -0.847143
@@ -3116,7 +3116,7 @@ name = oxazolidin-5-yl
 #               H       H                 
 #
 smiles = C1CNCO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     1.042147   0.608574  -0.903684
@@ -3170,7 +3170,7 @@ name = 4,5-dihydrooxazol-2-yl
 #          H            H                 
 #
 smiles = C1=NCCO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     N    N_2    -1.064288   0.690570   0.059890
@@ -3221,7 +3221,7 @@ name = 4,5-dihydrooxazol-4-yl
 #  H  /                                   
 #
 smiles = C1N=COC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     N    N_2    -1.085501   0.550178   0.769353
@@ -3272,7 +3272,7 @@ name = 4,5-dihydrooxazol-5-yl
 #  H  /                                   
 #
 smiles = C1OC=NC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     O    O_2    -0.734821   0.369585   1.111448
@@ -3321,7 +3321,7 @@ name = pyrrol-1-yl
 #         H /                    \_       
 #
 smiles = N1C=CC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     C    C_R     1.081947   0.816630  -0.001703
@@ -3370,7 +3370,7 @@ name = 1H-pyrrol-2-yl
 #         H /                     \       
 #
 smiles = C1=CC=CN1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.121150   0.818741  -0.000940
@@ -3419,7 +3419,7 @@ name = 1H-pyrrol-3-yl
 #         H /                     \       
 #
 smiles = C1=CNC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.100501   0.843144   0.000642
@@ -3467,7 +3467,7 @@ name = 1,3,5-triazin-2-yl
 #                     |                   
 #
 smiles = c1ncncn1
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.178264   0.680849   0.014386
@@ -3512,7 +3512,7 @@ name = [4-hydroxy-4-oxo-but-2-enoyl]amino
 #                    H                    
 #
 smiles = NC(=O)C=CC(=O)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_2    -1.119509   0.782497   0.038708
@@ -3560,7 +3560,7 @@ name = dicarboxyamino
 #                         |               
 #
 smiles = N(C(=O)O)C(=O)O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_2     1.193464   0.768820   0.090482
@@ -3607,7 +3607,7 @@ name = aziridin-1-yl
 #               H  /       \ H            
 #
 smiles = N1CC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3    -0.830151   1.106763   0.149056
@@ -3644,7 +3644,7 @@ name = diazenyl
 #   H                                   \ 
 #
 smiles = N=N
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     N    N_2    -1.058287   0.645149   0.109061
@@ -3676,7 +3676,7 @@ name = dimethylamino
 #                      |                  
 #
 smiles = N(C)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3     1.230736   0.787380   0.087286
@@ -3722,7 +3722,7 @@ name = 1-hydroxyethylamino
 #           H           H                 
 #
 smiles = NC(O)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3    -1.228976   0.776832   0.032073
@@ -3766,7 +3766,7 @@ name = methylazo
 #              H                          
 #
 smiles = N=NC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     N    N_2    -1.067152   0.636782   0.056378
@@ -3798,7 +3798,7 @@ name = nitrooxy
 #              O                          
 #
 smiles = O[N+]([O-])(=O)
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     N    N_2    -1.037695   0.829863   0.115224
@@ -3825,7 +3825,7 @@ name = nitroso
 #   O                                 \_  
 #
 smiles = N=O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     O    O_2    -1.015490   0.620016   0.083267
@@ -3855,7 +3855,7 @@ name = carboxyoxy
 #                                       | 
 #
 smiles = OC(=O)O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_2    -1.063545   0.857579   0.103053
@@ -3885,7 +3885,7 @@ name = hydroperoxy
 #   H                                   \ 
 #
 smiles = OO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     O    O_3    -1.100723   0.677230   0.076180
@@ -3917,7 +3917,7 @@ name = methoxycarbonyloxy
 #                                        |
 #
 smiles = OC(=O)OC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_2    -1.089924   0.821146   0.106774
@@ -3956,7 +3956,7 @@ name = methylperoxy
 #              H                          
 #
 smiles = OOC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     O    O_3    -1.113080   0.663427   0.071671
@@ -3989,7 +3989,7 @@ name = nitroperoxy
 #              O_                       | 
 #
 smiles = OO[N+](=O)[O-]
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     O    O_2    -1.089964   0.652331   0.065805
@@ -4019,7 +4019,7 @@ name = nitrosooxy
 #   O                                   \ 
 #
 smiles = ON=O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     N    N_2    -1.117413   0.691098   0.100075
@@ -4052,7 +4052,7 @@ name = prop-1-enoxy
 #                     H                   
 #
 smiles = OC=CC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_2    -1.126252   0.756442   0.041640
@@ -4078,54 +4078,6 @@ bonds =
        3    8  1.00
 
 
-[OPr]
-name = propoxy
-#
-#               H                         
-#  H           /                          
-#     __      /                           
-#       \__  /                            
-#          _/                  O  ________
-#     ____/  \                            
-#  H          \              /            
-#              \            /             
-#               ___________/              
-#             _/|         |\__            
-#       H  __/  |         |   \__ H       
-#               |         |               
-#               H         H               
-#
-smiles = OCCC
-mepo_compliant = False
-atoms =
-    O    O_2     0.000000   0.000000   0.000000
-    C    C_3    -1.164249   0.739145   0.037662
-    C    C_3    -0.879929   2.225986   0.148178
-    C    C_3    -2.204144   2.985673   0.146874
-    H    H_     -1.761246   0.441292   0.929838
-    H    H_     -1.744207   0.542676  -0.891128
-    H    H_     -0.260599   2.553943  -0.712785
-    H    H_     -0.331468   2.432637   1.093803
-    H    H_     -2.758674   2.777645  -0.794468
-    H    H_     -2.017087   4.074776   0.221200
-    H    H_     -2.833321   2.666352   1.006981
-orientation = 0.0 1.0 0.0
-normal = 0.0 0.0 1.0
-carbon_bond = 1.362
-fingerprint = 0.00,1.00,3.00,3.00,1.00,3.00,0.00,0.00,0.00,0.00,0.00,3.44,6.95,6.95,2.55,6.60,0.00,0.00,0.00,0.00,0.00,1.52,3.90,3.90,1.70,3.30,0.00,0.00,0.00,0.00
-bonds =
-       0    1  1.00
-       1    2  1.00
-       1    4  1.00
-       1    5  1.00
-       2    3  1.00
-       2    6  1.00
-       2    7  1.00
-       3    8  1.00
-       3    9  1.00
-       3   10  1.00
-
-
 [PMe2]
 name = dimethylphosphanyl
 #
@@ -4144,7 +4096,7 @@ name = dimethylphosphanyl
 #                      |                  
 #
 smiles = P(C)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     P    P_3+3   0.000000   0.000000   0.000000
     C    C_3     0.691343   0.292370  -1.708931
@@ -4189,7 +4141,7 @@ name = methylphosphanyl
 #                           H             
 #
 smiles = PC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     P    P_3+3   0.000000   0.000000   0.000000
     C    C_3    -1.792349   0.397474  -0.310448
@@ -4228,7 +4180,7 @@ name = [hydroxy(methoxy)phosphoryl]oxy
 #                 __/                     
 #
 smiles = OP(O)(=O)OC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     P    P_3+3  -1.477640   0.832375  -0.059501
@@ -4273,7 +4225,7 @@ name = phosphonooxy
 #          _/                             
 #
 smiles = OP(O)(=O)O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     P    P_3+3  -1.460571   0.862503   0.051296
@@ -4315,7 +4267,7 @@ name = phosphono
 #                 |                       
 #
 smiles = P(O)(O)=O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     P    P_3+3   0.000000   0.000000   0.000000
     O    O_3     1.565851   0.110929  -0.790193
@@ -4347,7 +4299,7 @@ name = disulfanyl
 #   H                                   \ 
 #
 smiles = SS
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     S    S_3+2  -2.098581   0.423906   0.121316
@@ -4376,7 +4328,7 @@ name = methyldisulfanyl
 #              H                          
 #
 smiles = SSC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     S    S_3+2  -2.109720   0.415693   0.109796
@@ -4412,7 +4364,7 @@ name = methylsulfanyl
 #                 H                       
 #
 smiles = SC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     C    C_3    -1.781618   0.382198   0.073267
@@ -4451,7 +4403,7 @@ name = methylsulfinyl
 #                          ____           
 #
 smiles = S(=O)C
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     O    O_2     0.308667   0.113548  -1.500423
@@ -4492,7 +4444,7 @@ name = ethanethioyl
 #                            |            
 #
 smiles = C(=S)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     S    S_2     1.245446   0.733131   0.056980
@@ -4530,7 +4482,7 @@ name = aminosulfinyl
 #              H                          
 #
 smiles = S(=O)N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     O    O_2     0.318231   0.116088  -1.498376
@@ -4561,7 +4513,7 @@ name = hydroxysulfinyl
 #                          ___            
 #
 smiles = S(=O)O
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     O    O_2     0.390545   0.108122  -1.480604
@@ -4592,7 +4544,7 @@ name = hydrosulfinyl
 #   O                                 \_  
 #
 smiles = S([H])(=O)
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     H    H_      0.399292   0.171178  -1.336730
@@ -4623,7 +4575,7 @@ name = sulfamoyl
 #                         |               
 #
 smiles = S(=O)(=O)N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     O    O_2     0.678697   0.579342   1.250452
@@ -4660,7 +4612,7 @@ name = methanethioyl
 #   H                                 \_  
 #
 smiles = C=S
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     S    S_2    -1.210106   0.778564   0.034151
@@ -4696,7 +4648,7 @@ name = thiazol-1-yl
 #         H /                             
 #
 smiles = S1C=NC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     C    C_R     1.206114   0.826406   1.019950
@@ -4743,7 +4695,7 @@ name = thiazol-2-yl
 #                                  \      
 #
 smiles = C1=NC=CS1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.106547   0.790196   0.037173
@@ -4788,7 +4740,7 @@ name = thiazol-4-yl
 #  H  /                     \             
 #
 smiles = C1=CSC=N1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.175167   0.781701   0.014858
@@ -4833,7 +4785,7 @@ name = thiazol-5-yl
 #  H  /                     \             
 #
 smiles = C1=CN=CS1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.092468   0.883901   0.025298
@@ -4877,7 +4829,7 @@ name = thiazol-3-ium-3-yl
 #         H /                             
 #
 smiles = [N+]1=CSC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_R     0.000000   0.000000   0.000000
     C    C_R    -1.135161   0.758596   0.057453
@@ -4912,7 +4864,7 @@ name = sulfanyl
 #   H                                 \_  
 #
 smiles = S([H])
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     H    H_     -1.387608   0.181537   0.147755
@@ -4946,7 +4898,7 @@ name = 2-bromo-3-furyl
 #  Br /                     \             
 #
 smiles = c1c(Br)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.067318   0.914857  -0.001803
@@ -4993,7 +4945,7 @@ name = 5-bromo-3-furyl
 #                               \Br       
 #
 smiles = c1cc(Br)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.103977   0.833169  -0.001046
@@ -5040,7 +4992,7 @@ name = 5-bromo-2-furyl
 #         H  /                     \      
 #
 smiles = c1ccc(Br)o1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.114543   0.824019   0.019194
@@ -5087,7 +5039,7 @@ name = 2-bromo-3-thienyl
 #  Br /                     \             
 #
 smiles = c1c(Br)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.147548   0.856793  -0.007553
@@ -5134,7 +5086,7 @@ name = 5-bromo-3-thienyl
 #                               \Br       
 #
 smiles = c1cc(Br)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.180259   0.820677  -0.004163
@@ -5181,7 +5133,7 @@ name = 5-bromo-2-thienyl
 #         H  /                     \      
 #
 smiles = c1ccc(Br)s1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.094340   0.880744   0.023617
@@ -5228,7 +5180,7 @@ name = 2-chloro-3-furyl
 #  Cl /                     \             
 #
 smiles = c1c(Cl)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.069232   0.909013  -0.001086
@@ -5275,7 +5227,7 @@ name = 5-chloro-3-furyl
 #                               \Cl       
 #
 smiles = c1cc(Cl)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.104322   0.833138  -0.000800
@@ -5322,7 +5274,7 @@ name = 5-chloro-2-furyl
 #         H  /                     \      
 #
 smiles = c1ccc(Cl)o1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.114583   0.824756   0.018911
@@ -5369,7 +5321,7 @@ name = 2-chloro-3-thienyl
 #  Cl /                     \             
 #
 smiles = c1c(Cl)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.146867   0.853197  -0.006895
@@ -5416,7 +5368,7 @@ name = 5-chloro-3-thienyl
 #                               \Cl       
 #
 smiles = c1cc(Cl)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.181157   0.818828  -0.003988
@@ -5463,7 +5415,7 @@ name = 5-chloro-2-thienyl
 #         H  /                     \      
 #
 smiles = c1ccc(Cl)s1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.095978   0.879257   0.023324
@@ -5510,7 +5462,7 @@ name = 2-ethyl-3-furyl
 #                H                        
 #
 smiles = c1c(CC)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.080316   0.882637   0.012713
@@ -5571,7 +5523,7 @@ name = 5-ethyl-3-furyl
 #    H /     \H                           
 #
 smiles = c1cc(CC)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.111793   0.807342  -0.001241
@@ -5632,7 +5584,7 @@ name = 5-ethyl-2-furyl
 #     H/     \H                           
 #
 smiles = c1oc(CC)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     O    O_R     1.082137   0.753913  -0.001961
@@ -5691,7 +5643,7 @@ name = 2-ethyl-3-thienyl
 #                H                        
 #
 smiles = c1c(CC)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.149773   0.837963   0.010617
@@ -5752,7 +5704,7 @@ name = 5-ethyl-3-thienyl
 #    H /     \H                           
 #
 smiles = c1cc(CC)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.179190   0.807825  -0.003864
@@ -5813,7 +5765,7 @@ name = 5-ethyl-2-thienyl
 #     H/     \H                           
 #
 smiles = c1sc(CC)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     S    S_R     1.376158   0.895621  -0.001983
@@ -5872,7 +5824,7 @@ name = 2-fluoro-3-furyl
 #  F  /                     \             
 #
 smiles = c1c(F)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.086636   0.865528   0.001444
@@ -5919,7 +5871,7 @@ name = 5-fluoro-3-furyl
 #                               \F        
 #
 smiles = c1cc(F)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.101540   0.834811  -0.000068
@@ -5966,7 +5918,7 @@ name = 5-fluoro-2-furyl
 #         H  /                     \      
 #
 smiles = c1ccc(F)o1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.114294   0.826206   0.017965
@@ -6013,7 +5965,7 @@ name = 2-fluoro-3-thienyl
 #  F  /                     \             
 #
 smiles = c1c(F)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.160202   0.809710  -0.004083
@@ -6060,7 +6012,7 @@ name = 5-fluoro-3-thienyl
 #                               \F        
 #
 smiles = c1cc(F)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.183432   0.814337  -0.003323
@@ -6107,7 +6059,7 @@ name = 5-fluoro-2-thienyl
 #         H  /                     \      
 #
 smiles = c1ccc(F)s1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.099830   0.874911   0.022469
@@ -6155,7 +6107,7 @@ name = 2-methyl-3-furyl
 #         H                               
 #
 smiles = c1c(C)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.060313   0.933117  -0.020825
@@ -6203,7 +6155,7 @@ name = 5-methyl-3-furyl
 #               H  /               \      
 #
 smiles = c1cc(C)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.106080   0.827588  -0.001222
@@ -6254,7 +6206,7 @@ name = 5-methyl-2-furyl
 #                                  \      
 #
 smiles = c1oc(C)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     O    O_R     1.086376   0.745389  -0.002435
@@ -6308,7 +6260,7 @@ name = 2-methyl-3-thienyl
 #         H                               
 #
 smiles = c1c(C)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.135687   0.875346  -0.028594
@@ -6356,7 +6308,7 @@ name = 5-methyl-3-thienyl
 #               H  /               \      
 #
 smiles = c1cc(C)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.177178   0.822368  -0.004075
@@ -6407,7 +6359,7 @@ name = 5-methyl-2-thienyl
 #                                  \      
 #
 smiles = c1sc(C)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     S    S_R     1.378631   0.895494  -0.002922
@@ -6461,7 +6413,7 @@ name = 3-bromo-2-furyl
 #         H  /                   \ H      
 #
 smiles = c1occc1(Br)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     O    O_R     1.116545   0.705098  -0.021671
@@ -6508,7 +6460,7 @@ name = 4-bromo-3-furyl
 #                               \H        
 #
 smiles = c1c(Br)coc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.072801   0.900005  -0.006868
@@ -6555,7 +6507,7 @@ name = 4-bromo-2-furyl
 #         H  /                     \      
 #
 smiles = c1cc(Br)co1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.112989   0.825028   0.013425
@@ -6603,7 +6555,7 @@ name = 3-bromo-2-thienyl
 #         H  /                   \ H      
 #
 smiles = c1sccc1(Br)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     S    S_R     1.397725   0.905927  -0.027323
@@ -6650,7 +6602,7 @@ name = 4-bromo-3-thienyl
 #                               \H        
 #
 smiles = c1c(Br)csc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.152769   0.894035  -0.009777
@@ -6697,7 +6649,7 @@ name = 4-bromo-2-thienyl
 #         H  /                     \      
 #
 smiles = c1cc(Br)cs1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.095186   0.877823   0.017420
@@ -6745,7 +6697,7 @@ name = 3-chloro-2-furyl
 #         H  /                   \ H      
 #
 smiles = c1occc1(Cl)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     O    O_R     1.113245   0.710260  -0.018379
@@ -6792,7 +6744,7 @@ name = 4-chloro-3-furyl
 #                               \H        
 #
 smiles = c1c(Cl)coc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.073194   0.895674  -0.005644
@@ -6839,7 +6791,7 @@ name = 4-chloro-2-furyl
 #         H  /                     \      
 #
 smiles = c1cc(Cl)co1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.113422   0.824737   0.014073
@@ -6887,7 +6839,7 @@ name = 3-chloro-2-thienyl
 #         H  /                   \ H      
 #
 smiles = c1sccc1(Cl)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     S    S_R     1.393918   0.911401  -0.022514
@@ -6934,7 +6886,7 @@ name = 4-chloro-3-thienyl
 #                               \H        
 #
 smiles = c1c(Cl)csc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.153750   0.888311  -0.008584
@@ -6981,7 +6933,7 @@ name = 4-chloro-2-thienyl
 #         H  /                     \      
 #
 smiles = c1cc(Cl)cs1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.095975   0.876381   0.018139
@@ -7029,7 +6981,7 @@ name = 3-fluoro-2-furyl
 #         H  /                   \ H      
 #
 smiles = c1occc1(F)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     O    O_R     1.090545   0.736327  -0.002279
@@ -7076,7 +7028,7 @@ name = 4-fluoro-3-furyl
 #                               \H        
 #
 smiles = c1c(F)coc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.089078   0.855193  -0.001058
@@ -7123,7 +7075,7 @@ name = 4-fluoro-2-furyl
 #         H  /                     \      
 #
 smiles = c1cc(F)co1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.113921   0.824534   0.015975
@@ -7171,7 +7123,7 @@ name = 3-fluoro-2-thienyl
 #         H  /                   \ H      
 #
 smiles = c1sccc1(F)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     S    S_R     1.364858   0.947773  -0.001267
@@ -7218,7 +7170,7 @@ name = 4-fluoro-3-thienyl
 #                               \H        
 #
 smiles = c1c(F)csc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.170531   0.841301  -0.003425
@@ -7265,7 +7217,7 @@ name = 4-fluoro-2-thienyl
 #         H  /                     \      
 #
 smiles = c1cc(F)cs1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.097919   0.873233   0.020239
@@ -7306,7 +7258,7 @@ name = N-hydroxy-C-methyl-carbonimidoyl
 #                         |               
 #
 smiles = C(C)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_3     1.279472   0.811570   0.096824
@@ -7343,7 +7295,7 @@ name = hydroxyiminomethyl
 #                              H          
 #
 smiles = C=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     N    N_2    -1.105966   0.649979   0.022496
@@ -7375,7 +7327,7 @@ name = N-hydroxycarbamimidoyl
 #                         |               
 #
 smiles = C(N)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     N    N_2     1.219039   0.744413   0.086125
@@ -7411,7 +7363,7 @@ name = C-fluoro-N-hydroxy-carbonimidoyl
 #                              |          
 #
 smiles = C(F)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     F    F_      1.181136   0.676807   0.056171
@@ -7443,7 +7395,7 @@ name = C-chloro-N-hydroxy-carbonimidoyl
 #                              |          
 #
 smiles = C(Cl)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     Cl   Cl      1.523819   0.899607   0.091651
@@ -7475,7 +7427,7 @@ name = C-bromo-N-hydroxy-carbonimidoyl
 #                              |          
 #
 smiles = C(Br)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     Br   Br      1.657078   0.988375   0.105533
@@ -7508,7 +7460,7 @@ name = C-ethyl-N-hydroxy-carbonimidoyl
 #                     |          H        
 #
 smiles = C(CC)=NO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     C    C_3     1.239351   0.909712   0.115137
@@ -7556,7 +7508,7 @@ name = 2-(2-furyl)-3-furyl
 #                        /                
 #
 smiles = c1c(c2ccco2)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.069079   0.910460  -0.307752
@@ -7613,7 +7565,7 @@ name = 5-(2-furyl)-3-furyl
 #             H                       H   
 #
 smiles = c1coc(c2ccco2)c1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.085014   0.867308  -0.000750
@@ -7671,7 +7623,7 @@ name = 5-(2-furyl)-2-furyl
 #                       H /               
 #
 smiles = c1ccc(c2ccco2)o1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.117225   0.820442   0.014942
@@ -7729,7 +7681,7 @@ name = 2-(2-thienyl)-3-thienyl
 #                        /                
 #
 smiles = c1c(c2cccs2)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.129032   0.855135  -0.336384
@@ -7786,7 +7738,7 @@ name = 5-(2-thienyl)-3-thienyl
 #             H                       H   
 #
 smiles = c1csc(c2cccs2)c1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.173022   0.793625  -0.006500
@@ -7844,7 +7796,7 @@ name = 5-(2-thienyl)-2-thienyl
 #                       H /               
 #
 smiles = c1ccc(c2cccs2)s1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.057240   0.931758   0.019025
@@ -7902,7 +7854,7 @@ name = 2-(5-bromo-2-furyl)-3-furyl
 #                        /                
 #
 smiles = c1c(c2ccc(Br)o2)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.068974   0.916723  -0.306117
@@ -7960,7 +7912,7 @@ name = 5-(5-bromo-2-furyl)-3-furyl
 #                       H /               
 #
 smiles = c1cc(c2ccc(Br)o2)oc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.104218   0.823034  -0.001807
@@ -8018,7 +7970,7 @@ name = 5-(5-bromo-2-furyl)-2-furyl
 #                       H /               
 #
 smiles = c1ccc(c2ccc(Br)o2)o1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.117133   0.820423   0.014937
@@ -8076,7 +8028,7 @@ name = 2-(5-bromo-2-thienyl)-3-thienyl
 #                        /                
 #
 smiles = c1c(c2ccc(Br)s2)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.128948   0.856294  -0.333028
@@ -8134,7 +8086,7 @@ name = 5-(5-bromo-2-thienyl)-3-thienyl
 #                       H /               
 #
 smiles = c1cc(c2ccc(Br)s2)sc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.178730   0.815085  -0.005254
@@ -8192,7 +8144,7 @@ name = 5-(5-bromo-2-thienyl)-2-thienyl
 #                       H /               
 #
 smiles = c1ccc(c2ccc(Br)s2)s1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.056621   0.932607   0.019160
@@ -8254,7 +8206,7 @@ name = 2-furyl
 #         H  /                     \      
 #
 smiles = C1=CC=CO1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.111900   0.825156   0.017378
@@ -8301,7 +8253,7 @@ name = 3-furyl
 #         H /                             
 #
 smiles = C1=COC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.096853   0.845830   0.001262
@@ -8347,7 +8299,7 @@ name = 2-amino-3-furyl
 #             \H                          
 #
 smiles = c1c(N)occ1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.041598   0.951399  -0.012307
@@ -8396,7 +8348,7 @@ name = 5-amino-3-furyl
 #                                \H       
 #
 smiles = c1coc(N)c1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.087091   0.865126   0.000920
@@ -8447,7 +8399,7 @@ name = 5-amino-2-furyl
 #        H  /                  \          
 #
 smiles = C1=CC=C(N)O1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.117736   0.824310   0.016664
@@ -8499,7 +8451,7 @@ name = pyrazin-2-yl
 #                  |                      
 #
 smiles = c1nccnc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     N    N_R     1.182302   0.677957   0.016497
@@ -8538,7 +8490,7 @@ name = hydroxysulfanyl
 #   H                                   \ 
 #
 smiles = SO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     S    S_3+2   0.000000   0.000000   0.000000
     O    O_3    -1.696141   0.230275   0.139145
@@ -8574,7 +8526,7 @@ name = 2-thienyl
 #         H  /                     \      
 #
 smiles = C1=CC=CS1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.098130   0.871865   0.021919
@@ -8621,7 +8573,7 @@ name = 3-thienyl
 #         H /                             
 #
 smiles = C1=CSC=C1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.173703   0.780582  -0.003897
@@ -8667,7 +8619,7 @@ name = 2-amino-3-thienyl
 #             \H                          
 #
 smiles = c1c(N)scc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.118206   0.906451  -0.019316
@@ -8716,7 +8668,7 @@ name = 5-amino-3-thienyl
 #                                \H       
 #
 smiles = c1csc(N)c1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.180418   0.780152  -0.003420
@@ -8767,7 +8719,7 @@ name = 5-amino-2-thienyl
 #        H  /                  \          
 #
 smiles = C1=CC=C(N)S1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.084363   0.899651   0.021915
@@ -8819,7 +8771,7 @@ name = 2,4-dichlorophenyl
 #                  H                      
 #
 smiles = c1c(Cl)cc(Cl)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.187281   0.838387   0.009785
@@ -8872,7 +8824,7 @@ name = butyl
 #       H                                 
 #
 smiles = CCCC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.412072   0.584916  -0.001568
@@ -8925,7 +8877,7 @@ name = isobutyl
 #          H          H         H         
 #
 smiles = CC(C)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.402265   0.635631   0.170711
@@ -8977,7 +8929,7 @@ name = allyl
 #             |                H          
 #
 smiles = CC=C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_2    -1.362717   0.668530   0.018540
@@ -9022,7 +8974,7 @@ name = acetoxy
 #                           O             
 #
 smiles = OC(=O)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_2    -1.069569   0.854009   0.082514
@@ -9062,7 +9014,7 @@ name = acetamido
 #                              H          
 #
 smiles = NC(=O)C
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_2    -1.111230   0.806418   0.033834
@@ -9109,7 +9061,7 @@ name = anilino
 #                 H                       
 #
 smiles = Nc1ccccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_R    -1.106260   0.905303   0.254316
@@ -9167,7 +9119,7 @@ name = benzyloxy
 #                    |                    
 #
 smiles = OCc1ccccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     O    O_2     0.000000   0.000000   0.000000
     C    C_3    -1.148143   0.760861   0.071598
@@ -9229,7 +9181,7 @@ name = benzyl
 #             /                           
 #
 smiles = Cc1ccccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_R    -1.282782   0.806919   0.361883
@@ -9289,7 +9241,7 @@ name = 4-bromophenyl
 #                  |                      
 #
 smiles = c1ccc(Br)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.215473   0.734964  -0.036955
@@ -9343,7 +9295,7 @@ name = 2-chlorophenyl
 #                  |                      
 #
 smiles = c1c(Cl)cccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.187090   0.839299   0.009304
@@ -9397,7 +9349,7 @@ name = 3-chlorophenyl
 #                  H                      
 #
 smiles = c1cc(Cl)ccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.216211   0.734581  -0.028005
@@ -9451,7 +9403,7 @@ name = 4-chlorophenyl
 #                  |                      
 #
 smiles = c1ccc(Cl)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.215399   0.734986  -0.037280
@@ -9506,7 +9458,7 @@ name = cyclohexyl
 #              H /     \H                 
 #
 smiles = C1CCCCC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.073392   0.568117   0.974619
@@ -9564,7 +9516,7 @@ name = ethoxycarbonyl
 #             H        H          |       
 #
 smiles = C(=O)OCC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.063471   0.609369   0.046756
@@ -9615,7 +9567,7 @@ name = 4-fluorophenyl
 #                  |                      
 #
 smiles = c1ccc(F)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.215248   0.735322  -0.038057
@@ -9663,7 +9615,7 @@ name = hydroxymethyl
 #                |                        
 #
 smiles = CO
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     O    O_3    -1.293615   0.540818   0.010433
@@ -9705,7 +9657,7 @@ name = 4-methoxyphenyl
 #              |                          
 #
 smiles = c1ccc(OC)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.207980   0.745828  -0.033206
@@ -9766,7 +9718,7 @@ name = o-tolyl
 #                         |               
 #
 smiles = c1c(C)cccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.179189   0.864605   0.074734
@@ -9825,7 +9777,7 @@ name = p-tolyl
 #                        H                
 #
 smiles = c1ccc(C)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.216953   0.729979  -0.036255
@@ -9885,7 +9837,7 @@ name = morpholino
 #                     |                   
 #
 smiles = N1CCOCC1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3    -1.216929   0.789128   0.166708
@@ -9946,7 +9898,7 @@ name = 4-nitrophenyl
 #                 |                       
 #
 smiles = c1ccc([N+](=O)[O-])cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R     1.210621   0.733185  -0.048737
@@ -10004,7 +9956,7 @@ name = benzoyl
 #         _/       \____O                 
 #
 smiles = C(=O)c1ccccc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     O    O_2     1.102405   0.547601  -0.090279
@@ -10059,7 +10011,7 @@ name = tert-butyl
 #                        \ H              
 #
 smiles = C(C)(C)(C)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     0.689889   0.486984   1.292839
@@ -10115,7 +10067,7 @@ name = 3,4,5-trihydroxy-6-(hydroxymethyl)tetrahydropyran-2-yl
 #                            \            
 #
 smiles = C1O[C@@H](CO)[C@H](O)[C@@H](O)[C@@H]1(O)
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     O    O_3    -0.990905   0.440859   0.945893
@@ -10190,7 +10142,7 @@ name = 3-guanidinopropyl
 #                        |                
 #
 smiles = CCCNC(=N)N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.415777   0.562000  -0.000851
@@ -10256,7 +10208,7 @@ name = (4-hydroxyphenyl)methyl
 #            /                            
 #
 smiles = Cc1ccc(O)cc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_R    -1.301777   0.793001   0.352674
@@ -10312,7 +10264,7 @@ name = carboxymethyl
 #                        H  /      \H     
 #
 smiles = CC(=O)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_2    -1.316313   0.783082   0.054893
@@ -10355,7 +10307,7 @@ name = sec-butyl
 #                 H          H            
 #
 smiles = C(C)CC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3     0.794374   0.547660  -1.201553
@@ -10406,7 +10358,7 @@ name = diethylamino
 #        H       H                        
 #
 smiles = N(CC)CC
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_3     1.202621   0.872520   0.113171
@@ -10464,7 +10416,7 @@ name = 1-hydroxyethyl
 #             H            H              
 #
 smiles = C(O)C
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     O    O_3     0.738134   0.507158  -1.083608
@@ -10503,7 +10455,7 @@ name = carbamimidoyl
 #           H                             
 #
 smiles = C(N)=N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_2     0.000000   0.000000   0.000000
     N    N_2     1.219014   0.734258   0.079233
@@ -10540,7 +10492,7 @@ name = guanidino
 #           H                  H          
 #
 smiles = NC(=N)N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     N    N_2     0.000000   0.000000   0.000000
     C    C_2    -1.109517   0.940677   0.155839
@@ -10584,7 +10536,7 @@ name = 1H-indol-3-yl
 #              H                          
 #
 smiles = c1c(C=CC=C2)c2nc1
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_R     0.000000   0.000000   0.000000
     C    C_R    -1.078697   0.905279   0.088166
@@ -10642,7 +10594,7 @@ name = (2-amino-2-oxo-ethyl)
 #           H                             
 #
 smiles = CC(=O)N
-mepo_compliant = False
+mepo_compatible = False
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_2    -1.334800   0.758667   0.048935
@@ -10688,7 +10640,7 @@ name = 4-aminobutyl
 #          H /                            
 #
 smiles = CCCCN
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.411272   0.584928  -0.002274
@@ -10742,7 +10694,7 @@ name = 2-carboxyethyl
 #                   H        H            
 #
 smiles = CCC(=O)O
-mepo_compliant = False
+mepo_compatible = True
 atoms =
     C    C_3     0.000000   0.000000   0.000000
     C    C_3    -1.411873   0.599618  -0.001211

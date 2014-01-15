@@ -26,7 +26,7 @@ $PROG -t -n nitro -s NO2 -m -c "N Containing" [N+]\(=O\)[O-]
 $PROG -t -n formyl -s HCO -m -c "O Containing" C=O
 $PROG -t -n carboxy -s COOH -m -c "O Containing" C\(=O\)O
 $PROG -t -n hydroxy -s OH -m -c "O Containing" O
-$PROG -t -n cyano -s CN -m -c "N Containing" C#N
+$PROG -t -n cyano -s CN -c "N Containing" C#N
 $PROG -t -n phenyl -s Ph -m -c "Aromatic" c1ccccc1
 $PROG -t -n methoxy -s OMe -m -c "Ether" OC
 $PROG -t -n ethoxy -s OEt -m -c "Ether" OCC
@@ -39,6 +39,6 @@ $PROG -t -n aminomethyl -s MeNH2 -m -c "N Containing" CN
 $PROG -t -n vinyloxy -s OEte -m -c "O Containing" OC=C
 $PROG -t -n allyloxy -s OPre -m -c "O Containing" OCC=C
 $PROG -t -n trifluoromethyl -s CF3 -m -c "Alkyl Halide" C\(F\)\(F\)F
-$PROG -t -n carbamoyl -s CONH2 -m -c "N Containing" C\(=O\)N
-$PROG -t -n methanimidoyl -s CHNH -m -c "N Containing" C=N
+$PROG -t -n carbamoyl -s CONH2 -c "N Containing" C\(=O\)N
+$PROG -t -n methanimidoyl -s CHNH -c "N Containing" C=N
 
