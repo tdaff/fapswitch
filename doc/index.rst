@@ -18,8 +18,8 @@ Contents
 
    introduction
    userguide
-   changes
    functional_groups
+   changes
 
 
 Indices and tables
