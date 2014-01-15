@@ -25,3 +25,8 @@ build
 *_free_*.cif
 __*.fapswitch
 *.flog
+_build
+web/js
+web/generated
+.idea
+*.nja
