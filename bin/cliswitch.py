@@ -16,6 +16,7 @@ from os.path import dirname, realpath
 # Put the parent fapswitch first in the path
 sys.path.insert(1, dirname(dirname(realpath(__file__))))
 
+import fapswitch
 from fapswitch.config import options
 from fapswitch.config import debug, info, error
 from fapswitch.core.io import load_structure
@@ -30,6 +31,9 @@ def main():
     for an input structure.
 
     """
+
+    info("Welcome to cliswitch; the command line interface to fapswitch")
+    info("Using fapswitch version {}".format(fapswitch.__version__))
 
     # Name for a the single structure
     job_name = options.get('job_name')
@@ -71,7 +75,6 @@ def main():
         debug("Initialising cif file writer backend")
         from fapswitch.backend.cif_file import CifFileBackend
         backends.append(CifFileBackend())
-
 
     ##
     # User defined, single-shot functionalisations

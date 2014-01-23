@@ -16,6 +16,7 @@ import sys
 from os.path import dirname, realpath
 sys.path.insert(1, dirname(dirname(realpath(__file__))))
 
+import fapswitch
 from fapswitch.config import options
 from fapswitch.config import debug, info, error, critical
 from fapswitch.core.io import load_structure
@@ -102,6 +103,9 @@ def main():
 
     """
 
+    info("Welcome to fapswitchd; the daemon interface to fapswitch")
+    info("Using fapswitch version {}".format(fapswitch.__version__))
+
     # Name for a the single structure
     job_name = options.get('job_name')
 
@@ -138,13 +142,11 @@ def main():
         from fapswitch.backend.cif_file import CifFileBackend
         backends.append(CifFileBackend())
 
-
     # Make the program die if the daemon is called unsuccessfully
     if fapswitch_deamon(input_structure, backends=backends):
         info("Daemon completed successfully")
     else:
         error("Daemon did not complete successfully; check output")
-
 
 
 if __name__ == '__main__':
