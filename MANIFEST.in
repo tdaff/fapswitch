@@ -1,0 +1,4 @@
+include README.rst
+include LICENSE.txt
+graft doc
+graft tools
