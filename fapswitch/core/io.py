@@ -32,6 +32,7 @@ def load_structure(name):
 
     """
 
+    info("Structure version {}.{}".format(*DOT_FAPSWITCH_VERSION))
     pickle_file = "__{}.fapswitch".format(name)
     loaded = False
     if path.exists(pickle_file):
@@ -89,7 +90,6 @@ def load_structure(name):
 
         # Cache the results
         info("Dumping cache of structure to {}".format(pickle_file))
-        debug("dot-fapswitch version {}.{}".format(*DOT_FAPSWITCH_VERSION))
         structure.fapswitch_version = DOT_FAPSWITCH_VERSION
         with open(pickle_file, 'wb') as p_structure:
             pickle.dump(structure, p_structure, protocol=-1)
