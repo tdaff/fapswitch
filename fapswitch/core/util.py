@@ -22,7 +22,7 @@ def rotation_about_angle(axis_in, angle):
 
     aprod = outer(axis, axis)
     skew = array([[0, axis[2], -axis[1]], [-axis[2], 0, axis[0]],
-        [axis[1], -axis[0], 0]])
+                  [axis[1], -axis[0], 0]])
 
     # R = dd^T + cos(a) (I - dd^T) + sin(a) skew(d)
     return aprod+cos(angle)*(identity(3)-aprod)+sin(angle)*skew
@@ -32,7 +32,7 @@ def arbitrary_normal(vector):
     """Create a normalised normal to an input, does not use random values."""
     if vector == [0, 0, 0]:
         # everything is norma to a zero length vector
-        return asarray([1, 0 , 0])
+        return asarray([1, 0, 0])
     elif vector[0] == vector[1] == vector[2]:
         # just need cross product with something with non-equal elements
         return normalise(cross(vector, [0.0, 1.0, 0.0]))

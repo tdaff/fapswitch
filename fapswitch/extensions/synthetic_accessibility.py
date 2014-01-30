@@ -25,7 +25,7 @@ from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors
 
 from fapswitch.config import debug
-from fapswitch.extensions.fragments import moldb
+from fapswitch.extensions.fragments import MOLDB
 
 
 def ring_analysis(molecule):
@@ -99,7 +99,7 @@ def sa_score(smiles):
     # Count frequencies of fragments
     for bit_id, count in fingerprint.items():
         fragment_count += count
-        fragment_score += moldb.get(bit_id, -4) * count
+        fragment_score += MOLDB.get(bit_id, -4) * count
 
     fragment_score /= fragment_count
 

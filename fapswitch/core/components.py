@@ -8,15 +8,13 @@ Includes structures and atoms
 import os
 import re
 import shlex
-import shutil
 from itertools import count
 from logging import warning, debug, error, info
-from math import ceil
 from os import path
 
 import numpy as np
 from numpy import pi, cos, sin, sqrt, arccos
-from numpy import array, identity, dot, cross
+from numpy import array, dot, cross
 from numpy.linalg import norm
 
 from fapswitch.core.util import min_vect, normalise, strip_blanks, vecdist3
@@ -167,9 +165,10 @@ class Structure(object):
             self.remove_duplicates(duplicate_tolerance)
 
         bonds = {}
-        # TODO(tdaff): this works for the one tested MOF; 0.1 was not enough
-        # only check for bonds that are too long, not too short.
-        bond_tolerence = 0.25
+        # Only check for bonds that are too long, not too short.
+        # Tolerence was tested on some difficult MOFs, needed to
+        # be > 0.1
+        bond_tolerance = 0.25
         # Assign bonds by index
         for bond, bond_data in cif_bonds.items():
             for first_index, first_atom in enumerate(self.atoms):
@@ -190,7 +189,7 @@ class Structure(object):
                                         (first_atom.site, first_index,
                                          second_atom.site, second_index,
                                          distance))
-                            elif distance < (bond_dist + bond_tolerence):
+                            elif distance < (bond_dist + bond_tolerance):
                                 # use the sorted index as bonds between the
                                 # same type are doubly specified
                                 bond_id = tuple(sorted((first_index, second_index)))
@@ -296,7 +295,6 @@ class Structure(object):
             # save in incresaing distance order
             atom.neighbours = sorted(neighbours)[1:]
 
-
     def gen_factional_positions(self):
         """
         Precalculate the fractional positions for all the atoms in the
@@ -377,7 +375,6 @@ class Structure(object):
                 else:
                     self.attachments[atom.site] = [(h_index, o_index, direction)]
 
-
     def gen_babel_uff_properties(self):
         """
         Process a supercell with babel to calculate UFF atom types and
@@ -417,9 +414,9 @@ class Structure(object):
             if start_idx > max_idx and end_idx > max_idx:
                 continue
             if end_idx > max_idx:
-                end_idx = end_idx % max_idx
+                end_idx %= max_idx
             if start_idx > max_idx:
-                start_idx = start_idx % max_idx
+                start_idx %= max_idx
 
             start_atom = bond.GetBeginAtom()
             end_atom = bond.GetEndAtom()
@@ -441,7 +438,6 @@ class Structure(object):
             bonds[bond_id] = (bond_length, bond_order)
 
         self.bonds = bonds
-
 
     @property
     def types(self):
@@ -679,7 +675,6 @@ class Atom(object):
         if '_atom_type_partial_charge' in at_dict:
             self.charge = float(at_dict['_atom_type_partial_charge'])
         elif '_atom_type_parital_charge' in at_dict:
-            #TODO(tdaff): remove for 2.0
             self.charge = float(at_dict['_atom_type_parital_charge'])
 
         # set these as atributes, not properties
@@ -690,7 +685,6 @@ class Atom(object):
         else:
             self.covalent_radius = COVALENT_RADII[self.type]
         self.is_metal = self.atomic_number in METALS
-
 
     def get_atomic_number(self):
         """The atomic number for the element, or closest match."""
@@ -737,7 +731,9 @@ class Atom(object):
             # Attribute does not exist, so can't delete it
             pass
 
-    fractional = property(get_fractional_coordinate, set_fractional_coordinate, del_fractional_coordinate)
+    fractional = property(get_fractional_coordinate,
+                          set_fractional_coordinate,
+                          del_fractional_coordinate)
 
     @property
     def element(self):
@@ -749,8 +745,6 @@ class Atom(object):
             else:
                 name = name[:-1]
         return self.type
-
-
 
 
 class Symmetry(object):
@@ -773,11 +767,9 @@ class Symmetry(object):
         new_pos = [eval(sym_op.replace('x', str(pos[0]))
                         .replace('y', str(pos[1]))
                         .replace('z', str(pos[2]))) for sym_op in self.sym_ops]
-        # TODO(tdaff): should we translate into cell?
-        new_pos = [x%1.0 for x in new_pos]
+        # This translate into cell, which might not be always desired.
+        new_pos = [x % 1.0 for x in new_pos]
         return new_pos
-
-
 
 
 def unique(in_list, key=None):
@@ -797,7 +789,6 @@ def unique(in_list, key=None):
     return uniq
 
 
-
 # General utility functions
 def mkdirs(directory):
     """Create a directory if it does not exist."""
@@ -805,12 +796,9 @@ def mkdirs(directory):
         os.makedirs(directory)
 
 
-
-
 def ufloat(text):
     """Convert string to float, ignoring the uncertainty part."""
-    return float(re.sub('\(.*\)', '', text))
-
+    return float(re.sub(r'\(.*\)', '', text))
 
 
 def try_int(text, default=0):

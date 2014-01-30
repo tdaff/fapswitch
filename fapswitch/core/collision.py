@@ -13,7 +13,7 @@ from numpy import dot
 
 from fapswitch.core.util import min_vect
 from fapswitch.config import options
-from fapswitch.config import debug, info, warning, error, critical
+from fapswitch.config import info, warning
 
 __all__ = ['test_collision', 'make_collision_tester']
 
@@ -22,6 +22,8 @@ try:
     from scipy.weave import converters
     _SCIPY_WEAVE = True
 except ImportError:
+    weave = None
+    converters = None
     _SCIPY_WEAVE = False
 
 
@@ -92,7 +94,8 @@ def make_collision_tester(test_method='vdw', test_scale=1.122462048309373):
                 dist = min_vect(pos, ipos, atom.ipos(cell.cell, cell.inverse),
                                 atom.ifpos(cell.inverse), cell.cell)
                 dist = (dot(dist, dist))**0.5
-                min_dist = test_scale*(test_atom.covalent_radius + atom.covalent_radius)
+                min_dist = test_scale*(test_atom.covalent_radius +
+                                       atom.covalent_radius)
                 if dist < min_dist:
                     return False
             return True
@@ -100,6 +103,7 @@ def make_collision_tester(test_method='vdw', test_scale=1.122462048309373):
     elif test_method == 'none':
         info('Collision detection turned off')
         def collision(*args, **kwargs):
+            """Dummy method always reports no collision"""
             return True
 
     else:

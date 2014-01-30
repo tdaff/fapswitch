@@ -25,6 +25,7 @@ DOT_FAPSWITCH_VERSION = (7, 0)
 
 Ligand = namedtuple('Ligand', ['smiles', 'inchi', 'inchikey', 'sa_score'])
 
+
 def load_structure(name):
     """
     Load a structure from a pickle or generate a new one as required.
@@ -146,7 +147,6 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
         for identifiers in identifiers:
             identifiers_part.append("{}  {}  {}  {}\n".format(*identifiers))
 
-
     cif_file = [
         "data_%s\n" % name.replace(' ', '_'),
         "%-33s %s\n" % ("_audit_creation_date",
@@ -200,7 +200,7 @@ def atoms_to_identifiers(atoms, bonds):
     babel_idx = 1
 
     for idx, atom in enumerate(atoms):
-        if atom is None or atom.is_metal: # or atom.atomic_number == 1:
+        if atom is None or atom.is_metal:  # or atom.atomic_number == 1:
             # If we ignore them it should split the
             # ligands into fragments
             continue
