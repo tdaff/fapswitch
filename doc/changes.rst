@@ -1,13 +1,19 @@
 Changelog
 =========
 
+Development
+-----------
+
+  * Use python packaging utilities for distribution
+
+
 7.1.0
 -----
 
   * Functional groups have been cleaned and assigned IUPAC names
   * MEPO-QEq compatibility has been computed for all functional groups
   * ``mepo_only`` option will only load MEPO compatible groups
-  * ``list_groups.py`` lists all the groups that have been loaded in the 
+  * ``list_groups.py`` lists all the groups that have been loaded in the
     current context
   * In the API mepo_compliance is renamed to mepo_compatibility
   * Documentation includes the functional groups
