@@ -11,7 +11,7 @@ from itertools import product, chain
 import numpy as np
 from numpy import dot
 
-from fapswitch.config import debug, info, warning, error, critical
+from fapswitch.config import debug, info, warning, error
 from fapswitch.core.util import powerset
 from fapswitch.core.collision import test_collision
 from fapswitch.core.io import atoms_to_cif, atoms_to_identifiers
@@ -38,7 +38,8 @@ def all_combinations_replace(structure, rotations=12, replace_only=None,
     """
 
     if replace_only is not None:
-        local_attachments = [att_id for att_id in structure.attachments if att_id in replace_only]
+        local_attachments = [att_id for att_id in structure.attachments
+                             if att_id in replace_only]
         debug("Replacing only: %s" % list(local_attachments))
     else:
         local_attachments = structure.attachments
@@ -73,7 +74,8 @@ def random_combination_replace(structure, rotations=12, replace_only=None,
     """
 
     if replace_only is not None:
-        local_attachments = [att_id for att_id in structure.attachments if att_id in replace_only]
+        local_attachments = [att_id for att_id in structure.attachments
+                             if att_id in replace_only]
         debug("Replacing only: %s" % list(local_attachments))
     else:
         local_attachments = structure.attachments
@@ -137,10 +139,15 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
             new_mof[attach_id:attach_id+1] = [None]
             start_idx = len(new_mof)
             for _trial_rotation in range(rotations):
-                incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
+                incoming_group, incoming_bonds = attachment.atoms_attached_to(
+                    attach_at, attach_towards, attach_normal, attach_to,
+                    start_idx)
                 for atom in incoming_group:
-                    if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
-                        attach_normal = dot(rotation_about_angle(attach_towards, rotation_angle), attach_normal)
+                    if not test_collision(atom, new_mof, structure.cell,
+                                          ignore=[attach_to]):
+                        attach_normal = dot(
+                            rotation_about_angle(attach_towards,
+                                                 rotation_angle), attach_normal)
                         rotation_count += 1
                         # Don't need to test more atoms
                         break
@@ -152,7 +159,8 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
             else:
                 # Did not attach
                 fail_name = ".".join(["@".join(x) for x in replace_list])
-                warning("Failed: %s@%s from %s" % (this_group, this_site, fail_name))
+                warning("Failed: %s@%s from %s" %
+                        (this_group, this_site, fail_name))
                 debug("Needed {} rotations".format(rotation_count))
                 return False
 
@@ -243,8 +251,7 @@ def freeform_replace(structure, replace_only=None, groups_only=None,
         elif num_groups > nsites:
             warning("Too many sites requested; changing all %i" % nsites)
             num_groups = nsites
-        #TODO(tdaff): selected groups only
-        func_repr = [random.choice(local_groups) for _counter in range(num_groups)]
+        func_repr = [random.choice(local_groups) for _ in range(num_groups)]
         # Pad to the correct length
         func_repr.extend([""]*(nsites - num_groups))
         # Randomise
@@ -263,7 +270,10 @@ def freeform_replace(structure, replace_only=None, groups_only=None,
     new_mof = list(structure.atoms)
     new_mof_bonds = dict(structure.bonds)
     rotation_count = 0
-    for this_point, this_group in zip(chain(*[structure.attachments[x] for x in sorted(structure.attachments)]), func_repr):
+    for this_point, this_group in zip(
+            chain(*[structure.attachments[x]
+                    for x in sorted(structure.attachments)]),
+            func_repr):
         if this_group == "":
             new_mof_name.append("")
             continue
@@ -279,11 +289,18 @@ def freeform_replace(structure, replace_only=None, groups_only=None,
         new_mof[attach_id:attach_id+1] = [None]
         start_idx = len(new_mof)
         for trial_rotation in range(rotations):
-            incoming_group, incoming_bonds = attachment.atoms_attached_to(attach_at, attach_towards, attach_normal, attach_to, start_idx)
+            incoming_group, incoming_bonds = (
+                attachment.atoms_attached_to(attach_at, attach_towards,
+                                             attach_normal, attach_to,
+                                             start_idx))
             for atom in incoming_group:
-                if not test_collision(atom, new_mof, structure.cell, ignore=[attach_to]):
+                if not test_collision(atom, new_mof, structure.cell,
+                                      ignore=[attach_to]):
                     rotation_count += 1
-                    attach_normal = dot(rotation_about_angle(attach_towards, random.random()*np.pi*2), attach_normal)
+                    attach_normal = dot(
+                        rotation_about_angle(attach_towards,
+                                             random.random()*np.pi*2),
+                        attach_normal)
                     break
             else:
                 # Fits, so add and move on
@@ -292,7 +309,8 @@ def freeform_replace(structure, replace_only=None, groups_only=None,
                 break
         else:
             # this_point not valid
-            warning("Failed to generate: %s" % ".".join([x or "" for x in func_repr]))
+            warning("Failed to generate: %s" %
+                    ".".join([x or "" for x in func_repr]))
             warning("Stopped after: %s" % ".".join(new_mof_name))
             debug("Needed {} rotations".format(rotation_count))
             return False
