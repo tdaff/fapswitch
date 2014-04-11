@@ -225,6 +225,11 @@ def atoms_to_identifiers(atoms, bonds):
 
     # Strip out stereochemistry
     full_molecule = pybelmol.write('can', opt={'i': None}).strip()
+
+    if full_molecule == '':
+        debug("OpenBabel conversion failed; try newer version")
+        return
+
     # Fix for delocalised carboxylate detached from metals
     full_molecule = re.sub(r'C\(O\)O([)$.])', r'C(=O)O\1', full_molecule)
 
