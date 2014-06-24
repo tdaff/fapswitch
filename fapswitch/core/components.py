@@ -20,7 +20,7 @@ from numpy.linalg import norm
 from fapswitch.core.util import min_vect, normalise, strip_blanks, vecdist3
 from fapswitch.core.util import arbitrary_normal
 from fapswitch.core.elements import WEIGHT, ATOMIC_NUMBER, UFF
-from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS
+from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS, OB_BOND_ORDERS
 from fapswitch.core.elements import COVALENT_RADII
 
 # Global constants
@@ -374,6 +374,41 @@ class Structure(object):
                     self.attachments[atom.site].append((h_index, o_index, direction))
                 else:
                     self.attachments[atom.site] = [(h_index, o_index, direction)]
+
+    def gen_types_from_bonds(self):
+        """
+        Pass the bonding information into openbabel to get the atomic types.
+        """
+        # import these locally so we can run fapswitch without them
+        import openbabel as ob
+        import pybel
+
+        # Construct the molecule from atoms and bonds
+
+        obmol = ob.OBMol()
+        obmol.BeginModify()
+
+        for atom in self.atoms:
+            new_atom = obmol.NewAtom()
+            new_atom.SetAtomicNum(atom.atomic_number)
+
+        for bond, bond_info in self.bonds.items():
+            obmol.AddBond(bond[0], bond[1], OB_BOND_ORDERS[bond_info[1]])
+
+        obmol.EndModify()
+
+        pybel_mol = pybel.Molecule(obmol)
+
+        # need to tell the typing system to ignore all atoms in the setup
+        # or it will silently crash with memory issues
+        constraint = ob.OBFFConstraints()
+        for at_idx in range(pybel_mol.OBMol.NumAtoms()):
+            constraint.AddIgnore(at_idx)
+        uff = ob.OBForceField_FindForceField('uff')
+        uff.Setup(pybel_mol.OBMol, constraint)
+        uff.GetAtomTypes(pybel_mol.OBMol)
+        for atom, ob_atom in zip(self.atoms, pybel_mol):
+            atom.uff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
 
     def gen_babel_uff_properties(self):
         """

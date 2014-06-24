@@ -21,7 +21,7 @@ from fapswitch.core.elements import CCDC_BOND_ORDERS, OB_BOND_ORDERS
 from fapswitch.config import info, debug, warning, error
 from fapswitch.extensions import sa_score
 
-DOT_FAPSWITCH_VERSION = (7, 0)
+DOT_FAPSWITCH_VERSION = (7, 1)
 
 Ligand = namedtuple('Ligand', ['smiles', 'inchi', 'inchikey', 'sa_score'])
 
@@ -77,6 +77,9 @@ def load_structure(name):
                 warning("Atoms not properly typed, expect errors")
             else:
                 info("Bonding from input file used")
+        elif bonding_src == 'bondsonly':
+            info("Generating atom types from cif bonding")
+            structure.gen_types_from_bonds()
         elif bonding_src == 'openbabel':
             info("Generating topology with Open Babel")
             structure.gen_babel_uff_properties()

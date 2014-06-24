@@ -127,10 +127,16 @@ can help you
   partially occupied sites all become fully occupied.
 * Reduce the atoms in the cif to the asymmetric unit and make sure that
   all the symmetry operations are provided.
+* If no connectivity information is provided in the CIF, use the `openbabel`
+  connectivity option and the structure will be passed to openbabel for bond
+  and atom type perception. Always check that the final bonding and types make
+  sense!
 * (Optional) Add bonding information to the cif:
 
   * CIFs exported from Materials Studio with the correct bonding will have
     the bonding in the correct format for fapswitch.
+  * To utilise the bonding information use `bondsonly` option for connectivity
+    and atom typing will be derived from the provided bonds.
   * To manually add the bonding, it is contained within a `loop_` that defines
     atoms in the bond by their atom labels, optionally their distance, and
     the bond type (S=single, D=double, T=Triple, A=Aromatic)::
@@ -147,6 +153,8 @@ can help you
   * Put the atom type in the `_atom_site_description` field.
   * Assign atom types based on the UFF to work with the atom types on the
     functional groups.
+  * To utilise the typing information use `file` option for connectivity
+    and no bond perception will be carried out.
   * These get passed through to the output file.
   * Must be added manually::
 
@@ -213,7 +221,8 @@ All options
 
   Default: openbabel
 
-  Where to get the connectivity information from [str] {openbabel, file}
+  Where to get the connectivity information from and how to interpret it. [str]
+  {openbabel, file, bondsonly}
 
 .. envvar:: custom_strings
 

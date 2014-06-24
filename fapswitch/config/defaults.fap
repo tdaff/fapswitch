@@ -21,7 +21,8 @@ collision_method = vdw
 # distance in collision test for insertions [float]
 collision_scale = 1.122462048309373
 
-# Where to get the connectivity information from [str] {openbabel, file}
+# Where to get the connectivity information from and how to interpret it. [str]
+# {openbabel, file, bondsonly}
 connectivity = openbabel
 
 # Make functionalisations with the set of {.freeform.srings.} and
