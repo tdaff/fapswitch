@@ -393,7 +393,8 @@ class Structure(object):
             new_atom.SetAtomicNum(atom.atomic_number)
 
         for bond, bond_info in self.bonds.items():
-            obmol.AddBond(bond[0], bond[1], OB_BOND_ORDERS[bond_info[1]])
+            # Remember openbabel indexes from 1
+            obmol.AddBond(bond[0]+1, bond[1]+1, OB_BOND_ORDERS[bond_info[1]])
 
         obmol.EndModify()
 
