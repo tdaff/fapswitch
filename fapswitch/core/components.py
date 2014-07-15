@@ -408,8 +408,17 @@ class Structure(object):
         uff = ob.OBForceField_FindForceField('uff')
         uff.Setup(pybel_mol.OBMol, constraint)
         uff.GetAtomTypes(pybel_mol.OBMol)
-        for atom, ob_atom in zip(self.atoms, pybel_mol):
-            atom.uff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
+        # Dative nitrogen bonds break aromaticity determination from resonant
+        # structures, so make anything with an aromatic bond be aromatic
+        for at_idx, atom, ob_atom in zip(count(), self.atoms, pybel_mol):
+            uff_type = ob_atom.OBAtom.GetData("FFAtomType").GetValue()
+            if atom.type in ['C', 'N', 'O', 'S']:
+                for bond, bond_info in self.bonds.items():
+                    if at_idx in bond and bond_info[1] == 1.5:
+                        uff_type = uff_type[:-1] + 'R'
+                        break
+
+            atom.uff_type = uff_type
 
     def gen_babel_uff_properties(self):
         """
