@@ -415,7 +415,7 @@ class Structure(object):
             if atom.type in ['C', 'N', 'O', 'S']:
                 for bond, bond_info in self.bonds.items():
                     if at_idx in bond and bond_info[1] == 1.5:
-                        uff_type = uff_type[:-1] + 'R'
+                        uff_type = uff_type[0] + '_R'
                         break
 
             atom.uff_type = uff_type
