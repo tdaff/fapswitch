@@ -41,6 +41,57 @@ def arbitrary_normal(vector):
         return normalise(cross(vector, roll(vector, 1)))
 
 
+def cif_bond_dist(first_atom, second_atom, cell):
+    """
+    Calculate the distance to the minimum image and which boundaries have been
+    crossed for _geom_bond_site_symmetry_2.
+
+    :param first_atom: Atom within the cell boundary
+    :param second_atom: Atom to find the distance to
+    :param cell: Cell object
+    :return: distance, (dx, dy, dx)
+    """
+
+    c_coa = first_atom.ipos(cell.cell, cell.inverse)
+    f_coa = first_atom.ifpos(cell.inverse)
+    c_cob = second_atom.ipos(cell.cell, cell.inverse)
+    f_cob_in = second_atom.ifpos(cell.inverse)
+    box = cell.cell
+
+    cell_shift = [0, 0, 0]
+
+    f_cob = f_cob_in[:]
+    fdx = f_coa[0] - f_cob[0]
+    if fdx < -0.5:
+        f_cob[0] -= 1
+        cell_shift[0] = -1
+    elif fdx > 0.5:
+        f_cob[0] += 1
+        cell_shift[0] = 1
+    fdy = f_coa[1] - f_cob[1]
+    if fdy < -0.5:
+        f_cob[1] -= 1
+        cell_shift[1] = -1
+    elif fdy > 0.5:
+        f_cob[1] += 1
+        cell_shift[1] = 1
+    fdz = f_coa[2] - f_cob[2]
+    if fdz < -0.5:
+        f_cob[2] -= 1
+        cell_shift[2] = -1
+    elif fdz > 0.5:
+        f_cob[2] += 1
+        cell_shift[2] = 1
+    if f_cob == f_cob_in:
+        # if nothing has changed, use initial values
+        return vecdist3(c_coa, c_cob), cell_shift
+    else:
+        new_b = [f_cob[0]*box[0][0] + f_cob[1]*box[1][0] + f_cob[2]*box[2][0],
+                 f_cob[0]*box[0][1] + f_cob[1]*box[1][1] + f_cob[2]*box[2][1],
+                 f_cob[0]*box[0][2] + f_cob[1]*box[1][2] + f_cob[2]*box[2][2]]
+        return vecdist3(c_coa, new_b), cell_shift
+
+
 def min_vect(c_coa, f_coa, c_cob, f_cob_in, box):
     """Calculate the closest distance assuming fractional, in-cell coords."""
     f_cob = f_cob_in[:]

@@ -15,9 +15,11 @@ import time
 from collections import namedtuple
 from os import path
 
+import fapswitch
 from fapswitch.config import options
 from fapswitch.core.components import Structure
 from fapswitch.core.elements import CCDC_BOND_ORDERS, OB_BOND_ORDERS
+from fapswitch.core.util import cif_bond_dist
 from fapswitch.config import info, debug, warning, error
 from fapswitch.extensions import sa_score
 
@@ -127,18 +129,41 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
         atom_part.append("%f %f %f " % tuple(atom.ifpos(inv_cell)))
         atom_part.append("%f\n" % atom.charge)
 
-    bond_part = []
+    # Materials studio sorts bonds in the same order as the atoms
+    # but perceives bonds wrong if bond orders are mixed.
+    # i.e. it misreads cifs that it writes itself.
+    bond_properties = []
     for bond, bond_info in bonds.items():
         try:
-            bond_length = bond_info[0]
-            bond_order = CCDC_BOND_ORDERS[bond_info[1]]
-            bond_part.append("%-5s %-5s %f %-5s\n" %
-                             (atoms[bond[0]].site, atoms[bond[1]].site,
-                              bond_length, bond_order))
+            bond_type = CCDC_BOND_ORDERS[bond_info[1]]
+            atom0, atom1 = atoms[bond[0]], atoms[bond[1]]
+            distance, shift = cif_bond_dist(atom0, atom1, cell)
         except AttributeError:
             # one of the atoms is None so skip
             #debug("cif NoneType atom")
-            pass
+            continue
+
+        # assume P1 for now (only one symmetry operation) so "1_???"
+        if shift == [0, 0, 0]:
+            site_symm = "."
+            bond_properties.append((bond_info[1], bond,
+                                    (atom0.site, atom1.site, distance,
+                                     site_symm, bond_type)))
+        else:
+            site_symm = "1_%i%i%i" % (5+shift[0], 5+shift[1], 5+shift[2])
+            bond_properties.append((bond_info[1], bond,
+                                    (atom0.site, atom1.site, distance,
+                                     site_symm, bond_type)))
+            # MS also includes the reverse bond over the boundary
+            site_symm = "1_%i%i%i" % (5-shift[0], 5-shift[1], 5-shift[2])
+            rbond = (bond[1], bond[0])
+            bond_properties.append((bond_info[1], rbond,
+                                    (atom1.site, atom0.site, distance,
+                                     site_symm, bond_type)))
+
+    # Can just sort bond_properties as it will be bond_order, site1, site2
+    bond_part = ["%-5s %-5s %.3f %-5s %2s\n" % x[2]
+                 for x in sorted(bond_properties)]
 
     identifiers_part = []
     if identifiers is not None:
@@ -155,10 +180,11 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
         "%-33s %s\n" % ("_audit_creation_date",
                         time.strftime('%Y-%m-%dT%H:%M:%S%z')),
         "%-33s %s\n" % ("_audit_creation_method",
-                        "fapswitch_%i.%i" % DOT_FAPSWITCH_VERSION),
+                        "fapswitch_%s" % fapswitch.__version__),
         "%-33s %s\n" % ("_symmetry_space_group_name_H-M", "P1"),
         "%-33s %s\n" % ("_symmetry_Int_Tables_number", "1"),
         "%-33s %s\n" % ("_space_group_crystal_system", cell.crystal_system),
+        "loop_\n", "_symmetry_equiv_pos_as_xyz\n", "  x,y,z\n",
         "%-33s %-.10s\n" % ("_cell_length_a", cell.a),
         "%-33s %-.10s\n" % ("_cell_length_b", cell.b),
         "%-33s %-.10s\n" % ("_cell_length_c", cell.c),
@@ -180,6 +206,7 @@ def atoms_to_cif(atoms, cell, bonds, name, identifiers=None):
         "_geom_bond_atom_site_label_1\n",
         "_geom_bond_atom_site_label_2\n",
         "_geom_bond_distance\n",
+        "_geom_bond_site_symmetry_2\n",
         "_ccdc_geom_bond_type\n"] + bond_part + ["\n"] + identifiers_part
 
     return cif_file
