@@ -11,7 +11,10 @@ Development
 -----
 
   * Option to pass the provided bonding information to openbabel for
-    UFF atom typing (for use with Materials Studio CIFs).
+    UFF atom typing (for use with Materials Studio CIFs). See the ``bondsonly``
+    option of ``connectivity``.
+  * Output ``.cif`` files include periodic boundary information in the bonds
+    so that they appear correctly in materials studio.
 
 
 7.1.0
