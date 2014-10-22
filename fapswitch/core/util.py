@@ -92,6 +92,17 @@ def cif_bond_dist(first_atom, second_atom, cell):
         return vecdist3(c_coa, new_b), cell_shift
 
 
+def min_vector(first_atom, second_atom, cell=None):
+    """Helper to find mimimum image criterion distance."""
+    if cell is None:
+        cell = first_atom._parent.cell.cell
+    return min_vect(first_atom.pos,
+                    first_atom.fractional,
+                    second_atom.pos,
+                    second_atom.fractional,
+                    cell)
+
+
 def min_vect(c_coa, f_coa, c_cob, f_cob_in, box):
     """Calculate the closest distance assuming fractional, in-cell coords."""
     f_cob = f_cob_in[:]
@@ -118,6 +129,7 @@ def min_vect(c_coa, f_coa, c_cob, f_cob_in, box):
                  f_cob[0]*box[0][1] + f_cob[1]*box[1][1] + f_cob[2]*box[2][1],
                  f_cob[0]*box[0][2] + f_cob[1]*box[1][2] + f_cob[2]*box[2][2]]
         return direction3d(c_coa, new_b)
+
 
 def direction3d(source, target):
     """Return the vector connecting two 3d points."""

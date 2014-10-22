@@ -1,3 +1,6 @@
+
+from __future__ import division
+
 """
 fapswitch core components
 
@@ -18,13 +21,14 @@ from numpy import array, dot, cross
 from numpy.linalg import norm
 
 from fapswitch.core.util import min_vect, normalise, strip_blanks, vecdist3
-from fapswitch.core.util import arbitrary_normal
+from fapswitch.core.util import arbitrary_normal, min_vector
 from fapswitch.core.elements import WEIGHT, ATOMIC_NUMBER, UFF
 from fapswitch.core.elements import CCDC_BOND_ORDERS, METALS, OB_BOND_ORDERS
 from fapswitch.core.elements import COVALENT_RADII
 
 # Global constants
 DEG2RAD = pi / 180.0
+
 
 class Structure(object):
     """
@@ -38,6 +42,8 @@ class Structure(object):
         self.name = name
         self.cell = Cell()
         self.atoms = []
+        self.bonds = {}
+        self.attachments = {}
         self.space_group = None
 
     def from_cif(self, filename=None, string=None):
@@ -151,9 +157,16 @@ class Structure(object):
 
         newatoms = []
         for site_idx, atom in enumerate(atoms):
+            # Each atom needs to know which other atom it was generated from
+            # and by which symmetry operations.
+            asymmetric_site = None
             for sym_op in symmetry:
                 newatom = Atom(parent=self)
                 newatom.from_cif(atom, self.cell.cell, sym_op, site_idx)
+                if asymmetric_site is None:
+                    asymmetric_site = newatom
+                else:
+                    newatom.asymmetric_site = asymmetric_site
                 newatoms.append(newatom)
 
         self.atoms = newatoms
@@ -206,6 +219,7 @@ class Structure(object):
                 if atom.type != uniq_atom.type:
                     continue
                 elif min_distance(atom, uniq_atom) < tolerance:
+                    uniq_atom.sym_ops.extend(atom.sym_ops)
                     break
             # else excutes when not found here
             else:
@@ -320,24 +334,38 @@ class Structure(object):
         cpositions = [atom.ipos(cell, inv_cell) for atom in self.atoms]
         fpositions = [atom.ifpos(inv_cell) for atom in self.atoms]
 
-        # Speed is not so important here but these are derived from the
-        # surface ares distance calcualtions so they are explicitly given
-        # the fractional positions too
         for at_idx, atom in enumerate(self.atoms):
-            conex = [x[1] for x in atom.neighbours[:2]]
-            left = min_vect(cpositions[at_idx], fpositions[at_idx],
-                            cpositions[conex[0]], fpositions[conex[0]],
-                            cell)
-            right = min_vect(cpositions[at_idx], fpositions[at_idx],
-                             cpositions[conex[1]], fpositions[conex[1]],
-                             cell)
-            normal = cross(left, right)
-            if norm(normal) == 0.0:
-                normal = arbitrary_normal(left)
-                # already normalised
-                atom.normal = normal
+            # If we have some symmetry operations, use them to get the
+            # other normals to keep as much symmetry as possible
+            if atom.asymmetric_site is not None:
+                ref = atom.asymmetric_site
+                # Only use the first operation as it will be the first for
+                # all atoms.
+                sym_op = atom.sym_ops[0]
+                # Place an atom at the normal, and use the symmetry operation
+                # to find the normal rotation
+                normal = Atom(parent=self)
+                normal.pos = ref.pos + ref.normal
+                normal.fractional = sym_op.trans_frac(normal.fractional)
+                atom.normal = normalise(min_vector(normal, atom))
             else:
-                atom.normal = normalise(normal)
+                # Speed is not so important here but these are derived from the
+                # surface ares distance calculations so they are explicitly
+                # given the fractional positions.
+                conex = [x[1] for x in atom.neighbours[:2]]
+                left = min_vect(cpositions[at_idx], fpositions[at_idx],
+                                cpositions[conex[0]], fpositions[conex[0]],
+                                cell)
+                right = min_vect(cpositions[at_idx], fpositions[at_idx],
+                                 cpositions[conex[1]], fpositions[conex[1]],
+                                 cell)
+                normal = cross(left, right)
+                if norm(normal) == 0.0:
+                    normal = arbitrary_normal(left)
+                    # already normalised
+                    atom.normal = normal
+                else:
+                    atom.normal = normalise(normal)
 
     def gen_attachment_sites(self):
         """
@@ -675,6 +703,8 @@ class Atom(object):
         self.vdw_radius = 0.0
         self.covalent_radius = 0.0
         self.is_metal = False
+        self.sym_ops = [Symmetry('x,y,z')]
+        self.asymmetric_site = None
 
         # Sets anything else specified as an attribute
         for key, val in kwargs.items():
@@ -709,6 +739,7 @@ class Atom(object):
                     ufloat(at_dict['_atom_site_fract_z'])]
         if symmetry is not None:
             frac_pos = symmetry.trans_frac(frac_pos)
+            self.sym_ops = [symmetry]
         self.pos = dot(frac_pos, cell)
         if re.match('[0-9]', self.site) and idx is not None:
             debug("Site label may not be unique; appending index")
@@ -794,27 +825,61 @@ class Atom(object):
 
 class Symmetry(object):
     """Apply symmetry operations to atomic coordinates."""
-    def __init__(self, blob):
+    def __init__(self, text):
         """Read the operation from the argument."""
-        self.sym_ops = []
-        self.blob = blob
-        self.parse_blob()
-        self.cell = None
+        self.xyz = "".join(text.split())  # remove all spaces
+        rt_matrix = []
+        for idx, sub_xyz in enumerate(self.xyz.split(',')):
+            row = [0.0, 0.0, 0.0, 0.0]
+            # Find multipliers of x, y and z for rotation
+            for component in re.finditer(r'([+-]?)(\d*)([x-z]+)', sub_xyz):
+                # signed?
+                value = -1.0 if component.group(1) == '-' else 1.0
+                # Some scaling factor?
+                if component.group(2):
+                    value *= int(component.group(2))
+                if component.group(3) == 'x':
+                    row[0] += value
+                elif component.group(3) == 'y':
+                    row[1] += value
+                elif component.group(3) == 'z':
+                    row[2] += value
 
-    def parse_blob(self):
-        """Interpret a symmetry line from a cif."""
-        # convert integers to floats to avoid integer division
-        self.sym_ops = [re.sub(r'([\d]+)', r'\1.0', x.strip())
-                        for x in re.split(',', self.blob) if x.strip()]
+            # Find the translation component any trailing numbers or fractions
+            for component in re.finditer(r"([+-])(\d+)/*(\d*)$", sub_xyz):
+                # signed?
+                value = -1.0 if component.group(1) == '-' else 1.0
+                value *= int(component.group(2))
+                if component.group(3):
+                    value /= int(component.group(3))
+                row[3] += value
 
-    def trans_frac(self, pos):
+            rt_matrix.append(row)
+
+        rt_matrix.append([0.0, 0.0, 0.0, 1.0])
+        self.rt_matrix = np.array(rt_matrix)
+
+    def trans_frac(self, pos, in_cell=True):
         """Apply symmetry operation to the supplied position."""
-        new_pos = [eval(sym_op.replace('x', str(pos[0]))
-                        .replace('y', str(pos[1]))
-                        .replace('z', str(pos[2]))) for sym_op in self.sym_ops]
-        # This translate into cell, which might not be always desired.
-        new_pos = [x % 1.0 for x in new_pos]
+
+        new_pos = dot(self.rt_matrix, [pos[0], pos[1], pos[2], 1.0])[:3]
+        #print(translated, also_new)
+        if in_cell:
+            # translate positions into cell; leave as numpy array
+            new_pos %= 1.0
+
         return new_pos
+
+    def rotate(self, vector):
+        """
+        Apply only the rotation part of the
+        symmetry operation to the vector.
+
+        """
+        return dot(self.rt_matrix[:3, :3], vector)
+
+    def __repr__(self):
+        return "Symmetry('{}')".format(self.xyz)
 
 
 def unique(in_list, key=None):

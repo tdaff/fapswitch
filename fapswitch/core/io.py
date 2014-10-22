@@ -23,7 +23,7 @@ from fapswitch.core.util import cif_bond_dist
 from fapswitch.config import info, debug, warning, error
 from fapswitch.extensions import sa_score
 
-DOT_FAPSWITCH_VERSION = (7, 1)
+DOT_FAPSWITCH_VERSION = (8, 0)
 
 Ligand = namedtuple('Ligand', ['smiles', 'inchi', 'inchikey', 'sa_score'])
 
