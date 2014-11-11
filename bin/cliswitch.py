@@ -100,10 +100,23 @@ def main():
     debug("Site replacement options strings: {}".format(site_strings))
     for site_string in site_strings:
         # These should be functional_group1@site1.functional_group2@site2
-        site_list = [x.split('@') for x in site_string.split('.') if x]
+        # with optional %angle
+        site_list = []
+        manual_angles = []
+        for site in [x for x in site_string.split('.') if x]:
+            site_id, functionalisation = site.split('@')
+            if '%' in functionalisation:
+                functionalisation, manual = functionalisation.split('%')
+            else:
+                manual = None
+            site_list.append([site_id, functionalisation])
+            manual_angles.append(manual)
+
         debug(str(site_list))
+        debug(str(manual_angles))
+
         site_replace(input_structure, site_list, backends=backends,
-                     rotations=rotations)
+                     rotations=rotations, manual_angles=manual_angles)
 
     ##
     # Full systematic replacement of everything start here

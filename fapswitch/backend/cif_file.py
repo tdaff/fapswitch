@@ -9,13 +9,25 @@ import hashlib
 class CifFileBackend(object):
     """Abstraction for writing cif files in a pluggable manner."""
 
-    def add_symmetry_structure(self, base_structure, functions, cif_file, **kwargs):
+    def add_symmetry_structure(self, base_structure, functions, cif_file,
+                               manual_angles=None, **kwargs):
         """
         Write out the cif file with a name derived from the base structure
         and the functionalisations.
 
         """
-        new_mof_name = ".".join(["@".join(x) for x in functions])
+        if manual_angles is not None and any(manual_angles):
+            new_mof_components = []
+            for site, manual_angle in zip(functions, manual_angles):
+                if manual_angle is not None:
+                    angle_str = "%{}".format(manual_angle)
+                else:
+                    angle_str = ""
+                new_mof_components.append("{}@{}{}".format(site[0], site[1],
+                                                           angle_str))
+            new_mof_name = ".".join(new_mof_components)
+        else:
+            new_mof_name = ".".join(["@".join(x) for x in functions])
         cif_filename = '%s_func_%s.cif' % (base_structure, new_mof_name)
         with open(cif_filename, 'w') as output_file:
             output_file.writelines(cif_file)

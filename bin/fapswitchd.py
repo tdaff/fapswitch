@@ -73,7 +73,7 @@ def fapswitch_deamon(structure, backends, rotations=12):
         debug("Freeform strings: {}".format(free_strings))
         for free_string in free_strings:
             complete = freeform_replace(structure, custom=free_string,
-                                        backends=backends, rotations=12)
+                                        backends=backends, rotations=rotations)
             processed.append('{{{}}}'.format(free_string))
             processed.append('{}'.format(complete))
 
@@ -81,10 +81,21 @@ def fapswitch_deamon(structure, backends, rotations=12):
         site_strings = re.findall(r'\[(.*?)\]', line)
         debug("Site replacement strings: {}".format(site_strings))
         for site_string in site_strings:
-            site_list = [x.split('@') for x in site_string.split('.') if x]
+            site_list = []
+            manual_angles = []
+            for site in [x for x in site_string.split('.') if x]:
+                site_id, functionalisation = site.split('@')
+                if '%' in functionalisation:
+                    functionalisation, manual = functionalisation.split('%')
+                else:
+                    manual = None
+                site_list.append([site_id, functionalisation])
+                manual_angles.append(manual)
             debug("{}".format(site_list))
+            debug("{}".format(manual_angles))
             complete = site_replace(structure, site_list, backends=backends,
-                                    rotations=12)
+                                    rotations=rotations,
+                                    manual_angles=manual_angles)
             processed.append('[{}]'.format(site_string))
             processed.append('{}'.format(complete))
 

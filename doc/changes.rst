@@ -15,6 +15,11 @@ Development
     structure from version 7.**
   * Groups are rotated simultaneously so they all have the same rotation
     relative to the reference normal.
+  * Ability to specify the angles at each specific functionalisation site.
+    Use the % in a site replacement string and the letters ``a`` to ``z``
+    denote angles of 0 to 360 for each site and ``_`` can be used to create
+    empty sites.
+
 
 7.2.0
 -----

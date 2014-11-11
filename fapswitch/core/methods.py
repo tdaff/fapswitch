@@ -113,7 +113,8 @@ def random_combination_replace(structure, rotations=12, replace_only=None,
                         backends=backends)
 
 
-def site_replace(structure, replace_list, rotations=12, backends=()):
+def site_replace(structure, replace_list, rotations=12, backends=(),
+                 manual_angles=None):
     """
     Use replace list to modify the structure with (group, site) pairs.
 
@@ -128,15 +129,48 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
     new_mof = list(structure.atoms)
     new_mof_bonds = dict(structure.bonds)
     rotation_count = 0
-    for this_group, this_site in replace_list:
+
+    # here we can zip things up
+    if manual_angles is None:
+        manual_angles = [None for _ in replace_list]
+    elif len(manual_angles) != len(replace_list):
+        error("All angles must be specified in manual mode")
+
+    for this_replace, this_manual in zip(replace_list, manual_angles):
+        # Unpack the two values from replace list, allows us to zip with
+        # manual angles
+        this_group, this_site = this_replace
         attachment = functional_groups[this_group]
-        new_mof_name.append("%s@%s" % (this_group, this_site))
-        new_mof_friendly_name.append("%s@%s" % (attachment.name, this_site))
+
+        # pre-calculate all the angles that we will use to zip with the
+        # group positions, use float to distinguish non manual cases
+        if this_manual is not None:
+            # a = 0 degrees, z = 346
+            # _ is negative (or anything else negative...)
+            angles = [[2*np.pi*(ord(x)-97)/26.0 for x in this_manual]]
+            angles_str = "%%%s" % this_manual
+        else:
+            angles = [trial_rotation*rotation_angle
+                      for trial_rotation in range(rotations)]
+            angles_str = ""
+
+        new_mof_name.append("%s@%s%s" % (this_group, this_site, angles_str))
+        new_mof_friendly_name.append("%s@%s%s" % (attachment.name, this_site,
+                                                  angles_str))
         current_mof = list(new_mof)
         current_mof_bonds = dict(new_mof_bonds)
-        for trial_rotation in range(rotations):
-            this_rotation = trial_rotation*rotation_angle
-            for this_point in structure.attachments[this_site]:
+        for this_angle in angles:
+            # for single angles, make a list to zip with each site
+            if isinstance(this_angle, float):
+                this_angle = [this_angle]*len(structure.attachments[this_site])
+            if len(this_angle) < len(structure.attachments[this_site]):
+                error("Not enough manual angles : {} needed, {} found".format(
+                    len(structure.attachments[this_site]), len(this_angle)))
+                return False
+            for this_point, this_rotation in zip(structure.attachments[this_site], this_angle):
+                if this_rotation < 0:
+                    # manually specified empty site
+                    continue
                 attach_id = this_point[0]
                 attach_to = this_point[1]
                 attach_at = structure.atoms[attach_to].pos
@@ -202,7 +236,8 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
 
     for backend in backends:
         backend.add_symmetry_structure(structure.name, replace_list, cif_file,
-                                       ligands=ligands)
+                                       ligands=ligands,
+                                       manual_angles=manual_angles)
 
     # successful
     return True
