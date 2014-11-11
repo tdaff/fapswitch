@@ -328,6 +328,7 @@ class Structure(object):
 
         """
         self.gen_neighbour_list()
+        broken_symmetry = False
 
         cell = self.cell.cell
         inv_cell = self.cell.inverse
@@ -339,15 +340,26 @@ class Structure(object):
             # other normals to keep as much symmetry as possible
             if atom.asymmetric_site is not None:
                 ref = atom.asymmetric_site
+                normals = []
+                for sym_op in atom.sym_ops:
+                    # Place an atom at the normal, and use the symmetry
+                    # operation to find the normal rotation
+                    normal = Atom(parent=self)
+                    normal.pos = ref.pos + ref.normal
+                    normal.fractional = sym_op.trans_frac(normal.fractional)
+                    unit_normal = normalise(min_vector(normal, atom))
+                    for other_normal in normals:
+                        if np.allclose(unit_normal, other_normal):
+                            break
+                    else:
+                        normals.append(unit_normal)
+                if len(normals) > 1:
+                    print(normals)
+                    broken_symmetry = True
+                    atom.normals = normals
                 # Only use the first operation as it will be the first for
                 # all atoms.
-                sym_op = atom.sym_ops[0]
-                # Place an atom at the normal, and use the symmetry operation
-                # to find the normal rotation
-                normal = Atom(parent=self)
-                normal.pos = ref.pos + ref.normal
-                normal.fractional = sym_op.trans_frac(normal.fractional)
-                atom.normal = normalise(min_vector(normal, atom))
+                atom.normal = normals[0]
             else:
                 # Speed is not so important here but these are derived from the
                 # surface ares distance calculations so they are explicitly
@@ -366,6 +378,11 @@ class Structure(object):
                     atom.normal = normal
                 else:
                     atom.normal = normalise(normal)
+
+        if broken_symmetry:
+            info("Symmetry may be broken by asymmetric functional groups.")
+        else:
+            info("Symmetry maintained with asymmetric functional groups.")
 
     def gen_attachment_sites(self):
         """

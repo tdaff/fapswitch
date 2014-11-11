@@ -7,6 +7,13 @@ Development
   * Use python packaging utilities for distribution
 
 
+8.0.0
+-----
+
+  * The symmetry update: Symmetry is used to derive the normals used to align
+    functional groups. Groups may be rotated differently for the same structure
+    from version 7.
+
 7.2.0
 -----
 
