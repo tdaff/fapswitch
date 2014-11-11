@@ -25,7 +25,7 @@ from fapswitch.core.methods import freeform_replace
 from fapswitch.functional_groups import functional_groups
 
 
-def fapswitch_deamon(structure, backends):
+def fapswitch_deamon(structure, backends, rotations=12):
     """
     Use sockets to listen and receive structures.
 
@@ -73,7 +73,7 @@ def fapswitch_deamon(structure, backends):
         debug("Freeform strings: {}".format(free_strings))
         for free_string in free_strings:
             complete = freeform_replace(structure, custom=free_string,
-                                        backends=backends)
+                                        backends=backends, rotations=12)
             processed.append('{{{}}}'.format(free_string))
             processed.append('{}'.format(complete))
 
@@ -83,7 +83,8 @@ def fapswitch_deamon(structure, backends):
         for site_string in site_strings:
             site_list = [x.split('@') for x in site_string.split('.') if x]
             debug("{}".format(site_list))
-            complete = site_replace(structure, site_list, backends=backends)
+            complete = site_replace(structure, site_list, backends=backends,
+                                    rotations=12)
             processed.append('[{}]'.format(site_string))
             processed.append('{}'.format(complete))
 
@@ -116,6 +117,9 @@ def main():
     # Begin processing
     info("Structure attachment sites: "
          "{}".format(list(input_structure.attachments)))
+    info("Structure attachment multiplicities :"
+         "{}".format(dict((key, len(val)) for key, val in
+                          input_structure.attachments.items())))
 
     # Functional group library is self initialising
     info("Groups in library: {}".format(functional_groups.group_list))
@@ -123,6 +127,9 @@ def main():
     #Define some backends for where to send the structures
     backends = []
     backend_options = options.gettuple('backends')
+
+    rotations = options.getint('rotations')
+    info("Will rotate each group a maximum of {} times.".format(rotations))
 
     if 'sqlite' in backend_options:
         # Initialise and add the database writer
@@ -143,7 +150,8 @@ def main():
         backends.append(CifFileBackend())
 
     # Make the program die if the daemon is called unsuccessfully
-    if fapswitch_deamon(input_structure, backends=backends):
+    if fapswitch_deamon(input_structure, backends=backends,
+                        rotations=rotations):
         info("Daemon completed successfully")
     else:
         error("Daemon did not complete successfully; check output")

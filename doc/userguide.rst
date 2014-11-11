@@ -129,9 +129,10 @@ can help you
   all the symmetry operations are provided.
 * If no connectivity information is provided in the CIF, use the `openbabel`
   connectivity option and the structure will be passed to openbabel for bond
-  and atom type perception. Always check that the final bonding and types make
-  sense!
-* (Optional) Add bonding information to the cif:
+  and atom type perception. If you have a periodic system you will need
+  to use a periodic version of openbabel. Always check that the final bonding
+  and types make sense!
+* (*Preferred*) Add bonding information to the cif:
 
   * CIFs exported from Materials Studio with the correct bonding will have
     the bonding in the correct format for fapswitch.
@@ -273,6 +274,12 @@ All options
   Default:
 
   Only replace the listed sites in systematic functionalisations. [list]
+
+.. envvar:: rotations
+
+  Default: 12
+
+
 
 .. envvar:: site_random_count
 

@@ -11,8 +11,10 @@ Development
 -----
 
   * The symmetry update: Symmetry is used to derive the normals used to align
-    functional groups. Groups may be rotated differently for the same structure
-    from version 7.
+    functional groups. **Groups may be rotated differently for the same
+    structure from version 7.**
+  * Groups are rotated simultaneously so they all have the same rotation
+    relative to the reference normal.
 
 7.2.0
 -----

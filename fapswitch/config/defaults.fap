@@ -57,6 +57,13 @@ replace_groups =
 # Only replace the listed sites in systematic functionalisations. [list]
 replace_only =
 
+# Number of times the group will be rotated when testing for insertion. For
+# systematic functionalisation, each rotation will be 360/rotations. For
+# randomised cases this is the number of random trials before failing. Changing
+# this value will produce different structures for the same functionalisation
+# string. [int]
+rotations = 12
+
 # Number of symmetry based randomised structures to make. [int]
 site_random_count = 0
 

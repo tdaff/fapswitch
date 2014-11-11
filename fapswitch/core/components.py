@@ -354,12 +354,12 @@ class Structure(object):
                     else:
                         normals.append(unit_normal)
                 if len(normals) > 1:
-                    print(normals)
                     broken_symmetry = True
-                    atom.normals = normals
                 # Only use the first operation as it will be the first for
                 # all atoms.
                 atom.normal = normals[0]
+                # keep all of them just in case
+                atom.normals = normals
             else:
                 # Speed is not so important here but these are derived from the
                 # surface ares distance calculations so they are explicitly
@@ -380,9 +380,9 @@ class Structure(object):
                     atom.normal = normalise(normal)
 
         if broken_symmetry:
-            info("Symmetry may be broken by asymmetric functional groups.")
+            info("Symmetry creates multiple normals, may break symmetry.")
         else:
-            info("Symmetry maintained with asymmetric functional groups.")
+            info("Using symmetric normals to maintain high symmetry.")
 
     def gen_attachment_sites(self):
         """

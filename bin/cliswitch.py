@@ -45,6 +45,9 @@ def main():
     # Begin processing
     info("Structure attachment sites: "
          "{}".format(list(input_structure.attachments)))
+    info("Structure attachment multiplicities :"
+         "{}".format(dict((key, len(val)) for key, val in
+                          input_structure.attachments.items())))
 
     # Will use selected sites if specified, otherwise use all
     replace_only = options.gettuple('replace_only')
@@ -80,6 +83,9 @@ def main():
     # User defined, single-shot functionalisations
     ##
 
+    rotations = options.getint('rotations')
+    info("Will rotate each group a maximum of {} times.".format(rotations))
+
     custom_strings = options.get('custom_strings')
     # Pattern matching same as in the daemon
     # freeform strings are in braces {}, no spaces
@@ -87,7 +93,7 @@ def main():
     debug("Freeform option strings: {}".format(freeform_strings))
     for freeform_string in freeform_strings:
         freeform_replace(input_structure, custom=freeform_string,
-                         backends=backends)
+                         backends=backends, rotations=rotations)
 
     # site replacements in square brackets [], no spaces
     site_strings = re.findall(r'\[(.*?)\]', custom_strings)
@@ -96,7 +102,8 @@ def main():
         # These should be functional_group1@site1.functional_group2@site2
         site_list = [x.split('@') for x in site_string.split('.') if x]
         debug(str(site_list))
-        site_replace(input_structure, site_list, backends=backends)
+        site_replace(input_structure, site_list, backends=backends,
+                     rotations=rotations)
 
     ##
     # Full systematic replacement of everything start here
@@ -117,7 +124,8 @@ def main():
                                  replace_only=replace_only,
                                  groups_only=replace_groups,
                                  max_different=max_different,
-                                 backends=backends)
+                                 backends=backends,
+                                 rotations=rotations)
 
     # group@site randomisations
     random_count = options.getint('site_random_count')
@@ -129,7 +137,8 @@ def main():
                                       groups_only=replace_groups,
                                       max_different=max_different,
                                       prob_unfunc=prob_unfunc,
-                                      backends=backends):
+                                      backends=backends,
+                                      rotations=rotations):
             successful_randoms += 1
             info("Generated %i of %i site random structures" %
                  (successful_randoms, random_count))
@@ -144,7 +153,8 @@ def main():
                             groups_only=replace_groups,
                             max_different=max_different,
                             prob_unfunc=prob_unfunc,
-                            backends=backends):
+                            backends=backends,
+                            rotations=rotations):
             successful_randoms += 1
             info("Generated %i of %i fully random structures" %
                  (successful_randoms, random_count))

@@ -12,4 +12,5 @@ materials we can generate vast numbers of hypothetical materials to
 test for improved performance.
 
 In a typical use-case we would take the structure of a know material
-and use fapswitch to generate an array of functional derivatives.
+and use fapswitch to generate an array of functional derivatives for
+screening.

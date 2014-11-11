@@ -62,7 +62,8 @@ def all_combinations_replace(structure, rotations=12, replace_only=None,
             if len(set(group_set)) > max_different:
                 continue
             replace_list = zip(group_set, site_set)
-            site_replace(structure, replace_list, backends=backends)
+            site_replace(structure, replace_list, rotations=rotations,
+                         backends=backends)
 
 
 def random_combination_replace(structure, rotations=12, replace_only=None,
@@ -108,7 +109,8 @@ def random_combination_replace(structure, rotations=12, replace_only=None,
         else:
             replace_list.append((random.choice(local_groups), site))
     # Do the replacement
-    return site_replace(structure, replace_list, backends=backends)
+    return site_replace(structure, replace_list, rotations=rotations,
+                        backends=backends)
 
 
 def site_replace(structure, replace_list, rotations=12, backends=()):
@@ -130,39 +132,53 @@ def site_replace(structure, replace_list, rotations=12, backends=()):
         attachment = functional_groups[this_group]
         new_mof_name.append("%s@%s" % (this_group, this_site))
         new_mof_friendly_name.append("%s@%s" % (attachment.name, this_site))
-        for this_point in structure.attachments[this_site]:
-            attach_id = this_point[0]
-            attach_to = this_point[1]
-            attach_at = structure.atoms[attach_to].pos
-            attach_towards = this_point[2]
-            attach_normal = structure.atoms[attach_to].normal
-            new_mof[attach_id:attach_id+1] = [None]
-            start_idx = len(new_mof)
-            for _trial_rotation in range(rotations):
+        current_mof = list(new_mof)
+        current_mof_bonds = dict(new_mof_bonds)
+        for trial_rotation in range(rotations):
+            this_rotation = trial_rotation*rotation_angle
+            for this_point in structure.attachments[this_site]:
+                attach_id = this_point[0]
+                attach_to = this_point[1]
+                attach_at = structure.atoms[attach_to].pos
+                attach_towards = this_point[2]
+                attach_normal = structure.atoms[attach_to].normal
+                new_mof[attach_id:attach_id+1] = [None]
+                start_idx = len(new_mof)
+                attach_normal = dot(rotation_about_angle(attach_towards,
+                                                         this_rotation),
+                                    attach_normal)
                 incoming_group, incoming_bonds = attachment.atoms_attached_to(
                     attach_at, attach_towards, attach_normal, attach_to,
                     start_idx)
+                group_fits = True
                 for atom in incoming_group:
                     if not test_collision(atom, new_mof, structure.cell,
                                           ignore=[attach_to]):
-                        attach_normal = dot(
-                            rotation_about_angle(attach_towards,
-                                                 rotation_angle), attach_normal)
-                        rotation_count += 1
-                        # Don't need to test more atoms
+                        group_fits = False
                         break
                 else:
                     # Fits, so add and move on
                     new_mof.extend(incoming_group)
                     new_mof_bonds.update(incoming_bonds)
+
+                if not group_fits:
+                    # kill this loop
+                    rotation_count += 1
+                    new_mof = list(current_mof)
+                    new_mof_bonds = dict(current_mof_bonds)
                     break
+
             else:
-                # Did not attach
-                fail_name = ".".join(["@".join(x) for x in replace_list])
-                warning("Failed: %s@%s from %s" %
-                        (this_group, this_site, fail_name))
-                debug("Needed {} rotations".format(rotation_count))
-                return False
+                # All sites attached without collision,
+                # break out of the rotations loop
+                break
+        else:
+            # Did not attach after all rotations
+            fail_name = ".".join(["@".join(x) for x in replace_list])
+            warning("Failed: %s@%s from %s" %
+                    (this_group, this_site, fail_name))
+            debug("Needed {} rotations".format(rotation_count))
+            return False
 
     debug("Needed {} rotations".format(rotation_count))
 
