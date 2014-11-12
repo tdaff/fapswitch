@@ -144,15 +144,22 @@ def site_replace(structure, replace_list, rotations=12, backends=(),
 
         # pre-calculate all the angles that we will use to zip with the
         # group positions, use float to distinguish non manual cases
-        if this_manual is not None:
+        if this_manual is None:
+            angles = [trial_rotation*rotation_angle
+                      for trial_rotation in range(rotations)]
+            angles_str = ""
+        elif len(this_manual) == 1:
+            # Assume single angle applies to all groups
+            angles = [2*np.pi*(ord(this_manual[0])-97)/26.0]
+            angles_str = "%%%s" % this_manual
+            debug("{:.1f} rotation for all".format(180*angles[0]/np.pi))
+        else:
             # a = 0 degrees, z = 346
             # _ is negative (or anything else negative...)
             angles = [[2*np.pi*(ord(x)-97)/26.0 for x in this_manual]]
             angles_str = "%%%s" % this_manual
-        else:
-            angles = [trial_rotation*rotation_angle
-                      for trial_rotation in range(rotations)]
-            angles_str = ""
+            debug("Angles: {}".format([round(180*x/np.pi, 1)
+                                      for x in angles[0]]))
 
         new_mof_name.append("%s@%s%s" % (this_group, this_site, angles_str))
         new_mof_friendly_name.append("%s@%s%s" % (attachment.name, this_site,

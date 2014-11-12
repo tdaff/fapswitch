@@ -19,6 +19,7 @@ Development
     Use the % in a site replacement string and the letters ``a`` to ``z``
     denote angles of 0 to 360 for each site and ``_`` can be used to create
     empty sites.
+  * ``bondsonly`` is the default connectivity scheme.
 
 
 7.2.0

@@ -279,7 +279,11 @@ All options
 
   Default: 12
 
-
+  Number of times the group will be rotated when testing for insertion. For
+  systematic functionalisation, each rotation will be 360/rotations. For
+  randomised cases this is the number of random trials before failing. Changing
+  this value will produce different structures for the same functionalisation
+  string. [int]
 
 .. envvar:: site_random_count
 
@@ -302,8 +306,139 @@ All options
   scheme. [float]
 
 
-Running the code
-----------------
+.. _naming-and-custom-string-syntax:
+
+Naming and custom string syntax
+-------------------------------
+
+  * Square brackets, ``[]``, are used to denote structures with symmetry.
+
+     * Naming is ``functional_group_short_code@symmetry_site_identifier``.
+     * Groups are separated by a full stop, ``.``
+     * ``[Me@H1.Ph@H4]`` represents a methyl attached to site ``H1`` and a
+       phenyl attached to ``H4``.
+     * Exact rotations of the functional groups and disorder may be denoted
+       by adding a ``%`` symbol:
+
+        * ``a`` to ``z`` are rotation angles from 0 to 346 in 14 degree
+          increments.
+        * A ``_`` symbol denotes an unfunctionalised site.
+        * A single character applies the rotation to all.
+        * Rotations for all groups must be specified if not applying a single
+          rotation to all groups.
+        * ``[Ph@H4%e]`` represents a phenyl attached to ``H4`` with all groups
+          rotated 55 degrees
+        * ``[Ph@H4%aeae__ae]`` represents a phenyls attached to ``H4`` with
+          alternating rotations of 0 and 55 degrees, with two sites left
+          unfunctionalised.
+
+     * File names include the functionalisation string (without the brackets).
+
+  * Curly brackets, ``{}``, denote non symmetric functionalisation.
+
+      * The functional group at each site is named in turn by the short code,
+        separated by full stops.
+      * Unfunctionalised sites are left empty.
+      * Any remaining sites by the end of the string are left empty.
+      * ``{..Me..Me..Me}`` will place a methyl on the 3rd, 5th and 7th sites,
+        all other sites (including past the 7th) are left unfunctionalised.
+      * To deal with long file names, the string of functional groups is
+        converted to a hash: ``hashlib.md5(str(functions)).hexdigest()``.
+
+
+
+Running the code (typical uses)
+-------------------------------
 
 For a typical job, you would set the required options in the configuration
 files and run `cliswitch.py job_name` to generate functionalised structures.
+
+Make all functional derivatives
+===============================
+
+This will generate all combinations of all groups on all functional sites. For
+many sites and many groups, this will take a long time.
+
+.. code-block:: ini
+
+   # mof.fap
+   replace_all_sites = True
+
+Run ``cliswitch.py mof`` to generate all the structures.
+
+
+Make limited functional derivatives
+===================================
+
+You can limit which functional groups and sites to include in the complete
+functionalisation procedure.
+
+.. code-block:: ini
+
+   # mof.fap
+   replace_all_sites = True
+   replace_groups = Me Ph Cl NH2 COOH
+   replace_only = H2 H4 H5
+   max_different = 2
+
+Run ``cliswitch.py mof`` to generate all combinations of the five selected
+groups on the three functionalisation sites using no more than two different
+functional groups at any time.
+
+
+Make random functional derivatives
+==================================
+
+The procedure can be completely randomised, generating members from the
+complete set of all possible functionalisations.
+
+.. code-block:: ini
+
+   # mof.fap
+   site_random_count = 10
+   full_random_count = 5
+   replace_groups = Me Ph Cl NH2 COOH
+   replace_only = H2 H4 H5
+   max_different = 2
+
+Run ``cliswitch.py mof`` to generate ten random site symmetric structures using
+the set functional groups and sites. Also generate five structures that ignore
+symmetry completely.
+
+
+Make specific structures
+========================
+
+Using the ``custom_string`` syntax (:ref:`naming-and-custom-string-syntax`) it
+is possible to generate specific structures.
+
+.. code-block:: ini
+
+   # mof.fap
+   custom_strings =
+       [Ph@H4]
+       [Cl@H1.Me@H4]
+       {Ph..Ph.Ph..Me...Me....Me}
+       [COOH@H2%aaaa____mmmm]
+
+
+Running ``cliswitch.py mof`` will generate two structures with
+set functional groups on specific symmetric sites. A third structure has
+groups attached to individual, non-symmetric sites. The final structure
+
+
+Daemon mode
+===========
+
+Fapswitch can run in a client-server mode using ``fapswichd.py`` instead of
+the ``cliswitch.py``. Start the daemon using the same options. It is possible
+to specify a port to listen on in the options too. The daemon listens for a
+``custom_string`` which it will create in the current directory.
+
+See ``tools/socket_client.py`` for how to communicate with the daemon.
+
+
+Web interface
+=============
+
+The web interface is currently for demonstration mode only.

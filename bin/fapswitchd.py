@@ -58,7 +58,7 @@ def fapswitch_deamon(structure, backends, rotations=12):
         try:
             line = conn.recv(1024).decode('utf-8')
         except socket.timeout:
-            error("Timed out after {} sconds waiting for input".format(timeout))
+            error("Timed out after {} seconds waiting for input".format(timeout))
             return False
 
         # Empty input closes server

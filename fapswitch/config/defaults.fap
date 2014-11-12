@@ -14,7 +14,7 @@
 # Backends to store the output structures. [str, list] {file, sqlite}
 backends = file
 
-# Method to use to test for collisions [str] {absolute, covalent, vdw}
+# Method to use to test for collisions [str] {absolute, covalent, vdw, cvdw}
 collision_method = vdw
 
 # Absolute value in Angstrom or scale factor for atomic radii for minimum
@@ -23,7 +23,7 @@ collision_scale = 1.122462048309373
 
 # Where to get the connectivity information from and how to interpret it. [str]
 # {openbabel, file, bondsonly}
-connectivity = openbabel
+connectivity = bondsonly
 
 # Make functionalisations with the set of {.freeform.srings.} and
 # [symm@try.strings]. [str, list]
