@@ -14,6 +14,7 @@ import os
 import random
 import re
 import sys
+from collections import OrderedDict
 from os import path
 from os.path import dirname, realpath
 # Put the parent fapswitch first in the path
@@ -29,10 +30,11 @@ from fapswitch.config import options
 from fapswitch.config import debug, info
 from fapswitch.core.io import load_structure
 from fapswitch.functional_groups import functional_groups
-from fapswitch.core.methods import random_combination_replace
+from fapswitch.core.methods import random_combination_replace, site_replace
 from fapswitch.backend.web_store import WebStoreBackend
 
 TORNADO_PORT = 8888
+STRUCTURE_CACHE = 20
 
 web_dir = path.join(path.dirname(fapswitch.__file__), 'web')
 datastore = os.path.join(web_dir, 'datastore')
@@ -83,89 +85,124 @@ class RandomHandler(tornado.web.RequestHandler):
         """Generate a random structure and return the rendered page."""
 
         debug("Arguments: {}".format(self.request.arguments))
-        groups = self.get_arguments('groups')
-        if not groups:
-            groups = None
-        info("Groups selected: {}".format(groups))
+
+#        groups = self.get_arguments('groups')
+#        if not groups:
+#            groups = None
+#        info("Groups selected: {}".format(groups))
 
         max_trials = 10
         # Possible options:
         # replace_only: tuple of sites to replace
         # groups_only: only use specific groups
-        # max_different: resrict simultaneous types of groups
+        # max_different: restrict simultaneous types of groups
 
         # This is new every time and keeps all the information
         # we need specific to the web version
         backends = [WebStoreBackend()]
+        failed = ""
 
-        for _trial in range(max_trials):
-
-            debug("Trial {}".format(_trial))
-            base_structure = random.choice(initialised_structures)
-            status = random_combination_replace(groups_only=groups,
-                                                structure=base_structure,
-                                                backends=backends)
-            if status:
-                cif_info = backends[0].cifs[0]
-                # MEPO compatibility if all groups are okay
-                if all(functional_groups[function[0]].mepo_compatible for
-                       function in cif_info['functions']):
-                    mepo_compatible = "Yes"
+        if 'mof-choice' in self.request.arguments:
+            # Selected a specific MOF
+            chosen_structure = self.get_argument('mof-choice')
+            base_structure = get_structure(chosen_structure)
+            replace_list = []
+            for site in available_structures[chosen_structure]:
+                group = self.get_argument(site, None)
+                if group is None or 'None' in group:
+                    continue
+                elif 'Random' in group:
+                    replace_list.append([random.choice(functional_groups), site])
                 else:
-                    mepo_compatible = "No"
+                    replace_list.append([group, site])
 
-                collision_tester = options.get('collision_method')
-                collision_cutoff = options.getfloat('collision_scale')
-
-                if cif_info['ligands'] is None:
-                    ligands = []
-                else:
-                    ligands = cif_info['ligands']
-
-                if ligands:
-                    sa_score = max(ligand.sa_score for ligand in ligands)
-                else:
-                    sa_score = 0.0
-
-                processed_ligands = make_ligands(ligands)
-
-                extra_info = """<h4>Hypothetical functionalised MOF</h4>
-                <p>Functional groups have been added using the crystal
-                symmetry. A collision detection routine with a {} radius
-                at {:.2f} was used to carry out the functionalisation.
-                Note that although atoms may appear close, the bonding
-                connectivity defined in the cif file will be correct.</p>
-                """.format(collision_tester, collision_cutoff)
-
-                # These references are always required
-                local_references = [
-                    references['Kadantsev2013'],
-                    references['Ertl2009']]
-
-                # Find all the references and add them too
-                for reference in re.findall(r'\[(.*?)\]', extra_info):
-                    local_references.append(references[reference])
-
-                # Raw HTML anchors. Ugly.
-                extra_info = re.sub(
-                    r'\[(.*?)\]',  # non-greedy(?) find in square brackets
-                    r'[<a href="#\1">\1</a>]',  # replace raw html
-                    extra_info)
-
-                page = templates.load('random.html').generate(
-                    mepo_compatible=mepo_compatible,
-                    references=local_references,
-                    functional_groups=functional_groups,
-                    extra_info=extra_info,
-                    sa_score=sa_score,
-                    processed_ligands=processed_ligands,
-                    **cif_info)
-                self.write(page)
-
-                break
+            # Now make the MOF
+            status = site_replace(base_structure, replace_list=replace_list,
+                                  backends=backends)
+            if not status:
+                # couldn't make it so just use clean structure
+                failed = ".".join("{}@{}".format(x[0], x[1])
+                                  for x in replace_list)
+                site_replace(base_structure, replace_list=[],
+                             backends=backends)
         else:
-            page = templates.load('failed.html').generate()
-            self.write(page)
+            # Completely random
+            chosen_structure = random.choice(list(available_structures))
+            base_structure = get_structure(chosen_structure)
+
+            # Attempt a few, so there is a better chance of making one
+            for _trial in range(max_trials):
+                debug("Trial {}".format(_trial))
+                status = random_combination_replace(structure=base_structure,
+                                                    backends=backends)
+                if status:
+                    break
+            else:
+                # Return an unfunctionalised stucture
+                failed = "{} random combinations".format(max_trials)
+                site_replace(base_structure, replace_list=[],
+                             backends=backends)
+
+        # Should always have a structure, even if it is clean; but failed will
+        # be True for that
+        cif_info = backends[0].cifs[0]
+        # MEPO compatibility if all groups are okay
+        if all(functional_groups[function[0]].mepo_compatible for
+               function in cif_info['functions']):
+            mepo_compatible = "Yes"
+        else:
+            mepo_compatible = "No"
+
+        collision_tester = options.get('collision_method')
+        collision_cutoff = options.getfloat('collision_scale')
+
+        if cif_info['ligands'] is None:
+            ligands = []
+        else:
+            ligands = cif_info['ligands']
+
+        if ligands:
+            sa_score = max(ligand.sa_score for ligand in ligands)
+        else:
+            sa_score = 0.0
+
+        processed_ligands = make_ligands(ligands)
+
+        extra_info = """<h4>Hypothetical functionalised MOF</h4>
+        <p>Functional groups have been added using the crystal
+        symmetry. A collision detection routine with a {} radius
+        at {:.2f} was used to carry out the functionalisation.
+        Note that although atoms may appear close, the bonding
+        connectivity defined in the cif file will be correct.</p>
+        """.format(collision_tester, collision_cutoff)
+
+        # These references are always required
+        local_references = [
+            references['Kadantsev2013'],
+            references['Ertl2009']]
+
+        # Find all the references and add them too
+        for reference in re.findall(r'\[(.*?)\]', extra_info):
+            local_references.append(references[reference])
+
+        # Raw HTML anchors. Ugly.
+        extra_info = re.sub(
+            r'\[(.*?)\]',  # non-greedy(?) find in square brackets
+            r'[<a href="#\1">\1</a>]',  # replace raw html
+            extra_info)
+
+        page = templates.load('random.html').generate(
+            mepo_compatible=mepo_compatible,
+            references=local_references,
+            functional_groups=functional_groups,
+            extra_info=extra_info,
+            sa_score=sa_score,
+            processed_ligands=processed_ligands,
+            available_structures=available_structures,
+            failed=failed,
+            **cif_info)
+        self.write(page)
+
 
 
 # adds event handlers for commands and file requests
@@ -184,6 +221,27 @@ application = tornado.web.Application([
     (r"/(.*\.css)", tornado.web.StaticFileHandler,
      {"path": path.join(web_dir, 'css')}),
 ])
+
+
+def get_structure(name):
+    """
+    Retrieve the structure from the cache or file. Return the structure object.
+
+    Uses globals, so be careful
+    """
+
+    # Pick the structure
+    # Update the cache and make room if it is too big
+    if name in initialised_structures:
+        base_structure = initialised_structures[name]
+    else:
+        base_structure = load_structure(name)
+        initialised_structures[name] = base_structure
+        if len(initialised_structures) > STRUCTURE_CACHE:
+                    initialised_structures.popitem(last=True)
+
+    return base_structure
+
 
 
 def make_ligands(ligands):
@@ -238,13 +296,23 @@ if __name__ == "__main__":
 
     os.chdir(datastore)
 
-    available_structures = glob.glob('*.cif')
+    available_structures = {}
+    available_structure_files = glob.glob('*.cif')
 
-    initialised_structures = []
-
-    for available_structure in available_structures:
+    # Pulling out sites only works with well formatted cifs with site label
+    # as the first item on the line and ' H ' within the line for attachment
+    # sites.
+    # Since you are running the web component, you should know what
+    # you're doing...
+    for available_structure in available_structure_files:
         sname = available_structure[:-4]
-        initialised_structures.append(load_structure(sname))
+        available_structures[sname] = []
+        for line in open(available_structure):
+            if ' H ' in line:
+                available_structures[sname].append(line.split()[0])
+
+    # Populate this later
+    initialised_structures = OrderedDict()
 
     os.chdir(initial_directory)
 
