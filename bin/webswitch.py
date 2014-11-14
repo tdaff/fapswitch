@@ -86,12 +86,15 @@ class RandomHandler(tornado.web.RequestHandler):
 
         debug("Arguments: {}".format(self.request.arguments))
 
-#        groups = self.get_arguments('groups')
-#        if not groups:
-#            groups = None
-#        info("Groups selected: {}".format(groups))
-
-        max_trials = 10
+        max_trials = 15
+        top_50_groups = ["Me", "Ph", "Cl", "OMe", "OH", "Et", "OEt", "F", "Br",
+                         "NO2", "NH2", "CN", "COOEt", "COMe", "COOH", "Bnz",
+                         "COOMe", "iPr", "pTol", "4ClPh", "tBu", "4OMePh",
+                         "CF3", "COPh", "Pr", "NMe2", "Bu", "OBnz", "4NO2Ph",
+                         "OAc", "4FPh", "I", "4BrPh", "2ClPh", "All", "COH",
+                         "SMe", "CONH2", "NPh", "24DClPh", "CHex", "Morph",
+                         "HCO", "3ClPh", "oTol", "2Fur", "iBu", "NCOMe"]
+        small_groups = ["F", "Cl", "Me", "NH2", "OH", "CN"]
         # Possible options:
         # replace_only: tuple of sites to replace
         # groups_only: only use specific groups
@@ -112,7 +115,7 @@ class RandomHandler(tornado.web.RequestHandler):
                 if group is None or 'None' in group:
                     continue
                 elif 'Random' in group:
-                    replace_list.append([random.choice(functional_groups), site])
+                    replace_list.append([random.choice(top_50_groups), site])
                 else:
                     replace_list.append([group, site])
 
@@ -128,24 +131,53 @@ class RandomHandler(tornado.web.RequestHandler):
         else:
             # Completely random
             chosen_structure = random.choice(list(available_structures))
+            # Make sure we have functionalisation sites
+            while len(available_structures[chosen_structure]) == 0:
+                chosen_structure = random.choice(list(available_structures))
+            # Here's the actual structure
             base_structure = get_structure(chosen_structure)
 
-            # Attempt a few, so there is a better chance of making one
-            for _trial in range(max_trials):
-                debug("Trial {}".format(_trial))
-                status = random_combination_replace(structure=base_structure,
-                                                    backends=backends)
+            # Use several combinations to try to get something functionalised
+            trial_number = 0
+            while trial_number < max_trials:
+                if trial_number < max_trials/4.0:
+                    debug("Trial all groups: {}".format(trial_number))
+                    status = random_combination_replace(
+                        structure=base_structure, backends=backends,
+                        max_different=2)
+                elif trial_number < 2.0*max_trials/4.0:
+                    debug("Trial max one group: {}".format(trial_number))
+                    status = random_combination_replace(
+                        structure=base_structure, backends=backends,
+                        max_different=1)
+                elif trial_number < 3.0*max_trials/4.0:
+                    debug("Trial top 50: {}".format(trial_number))
+                    status = random_combination_replace(
+                        structure=base_structure, backends=backends,
+                        groups_only=top_50_groups, max_different=2)
+                else:
+                    debug("Trial small groups: {}".format(trial_number))
+                    status = random_combination_replace(
+                        structure=base_structure, backends=backends,
+                        groups_only=small_groups, max_different=1)
+
+                # If functionalisation attempted
                 if status:
-                    break
+                    if backends[0].cifs[-1]['functions']:
+                        # it was successful; done here
+                        break
+                else:
+                    # only increment if we actually tried to add groups
+                    trial_number += 1
             else:
-                # Return an unfunctionalised stucture
-                failed = "{} random combinations".format(max_trials)
                 site_replace(base_structure, replace_list=[],
                              backends=backends)
+                failed = "{} random combinations".format(max_trials)
+
 
         # Should always have a structure, even if it is clean; but failed will
         # be True for that
-        cif_info = backends[0].cifs[0]
+        cif_info = backends[0].cifs[-1]
         # MEPO compatibility if all groups are okay
         if all(functional_groups[function[0]].mepo_compatible for
                function in cif_info['functions']):
