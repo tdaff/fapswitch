@@ -37,8 +37,8 @@ TORNADO_PORT = 8888
 STRUCTURE_CACHE = 20
 
 web_dir = path.join(path.dirname(fapswitch.__file__), 'web')
-datastore = os.path.join(web_dir, 'datastore')
-ligand_dir = os.path.join(web_dir, 'generated')
+datastore = path.join(web_dir, 'datastore')
+ligand_dir = path.join(web_dir, 'generated')
 
 templates = tornado.template.Loader(path.join(web_dir, 'templates'))
 
@@ -313,8 +313,6 @@ if __name__ == "__main__":
 
     # Populate this later
     initialised_structures = OrderedDict()
-
-    os.chdir(initial_directory)
 
     # Functional group library is self initialising
     info("Groups in library: %s" % str(functional_groups.group_list))

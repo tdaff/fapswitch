@@ -19,97 +19,96 @@
   <script type="text/javascript">
 
 
-  // note that the variable name MUST match the first parameter in quotes
+    // note that the variable name MUST match the first parameter in quotes
 
 
-  (function() {
+    (function () {
 
-  // logic is set by indicating order of USE -- default is HTML5 for this test page, though
-  var use = "HTML5";//"JAVA HTML5 IMAGE" // WEBGL only by request by link below.
-  var s = document.location.search;
-
-
-  // Developers: The debugCode flag is checked in j2s/java/core.z.js,
-  // and, if TRUE, skips loading the core methods, forcing those
-  // to be read from their individual directories. Set this
-  // true if you want to do some code debugging by inserting
-  // System.out.println, document.title, or alert commands
-  // anywhere in the Java or Jmol code.
-
-  Jmol.debugCode = (s.indexOf("debugcode") >= 0);
-
-  //if (s.indexOf("?") < 0) s = "USE=HTML5"
-
-  if (s.indexOf("USE=") >= 0)
-    use = s.split("USE=")[1].split("&")[0];
-  else if (s.indexOf("JAVA") >= 0)
-    use = "JAVA";
-  else if (s.indexOf("IMAGE") >= 0)
-    use = "IMAGE";
-  else if (s.indexOf("NOWEBGL") >= 0)
-    use = "JAVA IMAGE";
-  else if (s.indexOf("WEBGL") >= 0)
-    use = "WEBGL HTML5";
-  if (s.indexOf("NOWEBGL") >= 0)
-    use = use.replace(/WEBGL/,"");
-  var useSignedApplet = (s.indexOf("SIGNED") >= 0);
-  if(useSignedApplet && use == "HTML5") use = "JAVA";
-
-  jmol_isReady = function(applet) {
-    document.title = (applet._id + " is ready");
-    Jmol._getElement(applet, "appletdiv").style.border="1px solid blue"
-  };
-
-  InfoA = {
-    width: "100%",
-    height: "100%",
-    debug: false,
-    color: "white",
-    addSelectionOptions: false,
-    serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/jsmol.php",
-    use: use,
-    coverImage: "",//"data/1hxw.png",        // initial image instead of applet
-    coverScript: "",      // special script for click of cover image (otherwise equal to script)
-    deferApplet: false,                  // wait to load applet until click
-    deferUncover: false,                 // wait to uncover applet until script completed
-    jarPath: "java",
-    j2sPath: "j2s",
-    jarFile: (useSignedApplet ? "JmolAppletSigned.jar" : "JmolApplet.jar"),
-    isSigned: useSignedApplet,
-    disableJ2SLoadMonitor: true,
-    disableInitialConsole: true,
-    readyFunction: null,
-    script: "load \"{{ cif_filename }}\" {1 1 1};"
-  }
+      // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+      var use = "HTML5";//"JAVA HTML5 IMAGE" // WEBGL only by request by link below.
+      var s = document.location.search;
 
 
-  })();
+      // Developers: The debugCode flag is checked in j2s/java/core.z.js,
+      // and, if TRUE, skips loading the core methods, forcing those
+      // to be read from their individual directories. Set this
+      // true if you want to do some code debugging by inserting
+      // System.out.println, document.title, or alert commands
+      // anywhere in the Java or Jmol code.
+
+      Jmol.debugCode = (s.indexOf("debugcode") >= 0);
+
+      //if (s.indexOf("?") < 0) s = "USE=HTML5"
+
+      if (s.indexOf("USE=") >= 0)
+        use = s.split("USE=")[1].split("&")[0];
+      else if (s.indexOf("JAVA") >= 0)
+        use = "JAVA";
+      else if (s.indexOf("IMAGE") >= 0)
+        use = "IMAGE";
+      else if (s.indexOf("NOWEBGL") >= 0)
+        use = "JAVA IMAGE";
+      else if (s.indexOf("WEBGL") >= 0)
+        use = "WEBGL HTML5";
+      if (s.indexOf("NOWEBGL") >= 0)
+        use = use.replace(/WEBGL/, "");
+      var useSignedApplet = (s.indexOf("SIGNED") >= 0);
+      if (useSignedApplet && use == "HTML5") use = "JAVA";
+
+      window.jmol_isReady = function (applet) {
+        document.title = (applet._id + " is ready");
+        Jmol._getElement(applet, "appletdiv").style.border = "1px solid blue"
+      };
+
+      window.InfoA = {
+        width: "100%",
+        height: "100%",
+        debug: false,
+        color: "white",
+        addSelectionOptions: false,
+        serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/jsmol.php",
+        use: use,
+        coverImage: "",//"data/1hxw.png",        // initial image instead of applet
+        coverScript: "",      // special script for click of cover image (otherwise equal to script)
+        deferApplet: false,                  // wait to load applet until click
+        deferUncover: false,                 // wait to uncover applet until script completed
+        jarPath: "java",
+        j2sPath: "j2s",
+        jarFile: (useSignedApplet ? "JmolAppletSigned.jar" : "JmolApplet.jar"),
+        isSigned: useSignedApplet,
+        disableJ2SLoadMonitor: true,
+        disableInitialConsole: true,
+        readyFunction: null,
+        script: "load \"{{ cif_filename }}\" {1 1 1};"
+      }
 
 
+    })();
 
-  Jmol.setDocument(document);
 
-  // notice that we are using no document.write() function here. All DOM-based.
-  // Jmol.getAppletHtml is working.
+    Jmol.setDocument(document);
 
-  $(document).ready(function(){
-    Jmol.setDocument(0);
-    jmol1 = Jmol.getApplet("jmol1", InfoA);
-    $("#appletplace1").html(Jmol.getAppletHtml(jmol1));
-  });
+    // notice that we are using no document.write() function here. All DOM-based.
+    // Jmol.getAppletHtml is working.
+
+    $(document).ready(function () {
+      Jmol.setDocument(0);
+      var jmol1 = Jmol.getApplet("jmol1", InfoA);
+      $("#appletplace1").html(Jmol.getAppletHtml(jmol1));
+    });
 
 
   </script>
   <script type="text/javascript">
     /* Whenever a new MOF is selected update to have the correct number of
-       sites to select.
+     sites to select.
      */
     function updateSites() {
       "use strict";
       var mofChoice = document.getElementById('mof-choice'),
-          fSelect = document.getElementById('functional-select'),
-          sites = eval(mofChoice.options[mofChoice.selectedIndex].getAttribute('data-sites')),
-          templateSite = '<div class="form-group">\
+              fSelect = document.getElementById('functional-select'),
+              sites = eval(mofChoice.options[mofChoice.selectedIndex].getAttribute('data-sites')),
+              templateSite = '<div class="form-group">\
                             <label for="site-SITE" class="col-sm-2 control-label">Site SITE:</label>\
                             <div class="select col-sm-5">\
                               <select class="form-control" name="SITE", id="SITE">\
@@ -121,9 +120,9 @@
                               </select>\
                             </div>\
                           </div>',
-          sitesHTML = '';
+              sitesHTML = '';
 
-      sites.map( function(item) {
+      sites.map(function (item) {
         sitesHTML += templateSite.replace(/SITE/g, item)
       });
 
@@ -134,108 +133,117 @@
 </head>
 
 <body onload="updateSites();">
-  <!-- Wrap all page content here -->
+<!-- Wrap all page content here -->
 
-  <div id="wrap">
-    <!-- Begin page content -->
+<div id="wrap">
+  <!-- Begin page content -->
 
-    <div class="container">
-      <div class="page-header">
-        <h1>Webswitch random MOF generator</h1>
-      </div>
-
-      <p class="lead">For every visit to this page, a new MOF will
-        be generated from billions of combinations of functional
-        group modifications of known MOFs. You can select either a
-        completely random structure, or select the groups to attach.</p>
-
-      <p>More information can be found in <a href="link-to-info">Some
-        info here</a>.</p>
-
-      {% if failed %}
-        <p>We just attempted to functionalise the MOF {{ base_structure }} with
-          {{ failed }}, but there were atomic overlaps. You can try again with
-          some different functional groups or generate a completely random
-          structure.</p>
-      {% end %}
-
-      <div id="appletplace1" style="width:100%;height:600px"></div>
-      <div id="info-group">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <span class="badge">{{ base_structure }}</span>
-              Original MOF name:
-          </li>
-          <li class="list-group-item">
-            <span class="badge">{{ mof_name }}</span>
-              Functional group string:
-          </li>
-
-          <li class="list-group-item">
-            <span class="badge">{{ cif_filename }}</span>
-              MOF CIF file name:
-          </li>
-          <li class="list-group-item">
-            <span class="badge">{{ mepo_compatible }}</span>
-              MEPO-QEq compatible[<a href="#Kadantsev2013">Kadantsev2013</a>]:
-          </li>
-          <li class="list-group-item">
-            <span class="badge">{{ sa_score }}</span>
-              Synthesis SA Score[<a href="#Ertl2009">Ertl2009</a>]:
-          </li>
-          <li class="list-group-item">
-            <h4 class="list-group-item-heading">Extra details</h4>
-            <p class="list-group-item-text">{% raw extra_info %}</p>
-            <p class="list-group-item-text">
-              {% for ligand in processed_ligands %}
-                <img src="{{ ligand[1] }}" alt="Ligand: {{ ligand[0] }}" title="Ligand: {{ ligand[0] }}; SA Score: {{ ligand[2] }}" />
-              {% end %}
-            </p>
-          </li>
-        </ul>
-        <p>
-          <a class="btn btn-primary" href="{{ cif_filename }}">Download CIF</a>
-          <a class="btn btn-default" href="random">
-            <i class="glyphicon glyphicon-refresh"></i> Make another random structure </a></p>
-      </div>
-      <div id="customisation">
-        <form role="form" class="form-horizontal" action="random">
-          <div class="form-group">
-            <label for="mof-choice" class="col-sm-2 control-label">Choose a MOF:</label>
-            <div class="select col-sm-5">
-              <select class="form-control" name="mof-choice" id="mof-choice" onchange="updateSites();" onload="updateSites();">
-                {% for name, sites in available_structures.items() %}
-                  <option title="{{ name }}: {{ sites }} sites" data-sites="{{ sites }}" {{ "selected" if name == base_structure else "" }}>{{ name }}</option>
-                {% end %}
-              </select>
-            </div>
-          </div>
-          <div id="functional-select">
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-5">
-              <button type="submit" class="btn btn-default">Customise structure</button>
-            </div>
-          </div>
-        </form>
-      </div>
+  <div class="container">
+    <div class="page-header">
+      <h1>Webswitch random MOF generator</h1>
     </div>
 
-  </div>
+    <p class="lead">For every visit to this page, a new MOF will
+      be generated from billions of combinations of functional
+      group modifications of known MOFs. You can select either a
+      completely random structure, or select the groups to attach.</p>
 
-  <div id="footer">
-    <div class="container">
-      <h4>References</h4>
-      <ul>
-        {% for ref in references %}
-          <li id="{{ ref.key }}"><a href="http://dx.doi.org//{{ ref.doi }}"> {{ ref.key }} </a>"{{ ref.title }}" {{ ref.author }} <em>{{ ref.journal }}</em> <strong>{{ ref.year }}</strong></li>
-        {% end %}
+    <p>More information can be found in <a href="link-to-info">Some
+      info here</a>.</p>
+
+    {% if failed %}
+    <p>We just attempted to functionalise the MOF {{ base_structure }} with
+      {{ failed }}, but there were atomic overlaps. You can try again with
+      some different functional groups or generate a completely random
+      structure.</p>
+    {% end %}
+
+    <div id="appletplace1" style="width:100%;height:600px"></div>
+    <div id="info-group">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <span class="badge">{{ base_structure }}</span>
+          Original MOF name:
+        </li>
+        <li class="list-group-item">
+          <span class="badge">{{ mof_name }}</span>
+          Functional group string:
+        </li>
+
+        <li class="list-group-item">
+          <span class="badge">{{ cif_filename }}</span>
+          MOF CIF file name:
+        </li>
+        <li class="list-group-item">
+          <span class="badge">{{ mepo_compatible }}</span>
+          MEPO-QEq compatible[<a href="#Kadantsev2013">Kadantsev2013</a>]:
+        </li>
+        <li class="list-group-item">
+          <span class="badge">{{ sa_score }}</span>
+          Synthesis SA Score[<a href="#Ertl2009">Ertl2009</a>]:
+        </li>
+        <li class="list-group-item">
+          <h4 class="list-group-item-heading">Extra details</h4>
+
+          <p class="list-group-item-text">{% raw extra_info %}</p>
+
+          <p class="list-group-item-text">
+            {% for ligand in processed_ligands %}
+            <img src="{{ ligand[1] }}" alt="Ligand: {{ ligand[0] }}" title="Ligand: {{ ligand[0] }}; SA Score: {{ ligand[2] }}"/>
+            {% end %}
+          </p>
+        </li>
       </ul>
+      <p>
+        <a class="btn btn-primary" href="{{ cif_filename }}">Download CIF</a>
+        <a class="btn btn-default" href="random">
+          <i class="glyphicon glyphicon-refresh"></i> Make another random
+          structure </a></p>
     </div>
-    <div class="container">
-      <p class="text-muted credit">MOF randomiser copyright <a href=
-      "http://titan.chem.uottawa.ca">The Woo Lab</a> and Tom Daff.</p>
+    <div id="customisation">
+      <form role="form" class="form-horizontal" action="random">
+        <div class="form-group">
+          <label for="mof-choice" class="col-sm-2 control-label">Choose a
+            MOF:</label>
+
+          <div class="select col-sm-5">
+            <select class="form-control" name="mof-choice" id="mof-choice" onchange="updateSites();" onload="updateSites();">
+              {% for name, sites in available_structures.items() %}
+              <option title="{{ name }}: {{ sites }} sites" data-sites="{{ sites }}" {{ "selected" if name == base_structure else "" }}>{{ name }}</option>
+              {% end %}
+            </select>
+          </div>
+        </div>
+        <div id="functional-select">
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-5">
+            <button type="submit" class="btn btn-default">Customise structure
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+
+</div>
+
+<div id="footer">
+  <div class="container">
+    <h4>References</h4>
+    <ul>
+      {% for ref in references %}
+      <li id="{{ ref.key }}">
+        <a href="http://dx.doi.org//{{ ref.doi }}"> {{ ref.key }} </a>"{{ ref.title }}" {{ ref.author }}
+        <em>{{ ref.journal }}</em> <strong>{{ ref.year }}</strong></li>
+      {% end %}
+    </ul>
+  </div>
+  <div class="container">
+    <p class="text-muted credit">MOF randomiser copyright <a href=
+                                                                     "http://titan.chem.uottawa.ca">The
+      Woo Lab</a> and Tom Daff.</p>
+  </div>
+</div>
 </body>
 </html>

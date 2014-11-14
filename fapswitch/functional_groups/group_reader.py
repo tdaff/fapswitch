@@ -42,7 +42,7 @@ class FunctionalGroupLibrary(OrderedDict):
         # Defaults '*.lib' files in library directory always loaded
         library_glob = path.join(path.dirname(path.realpath(__file__)),
                                  'library', '*.flib')
-        for library in glob.glob(library_glob):
+        for library in sorted(glob.glob(library_glob)):
             self._from_file(path.join(library))
 
         # Custom user groups stored in .faps supercede defaults
