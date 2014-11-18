@@ -17,6 +17,7 @@ import re
 import string
 import subprocess
 import sys
+from distutils.spawn import find_executable
 from os import path
 from os.path import dirname, realpath
 sys.path.insert(1, dirname(dirname(realpath(__file__))))
@@ -171,7 +172,7 @@ def fill_with_randoms(population, max_pop, structure, site_list, backends):
 
 
 def measure_fitness(structure, site_list, individual):
-    faps = ['python', '/home/tdaff/bin/faps',
+    faps = ['python', find_executable('faps'),
             '-o', 'no_dft', '-o', 'no_force_field_opt=False',
             '-o', 'no_charges', '-o', 'no_gcmc',  '-o', 'no_properties',
             '-o', 'queue=serial', '-o', 'ff_opt_code=gromacs']
