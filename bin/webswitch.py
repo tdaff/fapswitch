@@ -86,7 +86,7 @@ class RandomHandler(tornado.web.RequestHandler):
 
         debug("Arguments: {}".format(self.request.arguments))
 
-        max_trials = 15
+        max_trials = 20
         top_50_groups = ["Me", "Ph", "Cl", "OMe", "OH", "Et", "OEt", "F", "Br",
                          "NO2", "NH2", "CN", "COOEt", "COMe", "COOH", "Bnz",
                          "COOMe", "iPr", "pTol", "4ClPh", "tBu", "4OMePh",
@@ -328,8 +328,8 @@ if __name__ == "__main__":
 
     os.chdir(datastore)
 
-    available_structures = {}
-    available_structure_files = glob.glob('*.cif')
+    available_structures = OrderedDict()
+    available_structure_files = sorted(glob.glob('*.cif'))
 
     # Pulling out sites only works with well formatted cifs with site label
     # as the first item on the line and ' H ' within the line for attachment

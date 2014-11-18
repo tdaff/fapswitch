@@ -45,7 +45,7 @@ def main():
     # Begin processing
     info("Structure attachment sites: "
          "{}".format(list(input_structure.attachments)))
-    info("Structure attachment multiplicities :"
+    info("Structure attachment multiplicities: "
          "{}".format(dict((key, len(val)) for key, val in
                           input_structure.attachments.items())))
 
