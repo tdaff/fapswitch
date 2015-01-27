@@ -143,16 +143,35 @@ def site_replace(structure, replace_list, rotations=12, backends=(),
         attachment = functional_groups[this_group]
 
         # pre-calculate all the angles that we will use to zip with the
-        # group positions, use float to distinguish non manual cases
-        if this_manual is None:
+        # group positions, always generate a list of list of angles
+        if this_manual is None or this_manual == '+':
+            # generates all the possible angle sets with the same angle on
+            # everything
             angles = [trial_rotation*rotation_angle
                       for trial_rotation in range(rotations)]
-            angles_str = ""
+            # regenerate the '+' if it is used, otherwise blank it
+            angles_str = "" if not this_manual else '+'
         elif len(this_manual) == 1:
-            # Assume single angle applies to all groups
+            # Assume single angle applies to all groups, just make one set
             angles = [2*np.pi*(ord(this_manual[0])-97)/26.0]
             angles_str = "%%%s" % this_manual
             debug("{:.1f} rotation for all".format(180*angles[0]/np.pi))
+        elif '+' in this_manual:
+            # keep manual angles fixed and scan all angles where it is '+'
+            angles = []
+            for trial_rotation in range(rotations):
+                this_angle = []
+                for x in this_manual:
+                    if x == '+':
+                        this_angle.append(trial_rotation*rotation_angle)
+                    else:
+                        this_angle.append(2*np.pi*(ord(x)-97)/26.0)
+                angles.append(this_angle)
+            angles_str = "%%%s" % this_manual
+            debug("Angles from: {}".format([round(180*x/np.pi, 1)
+                                           for x in angles[0]]))
+            debug("Angles to: {}".format([round(180*x/np.pi, 1)
+                                         for x in angles[-1]]))
         else:
             # a = 0 degrees, z = 346
             # _ is negative (or anything else negative...)

@@ -7,6 +7,13 @@ Development
   * Use python packaging utilities for distribution
 
 
+8.1.0
+-----
+
+  * ``custom_strings`` now accepts ``+`` for sites that are rotated until they
+    fit.
+
+
 8.0.0
 -----
 

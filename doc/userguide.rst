@@ -322,14 +322,20 @@ Naming and custom string syntax
 
         * ``a`` to ``z`` are rotation angles from 0 to 346 in 14 degree
           increments.
+        * A ``+`` symbol is used to request the smallest angle for which the
+          functional group will fit.
         * A ``_`` symbol denotes an unfunctionalised site.
         * A single character applies the rotation to all.
-        * Rotations for all groups must be specified if not applying a single
-          rotation to all groups.
+        * Rotations for all sites for that group must be specified if not
+          applying a single rotation to all groups.
         * ``[Ph@H4%e]`` represents a phenyl attached to ``H4`` with all groups
           rotated 55 degrees
-        * ``[Ph@H4%aeae__ae]`` represents a phenyls attached to ``H4`` with
+        * ``[Ph@H4%aeae__ae]`` represents six phenyls attached to ``H4`` with
           alternating rotations of 0 and 55 degrees, with two sites left
+          unfunctionalised.
+        * ``[Ph@H4%a_a_+_+_]`` represents four a phenyls attached to ``H4`` with
+          two sites fixed at rotations of 0 degrees and the smallest rotation
+          of the other sites determined by fapswitch. Four sites are left
           unfunctionalised.
 
      * File names include the functionalisation string (without the brackets).
