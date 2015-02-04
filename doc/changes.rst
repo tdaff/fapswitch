@@ -12,6 +12,10 @@ Development
 
   * ``custom_strings`` now accepts ``+`` for sites that are rotated until they
     fit.
+  * ``hash_filenames`` option allows for very long filenames to be shortened
+    to hashes. ``always`` will always hash the functionalisation part of the
+    filename, and the default ``onerror`` will try to shorten the filename if
+    an error is encountered.
 
 
 8.0.0

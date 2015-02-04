@@ -32,6 +32,12 @@ custom_strings =
 # Number of completely randomised structures to make. [int]
 full_random_count = 0
 
+# Convert the func@site part of filenames to unique hashes that may produce
+# shorter filenames this can be done either 'never', 'always' or only
+# when encountering an error writing the file 'onerror'. [str] {always, never,
+# onerror}
+hash_filenames = onerror
+
 # Maximum number of groups that will be used simultaneously. [int]
 max_different = 0
 

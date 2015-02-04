@@ -238,6 +238,16 @@ All options
 
   Number of completely randomised structures to make. [int]
 
+
+.. envvar:: hash_filenames
+
+  Default: onerror
+
+  Convert the func@site part of filenames to unique hashes that may produce
+  shorter filenames this can be done either 'never', 'always' or only
+  when encountering an error writing the file 'onerror'. [str] {always, never,
+  onerror}
+
 .. envvar:: max_different
 
   Default: 0
