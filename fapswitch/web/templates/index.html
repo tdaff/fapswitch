@@ -2,58 +2,60 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Random functionalised MOF generation">
-  <meta name="author" content="Thomas D Daff">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Random functionalised MOF generation">
+    <meta name="author" content="Thomas D Daff">
 
-  <title>Webswitch structure server index</title>
+    <title>Webswitch structure server index</title>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" type="text/css">
 
-  <!-- Custom styles for this template -->
-  <link href="custom.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="custom.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
-  <!-- Wrap all page content here -->
+<!-- Wrap all page content here -->
 
-  <div id="wrap">
+<div id="wrap">
     <!-- Begin page content -->
 
     <div class="container">
-      <div class="page-header">
-        <h1>Webswitch MOF generator</h1>
-      </div>
+        <div class="page-header">
+            <h1>Webswitch MOF generator</h1>
+        </div>
 
-      <p class="lead">Fapswitch is a method to generate MOFs as functionalised
-        derivatives of known MOFs. For every visit to this page, a new MOF
-        will be generated randomly from billions of combinations of functional
-        group modifications of known MOFs.</p>
+        <p class="lead">Fapswitch is a method to generate MOFs as functionalised
+            derivatives of known MOFs. For every visit to this page, a new MOF
+            will be generated randomly from billions of combinations of functional
+            group modifications of known MOFs.</p>
 
-      <p>More information can be found in <a href="link-to-info">Some
-        info here</a>.</p>
+        <p>More information can be found in the publication:
+            <a href="link-to-info">In preparation</a>.</p>
 
-      <p><a class="btn btn-primary btn-lg" role="button" href="random">Make a new MOF!</a></p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="random">Make a new MOF!</a></p>
     </div>
 
-  </div>
+</div>
 
-  <div id="footer">
+<div id="footer">
     <div class="container">
-      <h4>References</h4>
-      <ul>
-        {% for ref in references %}
-          <li id="{{ ref.key }}"><a href="http://dx.doi.org//{{ ref.doi }}"> {{ ref.key }} </a>"{{ ref.title }}" {{ ref.author }} <em>{{ ref.journal }}</em> <strong>{{ ref.year }}</strong></li>
-        {% end %}
-      </ul>
+        <h4>References</h4>
+        <ul>
+            {% for ref in references %}
+            <li id="{{ ref.key }}"><a
+                    href="http://dx.doi.org//{{ ref.doi }}"> {{ ref.key }} </a>"{{ ref.title }}" {{ ref.author }}
+                <em>{{ ref.journal }}</em> <strong>{{ ref.year }}</strong></li>
+            {% end %}
+        </ul>
     </div>
     <div class="container">
-      <p class="text-muted credit">MOF randomiser copyright <a href=
-      "http://titan.chem.uottawa.ca">The Woo Lab</a> and Tom Daff.</p>
+        <p class="text-muted credit">MOF randomiser copyright <a href="http://titan.chem.uottawa.ca">The Woo Lab</a>
+            and Tom Daff.</p>
     </div>
-  </div>
+</div>
 </body>
 </html>

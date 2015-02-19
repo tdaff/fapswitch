@@ -59,7 +59,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def index(self):
         """Make the index page and send it out."""
-        my_refs = [references['Daff2013']]
+        my_refs = [references['Daff2015']]
         page = templates.load('index.html').generate(references=my_refs)
         self.write(page)
 

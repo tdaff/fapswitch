@@ -23,6 +23,7 @@ references = {
         'and Tom K. Woo',
         journal='The Journal of Physical Chemistry Letters',
         year='2013'),
+
     'Ertl2009': Reference(
         key='Ertl2009',
         doi='10.1186/1758-2946-1-8',
@@ -31,11 +32,13 @@ references = {
         author='Peter Ertl and Ansgar Schuffenhauer',
         journal='Journal of Cheminformatics',
         year='2009'),
-    'Daff2013': Reference(
-        key='Daff2013',
+
+    'Daff2015': Reference(
+        key='Daff2015',
         doi='10.xxxxxx/xxxxxxxxx',
-        title='unpublished fapswitch method',
+        title='unpublished fapswitch method manuscript',
         author='Thomas D Daff and Tom K Woo',
         journal='In Preparation',
-        year='2009')
+        year='2015')
+
 }
