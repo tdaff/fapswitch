@@ -6,14 +6,13 @@ generation from high symmetry cif files.
 
 The purpose of the code is to take highly symmetric structures from cif files
 and modify the functional groups to produce structures for high throughput
-screening. This code is produced by the Woo Lab http://titan.chem.uottawa.ca/.
+screening.
 
-The code is stored privately at bitbucket and is made available as
-downloads. Full mercurial access is only available to developers.
+A demo is available at https://fapswitch.herokuapp.com/.
 
-For bugs and feature requests, use the Bitbucket tracker.
-https://bitbucket.org/tdaff/Fapswitch/issues?status=new&status=open
-
+This code was produced for the Woo Lab http://titan.chem.uottawa.ca/. For
+develpoment updates and applications please contact a member of the lab.
+This version of the code in this repository is no longer actively maintained.
 
 Documentation
 =============

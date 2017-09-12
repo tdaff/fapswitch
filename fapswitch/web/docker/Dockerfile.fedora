@@ -1,0 +1,38 @@
+# To include your own .cif files in the application, copy them
+# to fapswitch/web/datastore/ before building the image.
+# They must contain atom types and bonding information as described
+# in the documentation!
+
+# Use Fedora as openbabel in Ubuntu is broken
+# Use Python 2.7 as 3.6 breaks openbabel
+FROM fedora
+
+RUN yum -y update && yum clean all
+
+RUN yum -y install wget \
+                   python2-openbabel python2-rdkit \
+                   python2-tornado python2-numpy \
+    && yum clean all
+
+# Install in editable mode so that we can add Jsmol assets
+# into the source directory
+ADD . /opt/fapswitch
+RUN cd /opt/fapswitch && pip install -e .
+
+# Hopefully the scheme stays constant
+ENV JMOL_VERSION 14.20.5
+
+RUN wget -nv "https://downloads.sourceforge.net/project/jmol/Jmol/Version ${JMOL_VERSION%[.-]*}/Jmol ${JMOL_VERSION}/Jmol-${JMOL_VERSION}-binary.tar.gz" -O /tmp/Jmol.tar.gz \
+    && cd /tmp/ && tar xvf Jmol.tar.gz && cd jmol-* \
+    && python -m zipfile -e jsmol.zip . && mv jsmol /opt/fapswitch/fapswitch/web/js \
+    && rm -rf /tmp/jmol* /tmp/Jmol*
+
+# Run cliswitch to ensure memory hungry pre-compile is done
+RUN cd /opt/fapswitch/fapswitch/web/datastore \
+    && cliswitch.py IRMOF-1_4-site && cliswitch.py ZIF-8 && cliswitch.py UiO-67 \
+    && rm -f *.flog
+
+EXPOSE 8888
+
+CMD webswitch.py
+

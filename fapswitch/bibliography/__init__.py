@@ -33,12 +33,21 @@ references = {
         journal='Journal of Cheminformatics',
         year='2009'),
 
-    'Daff2015': Reference(
-        key='Daff2015',
+    'Daff2017': Reference(
+        key='Daff2017',
         doi='10.xxxxxx/xxxxxxxxx',
         title='unpublished fapswitch method manuscript',
         author='Thomas D Daff and Tom K Woo',
         journal='In Preparation',
-        year='2015')
+        year='2017'),
+
+    'Chung2014': Reference(
+        key='Chung2014',
+        doi='10.1021/cm502594j',
+        title='Computation-Ready, Experimental Metal-Organic Frameworks: '
+        'A Tool To Enable High-Throughput Screening of Nanoporous Crystals',
+        author='Yongchul G. Chung et al.',
+        journal='Chemistry of Materials',
+        year='2014')
 
 }

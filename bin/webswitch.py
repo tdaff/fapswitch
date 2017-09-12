@@ -33,7 +33,7 @@ from fapswitch.functional_groups import functional_groups
 from fapswitch.core.methods import random_combination_replace, site_replace
 from fapswitch.backend.web_store import WebStoreBackend
 
-TORNADO_PORT = 8888
+TORNADO_PORT = os.getenv('PORT', 8888)
 STRUCTURE_CACHE = 20
 
 web_dir = path.join(path.dirname(fapswitch.__file__), 'web')
@@ -59,7 +59,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def index(self):
         """Make the index page and send it out."""
-        my_refs = [references['Daff2015']]
+        my_refs = [references['Daff2017']]
         page = templates.load('index.html').generate(references=my_refs)
         self.write(page)
 
@@ -211,7 +211,8 @@ class RandomHandler(tornado.web.RequestHandler):
         # These references are always required
         local_references = [
             references['Kadantsev2013'],
-            references['Ertl2009']]
+            references['Ertl2009'],
+            references['Chung2014']]
 
         # Find all the references and add them too
         for reference in re.findall(r'\[(.*?)\]', extra_info):

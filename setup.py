@@ -6,7 +6,7 @@ from glob import glob
 scripts = glob('bin/*')
 
 setup(name='fapswitch',
-      version='7.1.2',
+      version='8.1.0',
       description='Functional group modification on CIF files',
       long_description=open('README.rst').read(),
       author='Tom Daff',
